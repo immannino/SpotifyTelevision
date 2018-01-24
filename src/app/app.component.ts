@@ -43,8 +43,6 @@ export class AppComponent {
         tempSanitizedUrl = null;
       })
     }
-    console.log(this.youtubeIframeUrls);
-    console.log(this.youtubeVideos);
   }
 
   getTestData(): Array<SpotifySong> {

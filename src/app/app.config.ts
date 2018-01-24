@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import * as data from './testdata.json';
+import * as data from './config.development.json';
 @Injectable()
 export class AppConfig {
 
@@ -29,7 +29,7 @@ export class AppConfig {
      *   b) Loads "config.[env].json" to get all env's variables (e.g.: 'config.development.json')
      */
     public load() {
-        this.env = data;
+        this.config = data;
     }
         
 }
