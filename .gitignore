@@ -34,6 +34,9 @@ npm-debug.log
 testem.log
 /typings
 
+# service files
+/src/app/*.json
+
 # e2e
 /e2e/*.js
 /e2e/*.map
