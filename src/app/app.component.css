@@ -1,0 +1,20 @@
+.video-content {
+
+}
+
+.video-item {
+    float: left;
+    padding: 2em;
+}
+
+#sidebar {
+    width: 20%;
+    height: 600px;
+    overflow: scroll;
+}
+
+.sidebar-item {
+    padding: 0 1em;
+    background-color: black;
+    color: white;
+}
