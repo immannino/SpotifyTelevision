@@ -10,11 +10,9 @@ import 'rxjs/add/operator/map'
 export class YoutubeService {
 
     constructor(private config: AppConfig, private http: Http) { }
-    // constructor(private http: Http) {}
 
     googleApiUrl: string = "https://www.googleapis.com/youtube/v3/search?";
-    // apiKey: string = this.config.getConfig('youtube').apikey;
-    apiKey: string = "***REMOVED***";
+    apiKey: string = this.config.getConfig('youtube').apikey;
 
     searchYoutube(song: SpotifySong): Observable<YoutubeSearch> {
         let url = this.googleApiUrl + "q=" + song.artist + ' ' + song.song + '&maxResults=1&part=snippet&key=' + this.apiKey;
