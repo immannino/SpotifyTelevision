@@ -3,22 +3,22 @@ import { Http } from '@angular/http';
 import { YoutubeSearch } from './youtube.model';
 import { AppConfig } from '../../../app/app.config';
 import { SpotifySong } from '../spotify/spotify.model';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 
 @Injectable()
 export class YoutubeService {
 
-    // constructor(private config: AppConfig, private http: Http) { }
-    constructor(private http: Http) {}
+    constructor(private config: AppConfig, private http: Http) { }
+    // constructor(private http: Http) {}
 
     googleApiUrl: string = "https://www.googleapis.com/youtube/v3/search?";
     // apiKey: string = this.config.getConfig('youtube').apikey;
-    apiKey: string = "https://console.developers.google.com";
+    apiKey: string = "AIzaSyAtEFYRMT26joLf-YiA2FKUG5iUDOH2L2k";
 
     searchYoutube(song: SpotifySong): Observable<YoutubeSearch> {
         let url = this.googleApiUrl + "q=" + song.artist + ' ' + song.song + '&maxResults=1&part=snippet&key=' + this.apiKey;
-        console.log(encodeURI(url));
+
         return this.http.get(encodeURI(url)).map(response => response.json());
     }
 
