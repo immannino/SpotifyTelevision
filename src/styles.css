@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+    height: 100%;
+    background-image: url("http://s3-us-west-2.amazonaws.com/designfacts/facts/df_0067.jpg");
+    background-repeat: repeat;
+}

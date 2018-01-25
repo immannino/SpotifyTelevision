@@ -7,6 +7,8 @@ import { YoutubeSearch } from '../lib/service/youtube/youtube.model';
 import { SpotifySong } from '../lib/service/spotify/spotify.model';
 
 import * as data from './testdata.json';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,7 @@ export class AppComponent {
   youtubeIframeUrls: Array<SafeResourceUrl> = null;
   youtubeVideos: Array<YoutubeSearch> = null;
   isLoginVisible: boolean = true;
+  isVideoListLoaded: boolean = false;
 
   changeVideo(index: number) {
     this.youtubeIframeUrl = this.youtubeIframeUrls[index];
@@ -29,20 +32,25 @@ export class AppComponent {
 
   getResponse() {
     let songs: Array<SpotifySong> = this.getTestData();
-    this.youtubeIframeUrls = new Array<SafeResourceUrl>();
+    let youtubeSearchResponses: Array<Observable<YoutubeSearch>> = new Array<Observable<YoutubeSearch>>();
+
+    let requestReferenceIndex = 0;
     this.youtubeVideos = new Array<YoutubeSearch>();
+    this.youtubeIframeUrls = new Array<SafeResourceUrl>();
 
     for (let song of songs) {
-      this.youtubeService.searchYoutube(song).subscribe(data => {
-        let tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + data.items[0].id.videoId + '?autoplay=1');//'?enablejsapi=1&origin=http://example.com');
-        this.youtubeIframeUrls.push(tempSanitizedUrl);
-        this.youtubeVideos.push(data);
-
-        if(!this.youtubeIframeUrl) { this.youtubeIframeUrl = tempSanitizedUrl }
-
-        tempSanitizedUrl = null;
-      })
+      youtubeSearchResponses.push(this.youtubeService.searchYoutube(song));
     }
+
+    Observable.forkJoin(youtubeSearchResponses).subscribe((responses) => {
+      for (let res of responses) {
+        let tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId + '?autoplay=1');
+        this.youtubeVideos.push(res);
+        this.youtubeIframeUrls.push(tempSanitizedUrl);
+      }
+      this.youtubeIframeUrl = this.youtubeIframeUrls[0];
+      this.isVideoListLoaded = true;
+    });
   }
 
   getTestData(): Array<SpotifySong> {

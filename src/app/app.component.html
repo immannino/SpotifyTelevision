@@ -1,32 +1,21 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <img width="1%" alt="Musical Television" src="https://img1.etsystatic.com/000/0/6357321/il_570xN.252648861.jpg">
 </div>
 <login *ngIf="isLoginVisible" (click)="login()">
   This is in the login component. Might need some ngcontent. 
 </login>
-<!-- <h2>Here is the response </h2>
-<button (click)="getResponse()">Get Response</button> -->
+
 <div class="video-content" *ngIf="youtubeVideos">
-  <div class="video-item" id="sidebar">
+  <div *ngIf="isVideoListLoaded" class="video-item" id="sidebar">
     <label class="sidebar-item" *ngFor="let song of youtubeVideos; let i = index;" (click)="changeVideo(i)">
       {{song.items[0].snippet.title}}<br>
     </label>
   </div>
-  <iframe id="player" class="video-item" type="text/html" width="640" height="390"
-  [src]="youtubeIframeUrl"
-  frameborder="0"></iframe>
-
-  <!-- Section below loads all the videos at once. Just for testing. -->
-  <!-- <div *ngFor="let url of youtubeIframeUrls">
-      <iframe id="player" type="text/html" width="640" height="390"
-      [src]="url"
-      frameborder="0"></iframe>
-
-    </div> -->
+  <div id="iframe-container">
+    <iframe id="player" class="video-item" type="text/html" width="640" height="390"
+    [src]="youtubeIframeUrl"
+    frameborder="0"></iframe>
+  </div>
 </div>
-
-
