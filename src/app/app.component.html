@@ -3,19 +3,4 @@
     Welcome to {{ title }}!
   </h1>
 </div>
-<login *ngIf="isLoginVisible" (click)="login()">
-  This is in the login component. Might need some ngcontent. 
-</login>
-
-<div class="video-content" *ngIf="youtubeVideos">
-  <div *ngIf="isVideoListLoaded" class="video-item" id="sidebar">
-    <label class="sidebar-item" *ngFor="let song of youtubeVideos; let i = index;" (click)="changeVideo(i)">
-      {{song.items[0].snippet.title}}<br>
-    </label>
-  </div>
-  <div id="iframe-container">
-    <iframe id="player" class="video-item" type="text/html" width="640" height="390"
-    [src]="youtubeIframeUrl"
-    frameborder="0"></iframe>
-  </div>
-</div>
+<router-outlet></router-outlet>

@@ -1,7 +1,8 @@
 <div class="modal">
     <div class="button-group">
-        <button class="login-button" name="spotify-button" style="color:white; background-color:darkgreen;">Login with Spotify</button>
+        <h2 class="label">login</h2>
+        <button class="login-button" id="spotify" (click)="userSpotifyLogin()">Spotify</button>
         <br>
-        <button class="login-button" name="no-login" style="color:white;background-color:darkgray;">Continue without Logging in</button>
+        <button class="login-button" id="continue" (click)="authUser()">Continue without Logging in</button>
     </div>
 </div>

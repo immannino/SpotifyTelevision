@@ -1,0 +1,27 @@
+.video-item {
+    float: left;
+    padding: 2em;
+}
+
+#sidebar {
+    width: 20%;
+    height: 600px;
+    overflow: scroll;
+    background-color: black;
+}
+
+.sidebar-item {
+    padding: 3px;
+    margin-bottom: 10px;
+    background-color: white;
+    color: black;
+}
+.sidebar-item:hover  {
+    font-size: 20px;
+    text-shadow: 0 0 3px #FBFF12;
+}
+
+#iframe-container {
+    background-color: #FF206E;
+    overflow: hidden;
+}

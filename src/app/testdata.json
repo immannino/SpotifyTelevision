@@ -1,62 +1,16 @@
-[
-    {
-        "artist":"VULFPECK",
-        "song":"Wait For the Moment"
-    },
-    {
-        "artist": "Tears for Fears",
-        "song": "Everybody Wants To Rule The World"
-    },
-    {
-        "artist":"Kanye West",
-        "song":"Wolves"
-    },
-    {
-        "artist":"Starcrawler",
-        "song":"I Love LA"
-    },
-    {
-        "artist":"Whitney",
-        "song":"Polly"
-    },
-    {
-        "artist":"Parekh and Singh",
-        "song":"I Love You Baby, I Love You Doll"
-    },
-    {
-        "artist":"SZA",
-        "song":"Drew Barrymore"
-    },
-    {
-        "artist":"Alabama Shakes",
-        "song":"Sound & Color"
-    },
-    {
-        "artist":"Milky Chance",
-        "song":"Cocoon"
-    },
-    {
-        "artist":"The Chainsmokers",
-        "song":"The One"
-    },
-    {
-        "artist":"Khalid",
-        "song":"Location"
-    },
-    {
-        "artist":"Rex Orange County",
-        "song":"Sunflower"
-    },
-    {
-        "artist":"Kero One and Azure",
-        "song":"Let Me Show You"
-    },
-    {
-        "artist":"Lemaitre",
-        "song":"Unclouded Judgement"
-    },
-    {
-        "artist":"Your Uncle Henry",
-        "song":"The Uncle and His Lover"
-    }
-]
+[   {
+    "artist":"King Krule",
+    "song": "Rock Bottom"
+},
+{
+    "artist":"VULFPECK",
+    "song":"Wait For the Moment"
+},
+{
+    "artist": "Tears for Fears",
+    "song": "Everybody Wants To Rule The World"
+},
+{
+    "artist":"Kanye West",
+    "song":"Wolves"
+}]

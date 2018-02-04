@@ -35,7 +35,7 @@ testem.log
 /typings
 
 # service files
-/src/app/*.json
+/src/app/config.*.json
 
 # e2e
 /e2e/*.js

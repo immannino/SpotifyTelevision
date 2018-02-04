@@ -1,0 +1,12 @@
+<h1>Dashboard Component</h1>
+<div class="video-content" *ngIf="youtubeVideos">
+    <div *ngIf="isVideoListLoaded" class="video-item" id="sidebar">
+        <label class="sidebar-item" *ngFor="let song of youtubeVideos; let i = index;" (click)="changeVideo(i)">
+            {{song.items[0].snippet.title}}
+            <br>
+        </label>
+    </div>
+    <div id="iframe-container">
+        <iframe id="player" class="video-item" type="text/html" width="1000" height="750" [src]="youtubeIframeUrl" frameborder="0"></iframe>
+    </div>
+</div>
