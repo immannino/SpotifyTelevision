@@ -27,5 +27,5 @@ export class YoutubeThumbnail {
     url: string;
     width: number;
     height: number;
-}
+} 
 

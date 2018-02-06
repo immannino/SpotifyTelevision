@@ -7,6 +7,7 @@ import { AuthData } from '../../lib/service/authentication/authentication.model'
 import { YoutubeService } from '../../lib/service/youtube/youtube.service';
 import { YoutubeSearch } from '../../lib/service/youtube/youtube.model';
 import { SpotifySong } from '../../lib/service/spotify/spotify.model';
+import { DashboardPlaylist, PlaylistItem } from './dashboard.model';
 
 import * as data from '../testdata.json';
 import { Observable } from 'rxjs/Observable';
@@ -56,9 +57,8 @@ export class DashboardComponent {
   changeVideo(index: number) {
     this.youtubeIframeUrl = this.youtubeIframeUrls[index];
   }
-
   getResponse() {
-      console.log("GetResponse() was called");
+    console.log("GetResponse() was called");
     let songs: Array<SpotifySong> = this.getTestData();
     let youtubeSearchResponses: Array<Observable<YoutubeSearch>> = new Array<Observable<YoutubeSearch>>();
 

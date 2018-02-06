@@ -1,7 +1,7 @@
 <div class="modal">
     <div class="button-group">
         <h2 class="label">login</h2>
-        <button class="login-button" id="spotify" (click)="userSpotifyLogin()">Spotify</button>
+        <a class="login-button" id="spotify" (click)="userSpotifyLogin()" [href]="hrefUrl">Spotify</a>
         <br>
         <button class="login-button" id="continue" (click)="authUser()">Continue without Logging in</button>
     </div>
