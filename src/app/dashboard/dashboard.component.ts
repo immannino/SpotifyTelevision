@@ -13,6 +13,7 @@ import * as data from '../testdata.json';
 import { Observable } from 'rxjs/Observable';
 import { Subscription }   from 'rxjs/Subscription';
 import 'rxjs/add/observable/forkJoin';
+import { SpotifyService } from '../../lib/service/spotify/spotify.service';
 
 @Component({
   selector: 'dashboard',
@@ -20,7 +21,7 @@ import 'rxjs/add/observable/forkJoin';
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent {
-  constructor(private authService: AuthenticationService, private youtubeService: YoutubeService, private sanitizer: DomSanitizer) {
+  constructor(private authService: AuthenticationService, private youtubeService: YoutubeService, private spotifyService: SpotifyService, private sanitizer: DomSanitizer) {
     /**
      * This code is supposed to help with Passing the client data to the dashboard.
      * 
@@ -51,7 +52,15 @@ export class DashboardComponent {
   ngOnInit() {
     let tempAuthData: AuthData = this.authService.getAuthData();
     console.log("onInit");
-    this.getResponse();
+    // this.getResponse();
+  }
+
+  getPlaylistData() {
+    this.spotifyService.getSpotifyUserId().subscribe((data) => {
+      this.spotifyService.getUserPlaylists(data.id).subscribe((data) => {
+        console.log(data);
+      })
+    });
   }
 
   changeVideo(index: number) {

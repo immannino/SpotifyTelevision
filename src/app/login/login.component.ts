@@ -36,7 +36,7 @@ export class LoginComponent {
             }
           });
     }
-    
+
     hrefUrl: SafeResourceUrl = "";
     client_id: string = this.config.getConfig('spotify').clientid;
 
@@ -46,7 +46,7 @@ export class LoginComponent {
         /**
          * Update scopes to appropriate values for what information I'm requesting from the user.
          */
-        let scopes: string = 'user-read-private user-read-email';
+        let scopes: string = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
 
         let url = 'https://accounts.spotify.com/authorize' +
         '?client_id=' + this.client_id +
