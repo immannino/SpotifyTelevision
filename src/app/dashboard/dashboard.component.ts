@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
 import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 
 import { AuthenticationService } from '../../lib/service/authentication/authentication.service';
 import { AuthData } from '../../lib/service/authentication/authentication.model';
 import { YoutubeService } from '../../lib/service/youtube/youtube.service';
 import { YoutubeSearch } from '../../lib/service/youtube/youtube.model';
-import { SpotifySong } from '../../lib/service/spotify/spotify.model';
+import { SpotifySong, SpotifyPlaylist, SpotifyUserProfile, UserSpotifyPlaylists, SpotifyPlaylistTracks } from '../../lib/service/spotify/spotify.model';
 import { DashboardPlaylist, PlaylistItem } from './dashboard.model';
+import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
 
 import * as data from '../testdata.json';
 import { Observable } from 'rxjs/Observable';
 import { Subscription }   from 'rxjs/Subscription';
 import 'rxjs/add/observable/forkJoin';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
+import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel  } from '@angular/router';
 
 @Component({
   selector: 'dashboard',
@@ -21,50 +22,75 @@ import { SpotifyService } from '../../lib/service/spotify/spotify.service';
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent {
-  constructor(private authService: AuthenticationService, private youtubeService: YoutubeService, private spotifyService: SpotifyService, private sanitizer: DomSanitizer) {
-    /**
-     * This code is supposed to help with Passing the client data to the dashboard.
-     * 
-     * Currently I have a timing issue since I'm not initializing the Dashboard until I make the subscript call
-     * to notify Dashbaord (and its just not quite ready for that)
-     * 
-     * The subscription model I have in place looks like it makes sense for when child components are
-     * already initialized, but not so hot for when they're not. We'll figure it out I guess. 
-     * 
-     */
-    
-    //   console.log("Dashboard constructor before subscription");
-    // this.subscription = authService.authenticationAnnounced$.subscribe(
-    //     authData => {
-    //         console.log("We got the subscription update");
-    //         this.clientId = authData.clientId;
-    //         this.getResponse();
-    //   });
+  constructor(private authService: AuthenticationService, private youtubeService: YoutubeService, private spotifyService: SpotifyService, private sanitizer: DomSanitizer, private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+          console.log("Navigation starting.");
+      } else if (event instanceof NavigationEnd ) {
+        if (!this.spotifyPlaylists) { this.getUserProfileInformation(); }
+      } else if (event instanceof NavigationError ) {
+      } else if (event instanceof NavigationCancel ) {
+      }
+    });
   }
+  /**
+   * Current data elements.
+   */
   clientId: string = '';
-  subscription: Subscription = new Subscription();
+  spotifyPlaylists: UserSpotifyPlaylists = null;
+  currentSpotifyPlaylistSongs: SpotifyPlaylistTracks = null;
+  selectedIndex: number = -1;
+
+  /**
+   * Old data.
+   * In the process of refactoring from POC -> MAE (lol)
+   * ignore for the most part. 
+   */
+  userProfile: SpotifyUserProfile = null;
   youtubeResponse: YoutubeSearch = null;
   youtubeIframeUrl: SafeResourceUrl = null;
   youtubeIframeUrls: Array<SafeResourceUrl> = null;
   youtubeVideos: Array<YoutubeSearch> = null;
   isVideoListLoaded: boolean = false;
 
-  ngOnInit() {
-    let tempAuthData: AuthData = this.authService.getAuthData();
-    console.log("onInit");
-    // this.getResponse();
+  getUserProfileInformation() {
+    this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
+      this.userProfile = data;
+      this.getUserPlaylists();
+    });
   }
 
-  getPlaylistData() {
-    this.spotifyService.getSpotifyUserId().subscribe((data) => {
-      this.spotifyService.getUserPlaylists(data.id).subscribe((data) => {
-        console.log(data);
-      })
+  getUserPlaylists() {
+    this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
+      this.spotifyPlaylists = playlistData;
     });
+  }
+
+  getSpotifyPlaylistTracks(index: number) {
+    this.spotifyService.getUserPlaylistTracks(this.spotifyPlaylists.items[index].id, this.userProfile.id).subscribe((playlistTracks) => {
+      this.currentSpotifyPlaylistSongs = playlistTracks;
+    });
+  }
+
+  expandPlaylist(index: number) {
+    if (!this.spotifyPlaylists.items[index].tracks_local) {
+      this.getSpotifyPlaylistTracks(index);
+    }
+
+    this.selectedIndex = index;
   }
 
   changeVideo(index: number) {
     this.youtubeIframeUrl = this.youtubeIframeUrls[index];
+  }
+
+  getYoutubeVideoForSong(index: number) {
+    let tempSong: SpotifySong = new SpotifySong(this.currentSpotifyPlaylistSongs.items[index].track.artists.name, 
+                              this.currentSpotifyPlaylistSongs.items[index].track.name);
+
+    this.youtubeService.searchYoutube(tempSong).subscribe((response) => {
+      
+    });
   }
   getResponse() {
     console.log("GetResponse() was called");

@@ -1,6 +1,23 @@
 <h1>Dashboard Component</h1>
-<button (click)="getPlaylistData()">GetPlaylistData</button>
-<div class="video-content" *ngIf="youtubeVideos">
+<div class="container">
+    <div class="sidebar" *ngIf="spotifyPlaylists">
+        <div class="sidebar-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;" (click)="expandPlaylist(i);">
+            <input class="playlist-input" type="radio">
+            <label class="playlist-label">{{playlist.name}}</label>
+            <div class="playlist-content" *ngIf="i === selectedIndex">
+                content is expanded
+                <div *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;">
+                    {{song.track.name}} <br>
+                    {{song.track.artists.name}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="video-container"> I am content</div>
+</div>
+
+
+<!-- <div class="video-content" *ngIf="youtubeVideos">
     <div *ngIf="isVideoListLoaded" class="video-item" id="sidebar">
         <label class="sidebar-item" *ngFor="let song of youtubeVideos; let i = index;" (click)="changeVideo(i)">
             {{song.items[0].snippet.title}}
@@ -8,6 +25,6 @@
         </label>
     </div>
     <div id="iframe-container">
-        <iframe id="player" class="video-item" type="text/html" width="1000" height="750" [src]="youtubeIframeUrl" frameborder="0"></iframe>
+        <iframe id="player" class="video-item" type="text/html" width="1000" height="750" [src]="youtubeIframeUrl | sanitizeUrl" frameborder="0"></iframe>
     </div>
-</div>
+</div> -->

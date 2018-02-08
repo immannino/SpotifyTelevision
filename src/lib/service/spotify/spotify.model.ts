@@ -52,6 +52,7 @@ export class SpotifyPlaylist {
     public: boolean;
     snapshot_id: string;
     tracks: SpotifyTrackReference;
+    tracks_local: SpotifyPlaylistTracks;
     type: string;
     uri: string;
 }
@@ -110,4 +111,29 @@ export class SimpleSpotifyArtist {
     name: string;
     type: string;
     uri: string;
+}
+
+export class SpotifyUserProfile {
+    country: string;
+    display_name: string;
+    email: string;
+    external_urls: SpotifyExternalUrl;
+    followers: SpotifyFollowers;
+    href: string;
+    id: string;
+    images: SpotifyUserImage[];
+    product: string;
+    type: string;
+    uri: string;
+}
+
+export class SpotifyFollowers {
+    href: string;
+    total: number;
+}
+
+export class SpotifyUserImage {
+    height: number;
+    url: string;
+    width: number;
 }

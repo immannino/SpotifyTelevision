@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FourOhFourComponent } from './fourOhFour.component';
+import { SafeUrlPipe } from '../lib/utils/safeurl.pipe';
 
 import { AuthenticationService } from '../lib/service/authentication/authentication.service';
 import { SpotifyService } from '../lib/service/spotify/spotify.service';
@@ -21,7 +22,8 @@ import { YoutubeService } from '../lib/service/youtube/youtube.service';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    FourOhFourComponent
+    FourOhFourComponent,
+    SafeUrlPipe
   ],
   imports: [
     BrowserModule,

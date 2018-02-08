@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
 import { Router, RouterModule, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
 import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
+import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
 import { UserData } from '../../lib/service/spotify/spotify.model';
 import { AppConfig } from '../app.config';
 
@@ -41,6 +42,23 @@ export class LoginComponent {
     client_id: string = this.config.getConfig('spotify').clientid;
 
     ngOnInit() {
+        this.generateSpotifyLoginUrl();
+    }
+
+    userSpotifyLogin(responseItems: string[]) {
+        let tempUserData: UserData = {
+            userAccessToken: responseItems[0].split("=")[1],
+            refreshTokenTimeout: Number(responseItems[1].split("=")[1]),
+            token_type: responseItems[2].split("=")[1],
+            state: responseItems[3].split("=")[1]
+        };
+
+        this.spotifyService.setUserData(tempUserData);
+
+        this.navigateToDashboard();
+    }
+
+    generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
         let appRedirectUrl: string = "http://localhost:4200/login";
         /**
@@ -55,19 +73,6 @@ export class LoginComponent {
         '&response_type=token' + '&state=' + clientStateKey;
 
         this.hrefUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    }
-
-    userSpotifyLogin(responseItems: string[]) {
-        let tempUserData: UserData = {
-            userAccessToken: responseItems[0].split("=")[1],
-            refreshTokenTimeout: Number(responseItems[1].split("=")[1]),
-            token_type: responseItems[2].split("=")[1],
-            state: responseItems[3].split("=")[1]
-        };
-
-        this.spotifyService.setUserData(tempUserData);
-
-        this.navigateToDashboard();
     }
 
     authUser() {

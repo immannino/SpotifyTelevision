@@ -1,4 +1,4 @@
-.video-item {
+/* .video-item {
     float: left;
     padding: 2em;
 }
@@ -24,4 +24,37 @@
 #iframe-container {
     background-color: #FF206E;
     overflow: hidden;
+} */
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.sidebar-item { 
+    height: 5em;
+}
+.sidebar {
+    height: 100%;
+    background-color: lightgoldenrodyellow;
+    overflow: scroll;
+}
+
+.sidebar-item:hover {
+    background-color: lightsalmon;
+    cursor: pointer;
+}
+
+.playlist-label:hover {
+    cursor: pointer;
+}
+
+.video-container {
+    height: 100%;
+    background-color: lightblue;
+}
+
+.sidebar-item .playlist-content {
+    height: 15em;
+    overflow: scroll;
 }

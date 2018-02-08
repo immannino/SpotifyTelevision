@@ -1,11 +1,11 @@
 ## TODO
 
 - login Componeont
-    - Add Spotify auth.
     - If not logging in through spotify, Auth using my user and display 'browse' and 'demo' playlists. 
+    - Completed:
+    - Add Spotify auth.
 - Spotify Service
-    - Service to complete Auth. 
-        - I think logging in using Spotify can be done using a webhook that opens a modal on the screen, but authing when the user doesn't want to login I need a service for my own account. 
+    - Kinda done..... like some playlists just cant be found. Add error handling. 
     - Spotify Search & Load playlist data services.
         - Consume user token & load playlists. 
 - Display Videos on Main Screen

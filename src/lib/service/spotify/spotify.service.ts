@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 
 import { AppConfig } from '../../../app/app.config';
-import { UserData, UserSpotifyPlaylists, SpotifyPlaylistTracks } from './spotify.model';
+import { UserData, UserSpotifyPlaylists, SpotifyPlaylistTracks, SpotifyUserProfile } from './spotify.model';
 
 @Injectable()
 export class SpotifyService {
@@ -29,7 +29,7 @@ export class SpotifyService {
     this.userData = userData;
   };
 
-  getSpotifyUserId(): Observable<any> {
+  getSpotifyUserProfile(): Observable<SpotifyUserProfile> {
     let clientId = this.getUserData().userAccessToken;
     let requestHeaders: Headers = new Headers();
     requestHeaders.append('Authorization', "Bearer " + clientId);
@@ -56,10 +56,13 @@ export class SpotifyService {
    * 
    * endpoint: /users/{user_id}/playlists/{playlist_id}/tracks
    */
-  getUserPlaylistTracks(playlistId: string): Observable<SpotifyPlaylistTracks> {
-    let clientId = this.getUserData();
-    console.log(clientId);
-    return this.http.get(this.spotifyApiUrl + '/users/' + encodeURI(clientId.userAccessToken) + '/playlists/' + playlistId).map(response => response.json());
+  getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
+    let clientId = this.getUserData().userAccessToken;
+    let requestHeaders: Headers = new Headers();
+    requestHeaders.append('Authorization', "Bearer " + clientId);
+    let options = new RequestOptions({headers: requestHeaders});
+
+    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
   }
 
   generateRandomString(length: number): string {
