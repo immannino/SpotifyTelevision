@@ -1,54 +1,50 @@
-/* .video-item {
-    float: left;
-    padding: 2em;
-}
-
-#sidebar {
-    width: 20%;
-    height: 600px;
-    overflow: scroll;
-    background-color: black;
-}
-
-.sidebar-item {
-    padding: 3px;
-    margin-bottom: 10px;
-    background-color: white;
-    color: black;
-}
-.sidebar-item:hover  {
-    font-size: 20px;
-    text-shadow: 0 0 3px #FBFF12;
-}
-
-#iframe-container {
-    background-color: #FF206E;
-    overflow: hidden;
-} */
-
 .container {
     display: grid;
     grid-template-columns: 1fr 4fr;
+    position: absolute;
 }
 
 .sidebar-item { 
-    height: 5em;
-}
-.sidebar {
-    height: 100%;
-    background-color: lightgoldenrodyellow;
-    overflow: scroll;
+    /* height: 5em; */
 }
 
-.sidebar-item:hover {
+.playlist-button {
+    width: 100%;
+    height: 3em;
+}
+.sidebar {
+    background-color: lightgoldenrodyellow;
+    overflow-y: scroll;
+    
+}
+
+.playlist-button:hover {
     background-color: lightsalmon;
     cursor: pointer;
 }
 
-.playlist-label:hover {
+.playlist-button:hover {
     cursor: pointer;
 }
 
+.playlist-song {
+    height: 2.5em;
+    border-bottom: 1px solid black;
+    overflow: hidden;
+}
+.playlist-song:hover {
+    cursor: pointer;
+    background-color: lightgreen;
+}
+
+.playlist-playall {
+    width: 100%;
+    background-color: lightgray;
+}
+
+.playlist-playall:hover {
+    background-color: gray;
+}
 .video-container {
     height: 100%;
     background-color: lightblue;
@@ -57,4 +53,27 @@
 .sidebar-item .playlist-content {
     height: 15em;
     overflow: scroll;
+}
+
+.iframe-container {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+
+
+.iframe-container iframe {
+	position: absolute;
+    top: 0;
+    left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.song-name {
+    /* float: left; */
+}
+.artist-name {
+    /* float: right; */
 }

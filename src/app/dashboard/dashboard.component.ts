@@ -48,91 +48,127 @@ export class DashboardComponent {
    */
   userProfile: SpotifyUserProfile = null;
   youtubeResponse: YoutubeSearch = null;
-  youtubeIframeUrl: SafeResourceUrl = null;
+  youtubeIframeUrl: string = null;
   youtubeIframeUrls: Array<SafeResourceUrl> = null;
   youtubeVideos: Array<YoutubeSearch> = null;
   isVideoListLoaded: boolean = false;
 
   getUserProfileInformation() {
-    this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
-      this.userProfile = data;
-      this.getUserPlaylists();
-    });
+    this.userProfile = new SpotifyUserProfile();
+    this.userProfile.id = "foobar";
+    this.getUserPlaylists();
+    // this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
+    //   this.userProfile = data;
+    //   this.getUserPlaylists();
+    // });
   }
 
   getUserPlaylists() {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
+      // get the Spotify reference object for their playlists
       this.spotifyPlaylists = playlistData;
     });
   }
 
   getSpotifyPlaylistTracks(index: number) {
     this.spotifyService.getUserPlaylistTracks(this.spotifyPlaylists.items[index].id, this.userProfile.id).subscribe((playlistTracks) => {
+      // Cache local tracks
+      this.spotifyPlaylists.items[index].tracks_local = playlistTracks;
+      // Set current list of songs in sidebar 
       this.currentSpotifyPlaylistSongs = playlistTracks;
     });
   }
 
   expandPlaylist(index: number) {
-    if (!this.spotifyPlaylists.items[index].tracks_local) {
+    // check whether tracks have been loaded or not for this playlist
+    console.log(this.spotifyPlaylists.items);
+    if (this.spotifyPlaylists.items[index].tracks_local) {
+      console.log("Cached playlist baby");
+      this.currentSpotifyPlaylistSongs = this.spotifyPlaylists.items[index].tracks_local;
+    } else {
       this.getSpotifyPlaylistTracks(index);
     }
 
-    this.selectedIndex = index;
+    // If the user wants to collapse the same playlist they just opened.
+    if ( this.selectedIndex === index) {
+      this.selectedIndex = -1;
+    } else {
+      this.selectedIndex = index;
+    }
   }
 
-  changeVideo(index: number) {
-    this.youtubeIframeUrl = this.youtubeIframeUrls[index];
+  playCurrentSong(index: number) {
+    let cachedVideoId = this.getCachedVideoId(index);
+
+    if (cachedVideoId) {
+      this.youtubeIframeUrl = this.getSingleSongYoutubeVideoUrl(cachedVideoId);
+    } else {
+      this.getYoutubeVideoForSong(index);
+    }
   }
 
   getYoutubeVideoForSong(index: number) {
-    let tempSong: SpotifySong = new SpotifySong(this.currentSpotifyPlaylistSongs.items[index].track.artists.name, 
+    let tempSong: SpotifySong = new SpotifySong(this.currentSpotifyPlaylistSongs.items[index].track.artists[0].name, 
                               this.currentSpotifyPlaylistSongs.items[index].track.name);
 
-    this.youtubeService.searchYoutube(tempSong).subscribe((response) => {
-      
+    return this.youtubeService.searchYoutube(tempSong).subscribe((response) => {
+      let videoId = response.items[0].id.videoId;
+      let youtubeUrl = this.getSingleSongYoutubeVideoUrl(videoId);
+
+      this.spotifyPlaylists.items[this.selectedIndex].tracks_local.items[index].youtubeVideoId = videoId;
+      this.youtubeIframeUrl = youtubeUrl;
     });
   }
-  getResponse() {
-    console.log("GetResponse() was called");
-    let songs: Array<SpotifySong> = this.getTestData();
-    let youtubeSearchResponses: Array<Observable<YoutubeSearch>> = new Array<Observable<YoutubeSearch>>();
 
-    let requestReferenceIndex = 0;
-    this.youtubeVideos = new Array<YoutubeSearch>();
-    this.youtubeIframeUrls = new Array<SafeResourceUrl>();
-
-    for (let song of songs) {
-      youtubeSearchResponses.push(this.youtubeService.searchYoutube(song));
-    }
-
-    Observable.forkJoin(youtubeSearchResponses).subscribe((responses) => {
-      for (let res of responses) {
-        // let tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId + '?autoplay=1');
-          // let tempSanitizedUrl: SafeResourceUrl = "";
-          let tempSanitizedUrl: string = "";
-        try {
-          tempSanitizedUrl = res.items[0].id.videoId;
-          this.youtubeVideos.push(res);
-          this.youtubeIframeUrls.push(tempSanitizedUrl);
-          // tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId);
-        } catch (error) {
-          console.log('Failed to parse video into a usable url. Might have not had a proper video id.');
-        }
-      }
-
-      let playlistString: string = "?playlist=";
-      for (let vid of this.youtubeVideos) {
-        if (vid && vid.items[0] && vid.items[0].id && vid.items[0].id.videoId) {
-          playlistString = playlistString + vid.items[0].id.videoId + ',';
-        }
-      }
-      playlistString = playlistString.substring(0,playlistString.length - 1);
-      let thingUrl: string = "http://www.youtube.com/embed/" + this.youtubeIframeUrls[0] + playlistString ;
-      this.youtubeIframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(thingUrl);
-      // this.youtubeIframeUrl = this.youtubeIframeUrls[0];
-      this.isVideoListLoaded = true;
-    });
+  getSingleSongYoutubeVideoUrl(youtubeVideoId: string): string {
+    return "http://www.youtube.com/embed/" + youtubeVideoId + '?autoplay=1';
   }
+
+  getCachedVideoId(index: number): string {
+    return this.spotifyPlaylists.items[this.selectedIndex].tracks_local.items[index].youtubeVideoId;
+  }
+
+  // getResponse() {
+  //   console.log("GetResponse() was called");
+  //   let songs: Array<SpotifySong> = this.getTestData();
+  //   let youtubeSearchResponses: Array<Observable<YoutubeSearch>> = new Array<Observable<YoutubeSearch>>();
+
+  //   let requestReferenceIndex = 0;
+  //   this.youtubeVideos = new Array<YoutubeSearch>();
+  //   this.youtubeIframeUrls = new Array<SafeResourceUrl>();
+
+  //   for (let song of songs) {
+  //     youtubeSearchResponses.push(this.youtubeService.searchYoutube(song));
+  //   }
+
+  //   Observable.forkJoin(youtubeSearchResponses).subscribe((responses) => {
+  //     for (let res of responses) {
+  //       // let tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId + '?autoplay=1');
+  //         // let tempSanitizedUrl: SafeResourceUrl = "";
+  //         let tempSanitizedUrl: string = "";
+  //       try {
+  //         tempSanitizedUrl = res.items[0].id.videoId;
+  //         this.youtubeVideos.push(res);
+  //         this.youtubeIframeUrls.push(tempSanitizedUrl);
+  //         // tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId);
+  //       } catch (error) {
+  //         console.log('Failed to parse video into a usable url. Might have not had a proper video id.');
+  //       }
+  //     }
+
+  //     let playlistString: string = "?playlist=";
+  //     for (let vid of this.youtubeVideos) {
+  //       if (vid && vid.items[0] && vid.items[0].id && vid.items[0].id.videoId) {
+  //         playlistString = playlistString + vid.items[0].id.videoId + ',';
+  //       }
+  //     }
+  //     playlistString = playlistString.substring(0,playlistString.length - 1);
+  //     let thingUrl: string = "http://www.youtube.com/embed/" + this.youtubeIframeUrls[0] + playlistString ;
+  //     this.youtubeIframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(thingUrl);
+  //     // this.youtubeIframeUrl = this.youtubeIframeUrls[0];
+  //     this.isVideoListLoaded = true;
+  //   });
+  // }
   /**
    * So basically for this I want to do the following:
    * Build an array of the list ids without converting to a SafeResourceUrl
@@ -142,6 +178,7 @@ export class DashboardComponent {
    * 
    * 
    */
+
   setPlaylistUrl():string {
     let playlistUrl = "?playlist=";
     return playlistUrl.substring(0,playlistUrl.length - 1);
@@ -159,9 +196,5 @@ export class DashboardComponent {
     }
 
     return testData;
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

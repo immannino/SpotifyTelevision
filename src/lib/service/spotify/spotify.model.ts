@@ -95,10 +95,11 @@ export class SpotifyPlaylistTrack {
     added_by: any;
     is_local: boolean;
     track: SimpleSpotifyTrack;
+    youtubeVideoId: string;
 }
 
 export class SimpleSpotifyTrack {
-    artists: SimpleSpotifyArtist;
+    artists: SimpleSpotifyArtist[];
     href: string;
     id: string;
     name: string;

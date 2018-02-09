@@ -43,12 +43,12 @@ export class SpotifyService {
    * endpoint: /users/{user_id}/playlists
    */
   getUserPlaylists(user_id: string): Observable<UserSpotifyPlaylists> {
-    let clientId = this.getUserData().userAccessToken;
+    // let clientId = this.getUserData().userAccessToken;
     let requestHeaders: Headers = new Headers();
-    requestHeaders.append('Authorization', "Bearer " + clientId);
+    // requestHeaders.append('Authorization', "Bearer " + clientId);
     let options = new RequestOptions({headers: requestHeaders});
-
-    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map(response => response.json());
+    return this.http.get('../../../assets/user-playlists.json').map(response => response.json());
+    // return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map(response => response.json());
   }
 
   /**
@@ -57,12 +57,13 @@ export class SpotifyService {
    * endpoint: /users/{user_id}/playlists/{playlist_id}/tracks
    */
   getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
-    let clientId = this.getUserData().userAccessToken;
+    // let clientId = this.getUserData().userAccessToken;
     let requestHeaders: Headers = new Headers();
-    requestHeaders.append('Authorization', "Bearer " + clientId);
+    // requestHeaders.append('Authorization', "Bearer " + clientId);
     let options = new RequestOptions({headers: requestHeaders});
 
-    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
+    return this.http.get('../../../assets/playlist-tracks.json').map(response => response.json());
+    // return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
   }
 
   generateRandomString(length: number): string {

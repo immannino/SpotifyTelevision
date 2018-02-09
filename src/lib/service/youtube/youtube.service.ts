@@ -16,7 +16,6 @@ export class YoutubeService {
 
     searchYoutube(song: SpotifySong): Observable<YoutubeSearch> {
         let url = this.googleApiUrl + "q=" + song.artist + ' ' + song.song + '&maxResults=1&part=snippet&key=' + this.apiKey;
-
         return this.http.get(encodeURI(url)).map(response => response.json());
     }
 
