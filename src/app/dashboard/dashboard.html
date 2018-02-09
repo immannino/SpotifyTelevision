@@ -1,19 +1,21 @@
 <div class="container">
+    <div class="video-container">
+        <h2 *ngIf="!youtubeIframeUrl">Click on a video to begin</h2>
+        <div id="iframe-container" *ngIf="youtubeIframeUrl">
+            <iframe id="player" class="video-item" type="text/html" width="1000" height="563" [src]="youtubeIframeUrl | sanitizeUrl"
+                frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
     <div class="sidebar" *ngIf="spotifyPlaylists">
         <div class="sidebar-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
-            <button type=button class="playlist-button"  (click)="expandPlaylist(i);">{{playlist.name}}</button>
+            <div type=button class="playlist-button" (click)="expandPlaylist(i);">{{playlist.name}}</div>
             <div class="playlist-content" *ngIf="i === selectedIndex">
                 <button type=button class="playlist-playall">Play All Songs</button>
                 <div class="playlist-song" *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
-                    <span class="song-name">{{song.track.name}}</span><br><span class="artist-name">{{song.track.artists[0].name}}</span>
+                    <span class="song-name">{{song.track.name}}</span>
+                    <span class="artist-name">{{song.track.artists[0].name}}</span>
                 </div>
             </div>
-        </div> 
-    </div>
-
-    <div class="video-container">
-        <div id="iframe-container" *ngIf="youtubeIframeUrl">
-            <iframe id="player" class="video-item" type="text/html" width="1000" height="563" [src]="youtubeIframeUrl | sanitizeUrl" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 </div>
