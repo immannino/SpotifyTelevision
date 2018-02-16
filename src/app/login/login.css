@@ -1,25 +1,16 @@
-.modal {
-    align: center;
-    width: 20em;
-    background-color: #F55E5E;
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+mat-card {
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
 }
 
-.label {
-    color: 	#c04df9;
-}
 .button-group {
     background-image: url('http://i0.kym-cdn.com/entries/icons/original/000/018/318/solojazz.jpg');
     background-size: 100%;
-    text-align: center;
+    /* text-align: center; */
     padding: 3em;
     width: 20%;
     margin: 15% auto; /* 15% from the top and centered */
@@ -27,7 +18,6 @@
 
 .login-button {
     margin: 1em;
-
     height: 4em;
     width: 15em;
     border: none;
@@ -35,6 +25,7 @@
 }
 
 #spotify {
+    padding-top: 10px;
     background-color: #1db954;
 }
 
@@ -43,9 +34,9 @@
 }
 
 #continue {
-
+    background-color: #676767;
 }
 
 #continue:hover {
-    background-color: lightgray;
+    background-color: #d71e95;
 }

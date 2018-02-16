@@ -5,7 +5,11 @@ import { HttpModule } from '@angular/http';
 import { AppConfig }       from './app.config';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 import { AppRoutingModule } from './app-routes.module';
+import { AppMaterialsModule } from './app-materials.module'; 
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -28,7 +32,9 @@ import { YoutubeService } from '../lib/service/youtube/youtube.service';
   imports: [
     BrowserModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AppMaterialsModule,
+    environment.production ? ServiceWorkerModule.register('ngsw-worker.js') : []
   ],
   providers: [
     YoutubeService,

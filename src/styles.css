@@ -1,6 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+
 html {
     height: 100%;
     /* background-image: url("http://s3-us-west-2.amazonaws.com/designfacts/facts/df_0067.jpg"); */
     /* background-repeat: repeat; */
 }
+
+/*
+Following spinner css courtesy of 0xD34F on codepen. <3
+*/
+.spinner {
+    font-size: 5px;
+    width: 18em;
+    height: 14em;
+    border:  2em solid black;
+    border-left-color: black;
+    box-sizing: border-box;
+    position: relative;
+}
+.spinner::before {
+    content: "";
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    left: 6em;
+    top: 8em;
+    background-color: black;
+    border-radius: 50%;
+    animation: spinner 2s infinite linear;
+}
+@keyframes spinner {
+    0%, 100% {
+        transform: translate(0em, 0em);
+    }
+    12% {
+        transform: translate(6em, -6em);
+    }
+    16% {
+        transform: translate(4em, -8em);
+    }
+    34% {
+        transform: translate(-4em, 0em);
+    }
+    38% {
+        transform: translate(-6em, -2em);
+    }
+    50% {
+        transform: translate(0em, -8em);
+    }
+    62% {
+        transform: translate(6em, -2em);
+    }
+    66% {
+        transform: translate(4em, 0em);
+    }
+    84% {
+        transform: translate(-4em, -8em);
+    }
+    88% {
+        transform: translate(-6em, -6em);
+    }
+}
+
+.spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+  }

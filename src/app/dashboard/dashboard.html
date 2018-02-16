@@ -1,32 +1,23 @@
-<div class="container">
-    <div class="sidebar" *ngIf="spotifyPlaylists">
-        <div class="sidebar-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
-            <button type=button class="playlist-button"  (click)="expandPlaylist(i);">{{playlist.name}}</button>
-            <div class="playlist-content" *ngIf="i === selectedIndex">
-                <button type=button class="playlist-playall">Play All Songs</button>
-                <div class="playlist-song" *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
-                    <span class="song-name">{{song.track.name}}</span><br><span class="artist-name">{{song.track.artists[0].name}}</span>
-                </div>
-            </div>
-        </div> 
-    </div>
-
-    <div class="video-container">
+<div class="container" fxFlex>
+    <div class="video-container" fxLayoutAlign="left" fxLayout="column">
+        <h2 *ngIf="!youtubeIframeUrl">Click on a video to begin</h2>
         <div id="iframe-container" *ngIf="youtubeIframeUrl">
-            <iframe id="player" class="video-item" type="text/html" width="1000" height="563" [src]="youtubeIframeUrl | sanitizeUrl" frameborder="0" allowfullscreen></iframe>
+            <iframe id="player" class="video-item" type="text/html" [src]="youtubeIframeUrl | sanitizeUrl"
+                frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
+    <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
+        <mat-expansion-panel *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
+            <mat-expansion-panel-header (click)="expandPlaylist(i);">
+                <mat-panel-title matLine >{{playlist.name}}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list class="song-list" *ngIf="i === selectedIndex">
+                <button mat-button type=button class="playlist-playall">Play All Songs</button>
+                <mat-list-item *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
+                    <span class="song-name">{{song.track.name}} </span> 
+                    <span class="artist-name">{{song.track.artists[0].name}}</span>
+                </mat-list-item>
+            </mat-list>
+        </mat-expansion-panel>
+    </mat-list>
 </div>
-
-
-<!-- <div class="video-content" *ngIf="youtubeVideos">
-    <div *ngIf="isVideoListLoaded" class="video-item" id="sidebar">
-        <label class="sidebar-item" *ngFor="let song of youtubeVideos; let i = index;" (click)="changeVideo(i)">
-            {{song.items[0].snippet.title}}
-            <br>
-        </label>
-    </div>
-    <div id="iframe-container">
-        <iframe id="player" class="video-item" type="text/html" width="1000" height="750" [src]="youtubeIframeUrl | sanitizeUrl" frameborder="0"></iframe>
-    </div>
-</div> -->
