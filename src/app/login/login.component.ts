@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppMaterialsModule } from '../app-materials.module';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
+import {MatButtonModule} from '@angular/material/button';
 import { Router, RouterModule, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
 import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
@@ -53,7 +55,12 @@ export class LoginComponent {
             state: responseItems[3].split("=")[1]
         };
 
-        this.spotifyService.setUserData(tempUserData);
+        localStorage.setItem("userAccessToken", tempUserData.userAccessToken);
+        localStorage.setItem("refreshTokenTimeout", String(tempUserData.refreshTokenTimeout));
+        localStorage.setItem("token_type", tempUserData.token_type);
+        localStorage.setItem("state", tempUserData.state);
+
+        // this.spotifyService.setUserData(tempUserData);
 
         this.navigateToDashboard();
     }

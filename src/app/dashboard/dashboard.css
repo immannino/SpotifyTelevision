@@ -1,80 +1,59 @@
+.sidebar {
+    grid-area: "sidebar";
+}
+
 .container {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-gap: 5px;
+    grid-template-rows: repeat(12, 1fr);
+    grid-template-columns: 1fr 250px;
+    grid-template-areas:
+        "sidebar" "video";
     height: 1000px;
-    /* grid-template-columns: 1fr 4fr; */
-    /* position: absolute; */
-    
+    background-color: #464646;
 }
 
-.sidebar-item { 
-    /* height: 5em; */
-    background-color: rgb(179, 255, 232);
+mat-list-item:hover {
+    background-color: #696969;
 }
 
-.playlist-button {
+.song-list {
+    overflow: scroll;
+    height: 30em;
+}
+
+iframe {
+    display: block;
     width: 100%;
-    height: 2em;
-}
-.sidebar {
-    overflow-y: scroll;
+    /* height: 1000px; */
 }
 
-.playlist-button:hover {
-    background-color: lightsalmon;
-    cursor: pointer;
-}
-
-.playlist-button:hover {
-    cursor: pointer;
-}
-
-.playlist-song {
-    height: 2em;
-    border-bottom: 1px solid black;
-    overflow: hidden;
-}
-.playlist-song:hover {
-    cursor: pointer;
-    background-color: lightgreen;
-}
-.playlist-content {
-    background-color: lightgoldenrodyellow;
-}
-.playlist-playall {
-    width: 100%;
-    background-color: lightgray;
-}
-
-.playlist-playall:hover {
-    background-color: gray;
-}
 .video-container {
     height: 100%;
-    text-align: center;
-    background-color: lightblue;
+    width: 100%;
+    grid-area: "video";
 }
-
-.sidebar-item .playlist-content {
-    height: 15em;
-    overflow: scroll;
+iframe {
+    height: 1000px;
+    width: 100%;
 }
-
+/* 
 .iframe-container {
 	position: relative;
-	padding-bottom: 56.25%; /* 16:9 */
-	padding-top: 25px;
 	height: 0;
-}
+	padding-bottom: 100%;
+    padding-top: 25px;
+    overflow: hidden;
+} */
 
 
-.iframe-container iframe {
+/* .iframe-container iframe {
 	position: absolute;
     top: 0;
     left: 0;
 	width: 100%;
 	height: 100%;
-}
+} */
 
 .song-name {
     /* float: left; */

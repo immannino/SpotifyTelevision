@@ -1,22 +1,9 @@
 h1 {
     width: 100%;
     margin:0;
-    color: #41EAD4;
-    background-color: #FFFFFF;
-    height: 80px;
-    text-align: center;
-    border: 5px red inset;
-}
-
-footer {
-    position: fixed;
-    bottom:0;
-    width:100%;
-    /* height:60px;   Height of the footer */
-    background:white;
-    border: 5px yellow inset;
 }
 
 .container {
+    text-align: center;
     height: 100%;
 }

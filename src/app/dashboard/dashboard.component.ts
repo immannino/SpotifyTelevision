@@ -54,17 +54,18 @@ export class DashboardComponent {
   isVideoListLoaded: boolean = false;
 
   getUserProfileInformation() {
-    this.userProfile = new SpotifyUserProfile();
-    this.userProfile.id = "foobar";
-    this.getUserPlaylists();
-    // this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
-    //   this.userProfile = data;
-    //   this.getUserPlaylists();
-    // });
+    // this.userProfile = new SpotifyUserProfile();
+    // this.userProfile.id = "foobar";
+    // this.getUserPlaylists();
+    this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
+      this.userProfile = data;
+      this.getUserPlaylists();
+    });
   }
 
   getUserPlaylists() {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
+
       // get the Spotify reference object for their playlists
       this.spotifyPlaylists = playlistData;
     });
@@ -72,8 +73,10 @@ export class DashboardComponent {
 
   getSpotifyPlaylistTracks(index: number) {
     this.spotifyService.getUserPlaylistTracks(this.spotifyPlaylists.items[index].id, this.userProfile.id).subscribe((playlistTracks) => {
+
       // Cache local tracks
       this.spotifyPlaylists.items[index].tracks_local = playlistTracks;
+
       // Set current list of songs in sidebar 
       this.currentSpotifyPlaylistSongs = playlistTracks;
     });
@@ -81,9 +84,7 @@ export class DashboardComponent {
 
   expandPlaylist(index: number) {
     // check whether tracks have been loaded or not for this playlist
-    console.log(this.spotifyPlaylists.items);
     if (this.spotifyPlaylists.items[index].tracks_local) {
-      console.log("Cached playlist baby");
       this.currentSpotifyPlaylistSongs = this.spotifyPlaylists.items[index].tracks_local;
     } else {
       this.getSpotifyPlaylistTracks(index);
@@ -114,6 +115,10 @@ export class DashboardComponent {
     return this.youtubeService.searchYoutube(tempSong).subscribe((response) => {
       let videoId = response.items[0].id.videoId;
       let youtubeUrl = this.getSingleSongYoutubeVideoUrl(videoId);
+
+      if (!this.spotifyPlaylists.items[this.selectedIndex].tracks_local) {
+        this.spotifyPlaylists.items[this.selectedIndex].tracks_local = new SpotifyPlaylistTracks();
+      }
 
       this.spotifyPlaylists.items[this.selectedIndex].tracks_local.items[index].youtubeVideoId = videoId;
       this.youtubeIframeUrl = youtubeUrl;

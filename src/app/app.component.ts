@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   constructor() {}
 
-  title = 'A webapp that plays Youtube Videos from your Spotify music.';
+  title = 'Spotify Television';
 }

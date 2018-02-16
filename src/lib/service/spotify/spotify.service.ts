@@ -11,8 +11,9 @@ export class SpotifyService {
 
   constructor(private config: AppConfig, private http: Http) { }
 
-  private userData: UserData = null;
   spotifyApiUrl: string = "https://api.spotify.com/v1";
+  currentOffset: number = 0;
+
   /**
    * 
    * TODO:
@@ -21,16 +22,9 @@ export class SpotifyService {
    * Just want it working, I'll get the proper design out there soon enough.
    * Currently getting race condition in app.
    */
-  getUserData(): UserData {
-    return this.userData;
-  };
-
-  setUserData(userData: UserData) {
-    this.userData = userData;
-  };
-
   getSpotifyUserProfile(): Observable<SpotifyUserProfile> {
-    let clientId = this.getUserData().userAccessToken;
+    let clientId = localStorage.getItem("userAccessToken");
+
     let requestHeaders: Headers = new Headers();
     requestHeaders.append('Authorization', "Bearer " + clientId);
     let options = new RequestOptions({headers: requestHeaders});
@@ -43,12 +37,18 @@ export class SpotifyService {
    * endpoint: /users/{user_id}/playlists
    */
   getUserPlaylists(user_id: string): Observable<UserSpotifyPlaylists> {
-    // let clientId = this.getUserData().userAccessToken;
+    let clientId = localStorage.getItem("userAccessToken");
     let requestHeaders: Headers = new Headers();
-    // requestHeaders.append('Authorization', "Bearer " + clientId);
+    requestHeaders.append('Authorization', "Bearer " + clientId);
     let options = new RequestOptions({headers: requestHeaders});
-    return this.http.get('../../../assets/user-playlists.json').map(response => response.json());
-    // return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map(response => response.json());
+    let localOffset = this.currentOffset;
+    // return this.http.get('../../../assets/user-playlists.json').map(response => response.json());
+    //logic for pagination
+
+    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map((response) => {
+      // this.currentOffset = this.currentOffset + ((this.currentOffset - response.tracks.total) 
+      return response.json();
+    })
   }
 
   /**
@@ -58,12 +58,13 @@ export class SpotifyService {
    */
   getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
     // let clientId = this.getUserData().userAccessToken;
+    let clientId = localStorage.getItem("userAccessToken");
     let requestHeaders: Headers = new Headers();
-    // requestHeaders.append('Authorization', "Bearer " + clientId);
+    requestHeaders.append('Authorization', "Bearer " + clientId);
     let options = new RequestOptions({headers: requestHeaders});
-
-    return this.http.get('../../../assets/playlist-tracks.json').map(response => response.json());
-    // return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
+    console.log(playlistId);
+    // return this.http.get('../../../assets/playlist-tracks.json').map(response => response.json());
+    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
   }
 
   generateRandomString(length: number): string {
