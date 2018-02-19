@@ -163,7 +163,7 @@ export class DashboardComponent {
 
 
   changeCurrentSong(changeValue: number) {
-    if (this.selectedTrackIndex > 0 && this.selectedPlaylistIndex < this.currentSpotifyPlaylistSongs.items.length - 1) {
+    if ((this.selectedTrackIndex + changeValue) > 0 && this.selectedTrackIndex < this.currentSpotifyPlaylistSongs.items.length - 1) {
       this.playCurrentSong(this.selectedTrackIndex + changeValue);
     }
   }

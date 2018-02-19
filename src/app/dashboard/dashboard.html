@@ -2,8 +2,7 @@
     <div class="video-container" fxLayoutAlign="left" fxLayout="column">
         <h2 *ngIf="!youtubeIframeUrl">Click on a video to begin</h2>
         <div id="iframe-container" *ngIf="youtubeIframeUrl" (onresize)="onPlayerStateChange();">
-            <iframe id="player" class="video-item" type="text/html" [src]="youtubeIframeUrl | sanitizeUrl" 
-            (onPlayerStateChange)="onPlayerStateChange($event)" frameborder="0" allowfullscreen></iframe>
+            <iframe id="player" class="video-item" type="text/html" [src]="youtubeIframeUrl | sanitizeUrl" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
