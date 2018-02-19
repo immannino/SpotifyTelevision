@@ -36,6 +36,11 @@ export class UserData {
 export class UserSpotifyPlaylists {
     href: string;
     items: SpotifyPlaylist[];
+    limit: number;
+    next: string;
+    offset: number;
+    previous: string;
+    total: number;
 }
 
 /**

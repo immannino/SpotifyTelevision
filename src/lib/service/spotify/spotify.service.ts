@@ -23,11 +23,7 @@ export class SpotifyService {
    * Currently getting race condition in app.
    */
   getSpotifyUserProfile(): Observable<SpotifyUserProfile> {
-    let clientId = localStorage.getItem("userAccessToken");
-
-    let requestHeaders: Headers = new Headers();
-    requestHeaders.append('Authorization', "Bearer " + clientId);
-    let options = new RequestOptions({headers: requestHeaders});
+    let options = this.generateRequestOptions();
 
     return this.http.get(this.spotifyApiUrl + '/me', options).map(response => response.json());
   }
@@ -37,16 +33,19 @@ export class SpotifyService {
    * endpoint: /users/{user_id}/playlists
    */
   getUserPlaylists(user_id: string): Observable<UserSpotifyPlaylists> {
-    let clientId = localStorage.getItem("userAccessToken");
-    let requestHeaders: Headers = new Headers();
-    requestHeaders.append('Authorization', "Bearer " + clientId);
-    let options = new RequestOptions({headers: requestHeaders});
-    let localOffset = this.currentOffset;
+    let options = this.generateRequestOptions();
     // return this.http.get('../../../assets/user-playlists.json').map(response => response.json());
-    //logic for pagination
 
     return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map((response) => {
       // this.currentOffset = this.currentOffset + ((this.currentOffset - response.tracks.total) 
+      return response.json();
+    })
+  }
+
+  getUserPlaylistPaginate(url: string): Observable<UserSpotifyPlaylists>{
+    let options = this.generateRequestOptions();
+
+    return this.http.get(url, options).map((response) => {
       return response.json();
     })
   }
@@ -57,16 +56,20 @@ export class SpotifyService {
    * endpoint: /users/{user_id}/playlists/{playlist_id}/tracks
    */
   getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
-    // let clientId = this.getUserData().userAccessToken;
-    let clientId = localStorage.getItem("userAccessToken");
-    let requestHeaders: Headers = new Headers();
-    requestHeaders.append('Authorization', "Bearer " + clientId);
-    let options = new RequestOptions({headers: requestHeaders});
-    console.log(playlistId);
+    let options = this.generateRequestOptions();
     // return this.http.get('../../../assets/playlist-tracks.json').map(response => response.json());
     return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
   }
 
+  private generateRequestOptions(): RequestOptions {
+    let clientId = localStorage.getItem("userAccessToken");
+    let requestHeaders: Headers = new Headers();
+    requestHeaders.append('Authorization', "Bearer " + clientId);
+
+    let options = new RequestOptions({headers: requestHeaders});
+    return options;
+  }
+  
   generateRandomString(length: number): string {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

@@ -5,16 +5,16 @@ import { AuthenticationService } from '../../lib/service/authentication/authenti
 import { AuthData } from '../../lib/service/authentication/authentication.model';
 import { YoutubeService } from '../../lib/service/youtube/youtube.service';
 import { YoutubeSearch } from '../../lib/service/youtube/youtube.model';
-import { SpotifySong, SpotifyPlaylist, SpotifyUserProfile, UserSpotifyPlaylists, SpotifyPlaylistTracks } from '../../lib/service/spotify/spotify.model';
+import { SpotifySong, SpotifyPlaylist, SpotifyUserProfile, UserSpotifyPlaylists, SpotifyPlaylistTracks, SpotifyPlaylistTrack, SimpleSpotifyTrack } from '../../lib/service/spotify/spotify.model';
 import { DashboardPlaylist, PlaylistItem } from './dashboard.model';
 import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
 
 import * as data from '../testdata.json';
 import { Observable } from 'rxjs/Observable';
-import { Subscription }   from 'rxjs/Subscription';
 import 'rxjs/add/observable/forkJoin';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
 import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel  } from '@angular/router';
+import { EventListener } from '@angular/core/src/debug/debug_node';
 
 @Component({
   selector: 'dashboard',
@@ -39,7 +39,9 @@ export class DashboardComponent {
   clientId: string = '';
   spotifyPlaylists: UserSpotifyPlaylists = null;
   currentSpotifyPlaylistSongs: SpotifyPlaylistTracks = null;
-  selectedIndex: number = -1;
+  currentPlayingSpotifySong: SimpleSpotifyTrack = null;
+  selectedPlaylistIndex: number = -1;
+  selectedTrackIndex: number = 0;
 
   /**
    * Old data.
@@ -54,25 +56,40 @@ export class DashboardComponent {
   isVideoListLoaded: boolean = false;
 
   getUserProfileInformation() {
-    // this.userProfile = new SpotifyUserProfile();
-    // this.userProfile.id = "foobar";
-    // this.getUserPlaylists();
     this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
       this.userProfile = data;
       this.getUserPlaylists();
     });
   }
 
+  /**
+   * Initial request for user playlists.
+   */
   getUserPlaylists() {
-    this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
+      this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
+        this.spotifyPlaylists = playlistData;
+        if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
+      });
+    }
 
-      // get the Spotify reference object for their playlists
-      this.spotifyPlaylists = playlistData;
-    });
+  /**
+   * Recursively make pagination calls to the spotify playlist api
+   * while the user still has playlists to snag.
+   * 
+   * @param paginateUrl Url for the next set of playlists.
+   */
+  userPlaylistPaginate(paginateUrl: string) {
+    this.spotifyService.getUserPlaylistPaginate(paginateUrl).subscribe((playlistData) => {
+      for (let playlist of playlistData.items) {
+        this.spotifyPlaylists.items.push(playlist);
+      }
+
+      if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
+    })
   }
-
+  
   getSpotifyPlaylistTracks(index: number) {
-    this.spotifyService.getUserPlaylistTracks(this.spotifyPlaylists.items[index].id, this.userProfile.id).subscribe((playlistTracks) => {
+    this.spotifyService.getUserPlaylistTracks(this.spotifyPlaylists.items[index].id, this.spotifyPlaylists.items[index].owner.id).subscribe((playlistTracks) => {
 
       // Cache local tracks
       this.spotifyPlaylists.items[index].tracks_local = playlistTracks;
@@ -91,17 +108,20 @@ export class DashboardComponent {
     }
 
     // If the user wants to collapse the same playlist they just opened.
-    if ( this.selectedIndex === index) {
-      this.selectedIndex = -1;
+    if ( this.selectedPlaylistIndex === index) {
+      this.selectedPlaylistIndex = -1;
     } else {
-      this.selectedIndex = index;
+      this.selectedPlaylistIndex = index;
     }
   }
 
   playCurrentSong(index: number) {
     let cachedVideoId = this.getCachedVideoId(index);
 
+    this.selectedTrackIndex = index;
+
     if (cachedVideoId) {
+      this.setCurrentVideoPlayer(index);
       this.youtubeIframeUrl = this.getSingleSongYoutubeVideoUrl(cachedVideoId);
     } else {
       this.getYoutubeVideoForSong(index);
@@ -116,13 +136,21 @@ export class DashboardComponent {
       let videoId = response.items[0].id.videoId;
       let youtubeUrl = this.getSingleSongYoutubeVideoUrl(videoId);
 
-      if (!this.spotifyPlaylists.items[this.selectedIndex].tracks_local) {
-        this.spotifyPlaylists.items[this.selectedIndex].tracks_local = new SpotifyPlaylistTracks();
-      }
+      //I dont think I need this check. Commenting out until shit breaks or something.
+      // if (!this.spotifyPlaylists.items[this.selectedIndex].tracks_local) {
+      //   this.spotifyPlaylists.items[this.selectedIndex].tracks_local = new SpotifyPlaylistTracks();
+      // }
 
-      this.spotifyPlaylists.items[this.selectedIndex].tracks_local.items[index].youtubeVideoId = videoId;
+      this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].youtubeVideoId = videoId;
+      this.setCurrentVideoPlayer(index);
       this.youtubeIframeUrl = youtubeUrl;
     });
+  }
+
+  setCurrentVideoPlayer(index: number) {
+    if (!this.currentPlayingSpotifySong) this.currentPlayingSpotifySong = new SimpleSpotifyTrack();
+
+    this.currentPlayingSpotifySong = this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].track;
   }
 
   getSingleSongYoutubeVideoUrl(youtubeVideoId: string): string {
@@ -130,7 +158,14 @@ export class DashboardComponent {
   }
 
   getCachedVideoId(index: number): string {
-    return this.spotifyPlaylists.items[this.selectedIndex].tracks_local.items[index].youtubeVideoId;
+    return this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].youtubeVideoId;
+  }
+
+
+  changeCurrentSong(changeValue: number) {
+    if (this.selectedTrackIndex > 0 && this.selectedPlaylistIndex < this.currentSpotifyPlaylistSongs.items.length - 1) {
+      this.playCurrentSong(this.selectedTrackIndex + changeValue);
+    }
   }
 
   // getResponse() {

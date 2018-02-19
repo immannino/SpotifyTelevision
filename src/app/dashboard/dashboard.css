@@ -1,15 +1,17 @@
 .sidebar {
     grid-area: "sidebar";
+    /* overflow-y: scroll; */
+    height: 100%;
 }
 
 .container {
     display: grid;
     grid-gap: 5px;
-    grid-template-rows: repeat(12, 1fr);
+    grid-template-rows: 1fr;
     grid-template-columns: 1fr 250px;
     grid-template-areas:
         "sidebar" "video";
-    height: 1000px;
+    /* height: 1000px; */
     background-color: #464646;
 }
 
@@ -23,46 +25,44 @@ mat-list-item:hover {
 }
 
 iframe {
-    display: block;
+    height: 1000px;
     width: 100%;
-    /* height: 1000px; */
 }
 
 .video-container {
     height: 100%;
-    width: 100%;
+    width: inherit;
     grid-area: "video";
 }
-iframe {
-    height: 1000px;
-    width: 100%;
-}
-/* 
+
 .iframe-container {
 	position: relative;
-	height: 0;
-	padding-bottom: 100%;
-    padding-top: 25px;
-    overflow: hidden;
-} */
-
-
-/* .iframe-container iframe {
-	position: absolute;
-    top: 0;
-    left: 0;
-	width: 100%;
-	height: 100%;
-} */
-
-.song-name {
-    /* float: left; */
-}
-.artist-name {
-    /* float: right; */
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
 }
 
-/*
-Read n learn responsive shit yo. 
-http://brianflove.com/2017/05/03/responsive-angular/
-*/
+/************************************************************************ 
+Css in this section is regarding the previous and next buttons for songs.
+************************************************************************/
+.track-buttons {
+    display: grid;
+    height: 25px;
+    grid-gap: 5px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    background-color: #696A58;
+}
+
+.track-buttons:hover {
+    cursor: pointer;
+}
+
+.previous:hover {
+    background-color: red;
+}
+
+.next:hover {
+    background-color: green;
+}

@@ -8,6 +8,7 @@ import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
 import { UserData } from '../../lib/service/spotify/spotify.model';
 import { AppConfig } from '../app.config';
+import { Timestamp } from 'rxjs/operators/timestamp';
 
 @Component({
     moduleId: module.id,
@@ -50,13 +51,13 @@ export class LoginComponent {
     userSpotifyLogin(responseItems: string[]) {
         let tempUserData: UserData = {
             userAccessToken: responseItems[0].split("=")[1],
-            refreshTokenTimeout: Number(responseItems[1].split("=")[1]),
-            token_type: responseItems[2].split("=")[1],
+            token_type: responseItems[1].split("=")[1],
+            refreshTokenTimeout: Number(responseItems[2].split("=")[1]),
             state: responseItems[3].split("=")[1]
         };
 
         localStorage.setItem("userAccessToken", tempUserData.userAccessToken);
-        localStorage.setItem("refreshTokenTimeout", String(tempUserData.refreshTokenTimeout));
+        localStorage.setItem("token_timeout", String(Date.now() + tempUserData.refreshTokenTimeout));
         localStorage.setItem("token_type", tempUserData.token_type);
         localStorage.setItem("state", tempUserData.state);
 

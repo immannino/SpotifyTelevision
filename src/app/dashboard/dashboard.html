@@ -1,20 +1,27 @@
 <div class="container" fxFlex>
     <div class="video-container" fxLayoutAlign="left" fxLayout="column">
         <h2 *ngIf="!youtubeIframeUrl">Click on a video to begin</h2>
-        <div id="iframe-container" *ngIf="youtubeIframeUrl">
-            <iframe id="player" class="video-item" type="text/html" [src]="youtubeIframeUrl | sanitizeUrl"
-                frameborder="0" allowfullscreen></iframe>
+        <div id="iframe-container" *ngIf="youtubeIframeUrl" (onresize)="onPlayerStateChange();">
+            <iframe id="player" class="video-item" type="text/html" [src]="youtubeIframeUrl | sanitizeUrl" 
+            (onPlayerStateChange)="onPlayerStateChange($event)" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
+        <div class="current-song" *ngIf="currentPlayingSpotifySong">
+            <div>{{currentPlayingSpotifySong.name}}</div>
+            <div>{{currentPlayingSpotifySong.artists[0].name}}</div>
+            <div class="track-buttons">
+                <span class="previous" (click)="changeCurrentSong(-1)">back</span>
+                <span class="next" (click)="changeCurrentSong(1)">forward</span>
+            </div>
+        </div>
         <mat-expansion-panel *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
             <mat-expansion-panel-header (click)="expandPlaylist(i);">
-                <mat-panel-title matLine >{{playlist.name}}</mat-panel-title>
+                <mat-panel-title matLine>{{playlist.name}}</mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-list class="song-list" *ngIf="i === selectedIndex">
-                <button mat-button type=button class="playlist-playall">Play All Songs</button>
+            <mat-list class="song-list" *ngIf="i === selectedPlaylistIndex">
                 <mat-list-item *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
-                    <span class="song-name">{{song.track.name}} </span> 
+                    <span class="song-name">{{song.track.name}} </span>
                     <span class="artist-name">{{song.track.artists[0].name}}</span>
                 </mat-list-item>
             </mat-list>
