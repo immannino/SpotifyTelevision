@@ -98,6 +98,7 @@ mat-list-item:hover {
     width: inherit;
     grid-area: "video";
     text-align: center;
+    margin: 10px;
 }
 
 .video-default-text {
@@ -142,11 +143,11 @@ Css in this section is regarding current song play info.
     background-color: #FAFAFA;
 }
 
+.track-name {
+    font-size: 16px;
+}
 .artist-name {
     font-weight: 400;
-}
-.track-name {
-
 }
 /************************************************************************ 
 Css in this section is regarding the previous and next buttons for songs.
@@ -158,6 +159,7 @@ Css in this section is regarding the previous and next buttons for songs.
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 1fr;
     text-align: center;
+    padding-top: 5px;
 }
 img {
     height: 32px;
