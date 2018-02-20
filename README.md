@@ -1,3 +1,5 @@
+!["Logo"](./src/assets/spotify-mtv-logo.svg)
+
 # IWantMyMTV
 
 Web application to view Spotify playlists as Youtube playlists in one UI. 
