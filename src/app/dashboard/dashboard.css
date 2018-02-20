@@ -1,38 +1,107 @@
+/************************************************************************ 
+Css in this section is regarding UI ViewPorts for mobile width devices.
+************************************************************************/
+@media (max-width: 599px) {
+    .container {
+        grid-template-columns: 1;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: "sidebar" "video";
+        background-color: #464646;
+        background: transparent;
+    }
+
+    iframe {
+        height: 40vh;
+        width: 100%;
+    }
+
+    .playlist-container {
+        height: 40vh;
+        overflow: auto;
+    }
+
+    .song-list {
+        overflow: scroll;
+        height: 30em;
+    }
+
+    .current-song {
+        position: absolute;
+        width: 100%;
+    }
+}
+
+/************************************************************************ 
+Css in this section is regarding UI ViewPorts for desktop width devices.
+************************************************************************/
+@media (min-width: 600px) {
+    .container {
+        display: grid;
+        grid-gap: 5px;
+        height: 80vh;
+        grid-template-rows: 1fr;
+        grid-template-columns: 1fr 250px;
+        grid-template-areas: "sidebar" "video";
+        background: transparent;
+        font-size: 12px;
+    }
+
+    iframe {
+        height: 80vh;
+        width: 100%;
+    }
+
+    .playlist-container {
+        height: 64vh;
+        overflow: auto;
+    }
+
+    .song-list {
+        overflow: scroll;
+        /* height: 45em; */
+    }
+}
+
+.transparent-gradient {
+    z-index: -4;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: linear-gradient(transparent,#000);
+}
+
+.color-gradient {
+    z-index: -5;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    /* background-image: linear-gradient(90deg,#c074b2,#8ab5e8); */
+    background: linear-gradient(90deg, #77C9D4, #57DC90);
+}
+/********************************************************************************
+Css in this section is regarding random stylistic elements for main body content.
+********************************************************************************/
+mat-list-item:hover {
+    background-color: #e0e0e0;
+}
+
 .sidebar {
     grid-area: "sidebar";
-    /* overflow-y: scroll; */
-    height: 100%;
 }
 
-.container {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 250px;
-    grid-template-areas:
-        "sidebar" "video";
-    /* height: 1000px; */
-    background-color: #464646;
-}
-
-mat-list-item:hover {
-    background-color: #696969;
-}
-
-.song-list {
-    overflow: scroll;
-    height: 30em;
-}
-
-iframe {
-    height: 1000px;
-    width: 100%;
+.mat-expanded {
+    background-color: #FAFAFA !important;
 }
 
 .video-container {
     height: 100%;
     width: inherit;
     grid-area: "video";
+    text-align: center;
+}
+
+.video-default-text {
+    color: white;
 }
 
 .iframe-container {
@@ -42,6 +111,43 @@ iframe {
     padding-bottom: 56.25%;
 }
 
+.playlist-panel-item {
+    background-color: white;
+    margin: 2px;
+}
+
+.song-list-item {
+    background-color: #e0e0e0;
+    margin: 2px;
+    height: 4em !important;
+}
+
+.song-list-item:hover {
+    background-color: white;
+}
+
+/* .list-song-name {
+    overflow: hidden;
+}
+
+.list-artist-name {
+    overflow: hidden;
+} */
+/************************************************************************ 
+Css in this section is regarding current song play info.
+************************************************************************/
+.current-song {
+    margin-top: 5px;
+    color: black;
+    background-color: #FAFAFA;
+}
+
+.artist-name {
+    font-weight: 400;
+}
+.track-name {
+
+}
 /************************************************************************ 
 Css in this section is regarding the previous and next buttons for songs.
 ************************************************************************/
@@ -52,17 +158,17 @@ Css in this section is regarding the previous and next buttons for songs.
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 1fr;
     text-align: center;
-    background-color: #696A58;
+}
+img {
+    height: 32px;
+    width: 32px;
 }
 
-.track-buttons:hover {
+.icon-container {
+    width: 100%;
+}
+
+.icon-container:hover {
+    background-color: #e0e0e0;
     cursor: pointer;
-}
-
-.previous:hover {
-    background-color: red;
-}
-
-.next:hover {
-    background-color: green;
 }

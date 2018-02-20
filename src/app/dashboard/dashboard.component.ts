@@ -55,6 +55,12 @@ export class DashboardComponent {
   youtubeVideos: Array<YoutubeSearch> = null;
   isVideoListLoaded: boolean = false;
 
+  ngOnInit() {
+    if (!localStorage.getItem('userAccessToken')) {
+      this.router.navigate(['/login']);
+    }
+  }
+
   getUserProfileInformation() {
     this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
       this.userProfile = data;
@@ -154,7 +160,7 @@ export class DashboardComponent {
   }
 
   getSingleSongYoutubeVideoUrl(youtubeVideoId: string): string {
-    return "http://www.youtube.com/embed/" + youtubeVideoId + '?autoplay=1';
+    return "https://www.youtube.com/embed/" + youtubeVideoId + '?autoplay=1';
   }
 
   getCachedVideoId(index: number): string {
@@ -236,5 +242,9 @@ export class DashboardComponent {
     }
 
     return testData;
+  }
+
+  ngOnDestroy() {
+    localStorage.clear();
   }
 }

@@ -1,19 +1,7 @@
 mat-card {
-    position: fixed;
     text-align: center;
-    top: 50%;
-    left: 50%;
-    /* bring your own prefixes */
-    transform: translate(-50%, -50%);
-}
-
-.button-group {
-    background-image: url('http://i0.kym-cdn.com/entries/icons/original/000/018/318/solojazz.jpg');
-    background-size: 100%;
-    /* text-align: center; */
-    padding: 3em;
-    width: 20%;
-    margin: 15% auto; /* 15% from the top and centered */
+    color: white;
+    background: linear-gradient(to bottom left, #77C9D4, #57DC90);
 }
 
 .login-button {
@@ -22,21 +10,27 @@ mat-card {
     width: 15em;
     border: none;
     color: white;
+    padding-top: 10px;
 }
 
 #spotify {
-    padding-top: 10px;
-    background-color: #1db954;
+    color: #1db954;
+    /* background-color: #1db954; */
+    background-color: white;
 }
 
 #spotify:hover {
+    color: white;
     background-color: #1ed760;
 }
 
 #continue {
-    background-color: #676767;
+    color: #676767;
+    /* background-color: #676767; */
+    background-color: white;
 }
 
 #continue:hover {
+    color: white;
     background-color: #d71e95;
 }
