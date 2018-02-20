@@ -9,8 +9,8 @@
       "urls": [
         "https://immannino.github.io/SpotifyTelevision/favicon.ico",
         "https://immannino.github.io/SpotifyTelevision/index.html",
-        "https://immannino.github.io/SpotifyTelevision/inline.dfb94d43f09c338b6149.bundle.js",
-        "https://immannino.github.io/SpotifyTelevision/main.886f2d6290c4369150f0.bundle.js",
+        "https://immannino.github.io/SpotifyTelevision/inline.805862bb22c2e3f1b0bd.bundle.js",
+        "https://immannino.github.io/SpotifyTelevision/main.2749be8f1e758c9afe3c.bundle.js",
         "https://immannino.github.io/SpotifyTelevision/polyfills.f20484b2fa4642e0dca8.bundle.js",
         "https://immannino.github.io/SpotifyTelevision/styles.e340cd8599daef85eb11.bundle.css"
       ],
@@ -37,9 +37,9 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "https://immannino.github.io/SpotifyTelevision/inline.dfb94d43f09c338b6149.bundle.js": "2867bbe9b8bb788f493f2a2a5a4d63f02adc62f6",
+    "https://immannino.github.io/SpotifyTelevision/inline.805862bb22c2e3f1b0bd.bundle.js": "abd4e607ae0b0e8b98d7caf56b60a84bc0fc008b",
     "https://immannino.github.io/SpotifyTelevision/assets/favicon.ico": "648ec59f97f6d5875b77789d12aa888519369f5b",
-    "https://immannino.github.io/SpotifyTelevision/main.886f2d6290c4369150f0.bundle.js": "8e7581e3c26eae3157d7463110895d3341b83cc0",
+    "https://immannino.github.io/SpotifyTelevision/main.2749be8f1e758c9afe3c.bundle.js": "21fdd47087ca14970ca4b102297d70961146f47e",
     "https://immannino.github.io/SpotifyTelevision/assets/forward-96.png": "803a2d2502d0aa6b0616f59ba3fcf3bc491b41d3",
     "https://immannino.github.io/SpotifyTelevision/polyfills.f20484b2fa4642e0dca8.bundle.js": "0b0af365e031b7cbba789493d311e94192720c68",
     "https://immannino.github.io/SpotifyTelevision/assets/logo-128.png": "07b45b22bdae8eefb31521d47e169665819ae065",
@@ -47,7 +47,7 @@
     "https://immannino.github.io/SpotifyTelevision/assets/logo-152.png": "9b35c4b2bf6e4a05d71db1bd288516e75663e06e",
     "https://immannino.github.io/SpotifyTelevision/favicon.ico": "648ec59f97f6d5875b77789d12aa888519369f5b",
     "https://immannino.github.io/SpotifyTelevision/assets/logo-256.png": "072028798456f141ea3dca397756c5d6555c2bf0",
-    "https://immannino.github.io/SpotifyTelevision/index.html": "b43dcb1b91f42bc0163f6e72868190ce43d120e4",
+    "https://immannino.github.io/SpotifyTelevision/index.html": "ac3f92bbac3a65807b4b6d9c24f6e98d33b6fb43",
     "https://immannino.github.io/SpotifyTelevision/assets/logo-512.png": "a7df26f24b1d38b62fffd1e1b389a650bccc17cc",
     "https://immannino.github.io/SpotifyTelevision/assets/playlist-tracks.json": "183cea26053717a243b2a5606b0ef5c9b1f36883",
     "https://immannino.github.io/SpotifyTelevision/assets/rewind-96.png": "494143dcb960baa83d9d7a03e647ebf9f6594954",
