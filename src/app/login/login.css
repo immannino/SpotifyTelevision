@@ -30,7 +30,16 @@ mat-card {
     background-color: white;
 }
 
+.disabled {
+  background-color: #dddddd !important;
+  /* pointer-events: none; */
+}
+
+.disabled:hover {
+    cursor: not-allowed !important;
+}
+/* 
 #continue:hover {
     color: white;
     background-color: #d71e95;
-}
+} */
