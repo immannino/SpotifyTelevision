@@ -93,6 +93,11 @@ export class SpotifyExternalUrl {
 export class SpotifyPlaylistTracks {
     href: string;
     items: SpotifyPlaylistTrack[];
+    limit: number;
+    next: string;
+    offset: number;
+    previous: string;
+    total: number;
 }
 
 export class SpotifyPlaylistTrack {

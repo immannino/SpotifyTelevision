@@ -61,6 +61,11 @@ export class SpotifyService {
     return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
   }
 
+  getUserPlaylistTracksPaginate(url: string): Observable<SpotifyPlaylistTracks> {
+    let options = this.generateRequestOptions();
+
+    return this.http.get(url, options).map(response => response.json());
+  }
   private generateRequestOptions(): RequestOptions {
     let clientId = localStorage.getItem("userAccessToken");
     let requestHeaders: Headers = new Headers();
