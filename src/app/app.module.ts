@@ -9,7 +9,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routes.module';
-import { AppMaterialsModule } from './app-materials.module'; 
+import { AppMaterialsModule } from './app-materials.module';
+import { YoutubePlayerModule } from 'ngx-youtube-player';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -34,6 +35,7 @@ import { YoutubeService } from '../lib/service/youtube/youtube.service';
     HttpModule,
     AppRoutingModule,
     AppMaterialsModule,
+    YoutubePlayerModule,
     environment.production ? ServiceWorkerModule.register('ngsw-worker.js') : []
   ],
   providers: [

@@ -61,15 +61,13 @@ export class LoginComponent {
         localStorage.setItem("token_type", tempUserData.token_type);
         localStorage.setItem("state", tempUserData.state);
 
-        // this.spotifyService.setUserData(tempUserData);
-
         this.navigateToDashboard();
     }
 
     generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
-        let appRedirectUrl: string = "http://localhost:4200/login";
-        // let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
+        // let appRedirectUrl: string = "http://localhost:4200/login";
+        let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
         
         /**
          * Update scopes to appropriate values for what information I'm requesting from the user.

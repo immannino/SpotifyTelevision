@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { AuthenticationService } from '../../lib/service/authentication/authentication.service';
 import { AuthData } from '../../lib/service/authentication/authentication.model';
@@ -13,7 +13,7 @@ import * as data from '../testdata.json';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
-import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel  } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
 import { EventListener } from '@angular/core/src/debug/debug_node';
 
 @Component({
@@ -25,11 +25,10 @@ export class DashboardComponent {
   constructor(private authService: AuthenticationService, private youtubeService: YoutubeService, private spotifyService: SpotifyService, private sanitizer: DomSanitizer, private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-          console.log("Navigation starting.");
-      } else if (event instanceof NavigationEnd ) {
+      } else if (event instanceof NavigationEnd) {
         if (!this.spotifyPlaylists) { this.getUserProfileInformation(); }
-      } else if (event instanceof NavigationError ) {
-      } else if (event instanceof NavigationCancel ) {
+      } else if (event instanceof NavigationError) {
+      } else if (event instanceof NavigationCancel) {
       }
     });
   }
@@ -40,20 +39,12 @@ export class DashboardComponent {
   spotifyPlaylists: UserSpotifyPlaylists = null;
   currentSpotifyPlaylistSongs: SpotifyPlaylistTracks = null;
   currentPlayingSpotifySong: SimpleSpotifyTrack = null;
+  userProfile: SpotifyUserProfile = null;
   selectedPlaylistIndex: number = -1;
   selectedTrackIndex: number = 0;
-
-  /**
-   * Old data.
-   * In the process of refactoring from POC -> MAE (lol)
-   * ignore for the most part. 
-   */
-  userProfile: SpotifyUserProfile = null;
-  youtubeResponse: YoutubeSearch = null;
-  youtubeIframeUrl: string = null;
-  youtubeIframeUrls: Array<SafeResourceUrl> = null;
-  youtubeVideos: Array<YoutubeSearch> = null;
-  isVideoListLoaded: boolean = false;
+  player: YT.Player;
+  private id: string = 'qDuKsiwS5xw';
+  displayYoutubePlayer: boolean = false;
 
   ngOnInit() {
     if (!localStorage.getItem('userAccessToken')) {
@@ -72,11 +63,11 @@ export class DashboardComponent {
    * Initial request for user playlists.
    */
   getUserPlaylists() {
-      this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
-        this.spotifyPlaylists = playlistData;
-        if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
-      });
-    }
+    this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
+      this.spotifyPlaylists = playlistData;
+      if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
+    });
+  }
 
   /**
    * Recursively make pagination calls to the spotify playlist api
@@ -93,7 +84,7 @@ export class DashboardComponent {
       if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
     })
   }
-  
+
   getSpotifyPlaylistTracks(index: number) {
     this.spotifyService.getUserPlaylistTracks(this.spotifyPlaylists.items[index].id, this.spotifyPlaylists.items[index].owner.id).subscribe((playlistTracks) => {
 
@@ -102,7 +93,20 @@ export class DashboardComponent {
 
       // Set current list of songs in sidebar 
       this.currentSpotifyPlaylistSongs = playlistTracks;
+
+      if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
     });
+  }
+
+  getSpotifyPlaylistTracksPaginate(index: number, paginateUrl: string) {
+    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((playlistTracks) => {
+      for (let playlistTrack of playlistTracks.items) {
+        this.spotifyPlaylists.items[index].tracks_local.items.push(playlistTrack);
+        this.currentSpotifyPlaylistSongs.items.push(playlistTrack);
+      }
+
+      if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
+    })
   }
 
   expandPlaylist(index: number) {
@@ -114,7 +118,7 @@ export class DashboardComponent {
     }
 
     // If the user wants to collapse the same playlist they just opened.
-    if ( this.selectedPlaylistIndex === index) {
+    if (this.selectedPlaylistIndex === index) {
       this.selectedPlaylistIndex = -1;
     } else {
       this.selectedPlaylistIndex = index;
@@ -128,15 +132,15 @@ export class DashboardComponent {
 
     if (cachedVideoId) {
       this.setCurrentVideoPlayer(index);
-      this.youtubeIframeUrl = this.getSingleSongYoutubeVideoUrl(cachedVideoId);
+      this.setVideoPlayerSong(cachedVideoId);
     } else {
       this.getYoutubeVideoForSong(index);
     }
   }
 
   getYoutubeVideoForSong(index: number) {
-    let tempSong: SpotifySong = new SpotifySong(this.currentSpotifyPlaylistSongs.items[index].track.artists[0].name, 
-                              this.currentSpotifyPlaylistSongs.items[index].track.name);
+    let tempSong: SpotifySong = new SpotifySong(this.currentSpotifyPlaylistSongs.items[index].track.artists[0].name,
+      this.currentSpotifyPlaylistSongs.items[index].track.name);
 
     return this.youtubeService.searchYoutube(tempSong).subscribe((response) => {
       let videoId = response.items[0].id.videoId;
@@ -149,87 +153,72 @@ export class DashboardComponent {
 
       this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].youtubeVideoId = videoId;
       this.setCurrentVideoPlayer(index);
-      this.youtubeIframeUrl = youtubeUrl;
+
+      if (this.displayYoutubePlayer) {
+        this.setVideoPlayerSong(videoId);
+      } else {
+        this.id = videoId;
+        this.displayYoutubePlayer = true;
+      }
     });
   }
 
+  /**
+   * Confusing name need to refactor BUT
+   * This method sets the "Current playing song" info below the playlists. 
+   * 
+   * @param index Index of selected song from a playlist
+   */
   setCurrentVideoPlayer(index: number) {
     if (!this.currentPlayingSpotifySong) this.currentPlayingSpotifySong = new SimpleSpotifyTrack();
 
     this.currentPlayingSpotifySong = this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].track;
   }
 
+  /**
+   * Depricated: 
+   * Used to build the iframe url to be pased into an iframe. All functionality since has been replaced by youtube-player lib.
+   * 
+   * @param youtubeVideoId 
+   */
   getSingleSongYoutubeVideoUrl(youtubeVideoId: string): string {
     return "https://www.youtube.com/embed/" + youtubeVideoId + '?autoplay=1';
   }
 
+  /**
+   * Checks local cache if songs exist for that playlist.
+   *  
+   * @param index index of song to be checked.
+   */
   getCachedVideoId(index: number): string {
     return this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].youtubeVideoId;
   }
 
-
+  /**
+   * Used by the previous and next buttons to change what song to play. 
+   * 
+   * @param changeValue 1 or -1
+   */
   changeCurrentSong(changeValue: number) {
-    if ((this.selectedTrackIndex + changeValue) > 0 && this.selectedTrackIndex < this.currentSpotifyPlaylistSongs.items.length - 1) {
+    if ((this.selectedTrackIndex + changeValue) >= 0 && this.selectedTrackIndex < this.currentSpotifyPlaylistSongs.items.length - 1) {
       this.playCurrentSong(this.selectedTrackIndex + changeValue);
     }
   }
 
-  // getResponse() {
-  //   console.log("GetResponse() was called");
-  //   let songs: Array<SpotifySong> = this.getTestData();
-  //   let youtubeSearchResponses: Array<Observable<YoutubeSearch>> = new Array<Observable<YoutubeSearch>>();
-
-  //   let requestReferenceIndex = 0;
-  //   this.youtubeVideos = new Array<YoutubeSearch>();
-  //   this.youtubeIframeUrls = new Array<SafeResourceUrl>();
-
-  //   for (let song of songs) {
-  //     youtubeSearchResponses.push(this.youtubeService.searchYoutube(song));
-  //   }
-
-  //   Observable.forkJoin(youtubeSearchResponses).subscribe((responses) => {
-  //     for (let res of responses) {
-  //       // let tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId + '?autoplay=1');
-  //         // let tempSanitizedUrl: SafeResourceUrl = "";
-  //         let tempSanitizedUrl: string = "";
-  //       try {
-  //         tempSanitizedUrl = res.items[0].id.videoId;
-  //         this.youtubeVideos.push(res);
-  //         this.youtubeIframeUrls.push(tempSanitizedUrl);
-  //         // tempSanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("http://www.youtube.com/embed/" + res.items[0].id.videoId);
-  //       } catch (error) {
-  //         console.log('Failed to parse video into a usable url. Might have not had a proper video id.');
-  //       }
-  //     }
-
-  //     let playlistString: string = "?playlist=";
-  //     for (let vid of this.youtubeVideos) {
-  //       if (vid && vid.items[0] && vid.items[0].id && vid.items[0].id.videoId) {
-  //         playlistString = playlistString + vid.items[0].id.videoId + ',';
-  //       }
-  //     }
-  //     playlistString = playlistString.substring(0,playlistString.length - 1);
-  //     let thingUrl: string = "http://www.youtube.com/embed/" + this.youtubeIframeUrls[0] + playlistString ;
-  //     this.youtubeIframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(thingUrl);
-  //     // this.youtubeIframeUrl = this.youtubeIframeUrls[0];
-  //     this.isVideoListLoaded = true;
-  //   });
-  // }
   /**
-   * So basically for this I want to do the following:
-   * Build an array of the list ids without converting to a SafeResourceUrl
-   * Then on load, create the playlist string starting at the index (Circular array math)
+   * Sets what video is playing in the YT player. 
    * 
-   * If the user clicks a song, we want to switch to that song, and then build the playlist starting from the next song. 
-   * 
-   * 
+   * @param videoId Video to play. 
    */
-
-  setPlaylistUrl():string {
-    let playlistUrl = "?playlist=";
-    return playlistUrl.substring(0,playlistUrl.length - 1);
+  setVideoPlayerSong(videoId: string) {
+    this.id = videoId;
+    this.player.loadVideoById(videoId);
+    this.player.playVideo();
   }
 
+  /** 
+   * Strictly used for testing. Will delete at some point. 
+  */
   getTestData(): Array<SpotifySong> {
     let testData: Array<SpotifySong> = new Array<SpotifySong>();
     let tempSong: SpotifySong = null;
@@ -244,6 +233,39 @@ export class DashboardComponent {
     return testData;
   }
 
+  /**
+   * Handles setting the Youtube Player as a callback from the Factory.
+   * 
+   * @param player The YoutubePlayer singleton. 
+   */
+  savePlayer(player) {
+    this.player = player;
+    this.displayYoutubePlayer = true;
+    this.player.playVideo();
+  }
+
+  /**
+   * Handles events that change from the YT Player. 
+   * 
+   * @param event Youtube Player event status codes.
+   */
+  onStateChange(event) {
+    switch(event.data) {
+      case 0: // Status: ended
+        this.changeCurrentSong(1);
+        break;
+      case 1: // Status: playing
+      case 2: // Status: paused
+      case 3: // Status: buffering
+      case 5: // Status: video cued
+      default:
+
+    }
+  }
+
+  /** 
+   * Cleans up user app cache.
+   */
   ngOnDestroy() {
     localStorage.clear();
   }
