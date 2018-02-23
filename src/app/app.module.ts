@@ -35,8 +35,8 @@ import { YoutubeService } from '../lib/service/youtube/youtube.service';
     HttpModule,
     AppRoutingModule,
     AppMaterialsModule,
-    YoutubePlayerModule
-    // environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : []
+    YoutubePlayerModule,
+    environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : []
   ],
   providers: [
     YoutubeService,

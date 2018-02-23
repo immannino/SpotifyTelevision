@@ -66,6 +66,7 @@ export class SpotifyService {
 
     return this.http.get(url, options).map(response => response.json());
   }
+  
   private generateRequestOptions(): RequestOptions {
     let clientId = localStorage.getItem("userAccessToken");
     let requestHeaders: Headers = new Headers();
