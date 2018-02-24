@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions, HttpErrorResponse } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { catchError } from 'rxjs/operators';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import 'rxjs/add/operator/map'
 
 import { AppConfig } from '../../../app/app.config';
@@ -25,7 +27,7 @@ export class SpotifyService {
   getSpotifyUserProfile(): Observable<SpotifyUserProfile> {
     let options = this.generateRequestOptions();
 
-    return this.http.get(this.spotifyApiUrl + '/me', options).map(response => response.json());
+    return this.http.get(this.spotifyApiUrl + '/me', options).map(response => response.json()).pipe(catchError(this.handleError));
   }
   /**
    * Get User Playlists:
@@ -39,7 +41,7 @@ export class SpotifyService {
     return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map((response) => {
       // this.currentOffset = this.currentOffset + ((this.currentOffset - response.tracks.total) 
       return response.json();
-    })
+    });
   }
 
   getUserPlaylistPaginate(url: string): Observable<UserSpotifyPlaylists>{
@@ -86,5 +88,28 @@ export class SpotifyService {
 
     return text;
   };
+
+  private handleError(error: HttpErrorResponse) {
+    let errorResponse: any = {
+      status:400,
+      body:{},
+      description: 'Something bad happened; please try again later.'
+    }
+  if (error.error instanceof ErrorEvent) {
+    // A client-side or network error occurred. Handle it accordingly.
+    // console.error('An error occurred:', error.error.message);
+  } else {
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong,
+    // console.error(
+    //   `Backend returned code ${error.status}, ` +
+    //   `body was: ${error.error}`);
+    errorResponse.status = error.status;
+    errorResponse.body = error.error;
+  }
+  // return an ErrorObservable with a user-facing error message
+  return new ErrorObservable(
+    errorResponse);
+};
 
 }

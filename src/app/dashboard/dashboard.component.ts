@@ -53,7 +53,7 @@ export class DashboardComponent {
   }
 
   getUserProfileInformation() {
-    this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
+    this.spotifyService.getSpotifyUserProfile().subscribe(x => x, (error) => this.handleApiError(error), (data) => {
       this.userProfile = data;
       this.getUserPlaylists();
     });
@@ -99,7 +99,7 @@ export class DashboardComponent {
   }
 
   getSpotifyPlaylistTracksPaginate(index: number, paginateUrl: string) {
-    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((playlistTracks) => {
+    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((error) => this.handleApiError(error), (playlistTracks) => {
       for (let playlistTrack of playlistTracks.items) {
         this.spotifyPlaylists.items[index].tracks_local.items.push(playlistTrack);
         this.currentSpotifyPlaylistSongs.items.push(playlistTrack);
@@ -263,6 +263,15 @@ export class DashboardComponent {
     }
   }
 
+  handleApiError(error: any) {
+    switch (error.status) {
+      case 401:
+        this.router.navigate(['/login']);
+        break;
+      default:
+        //someting
+    }
+  }
   /** 
    * Cleans up user app cache.
    */
