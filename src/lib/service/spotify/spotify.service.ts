@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { catchError } from 'rxjs/operators';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import 'rxjs/add/operator/map'
 
 import { AppConfig } from '../../../app/app.config';
@@ -25,7 +28,7 @@ export class SpotifyService {
   getSpotifyUserProfile(): Observable<SpotifyUserProfile> {
     let options = this.generateRequestOptions();
 
-    return this.http.get(this.spotifyApiUrl + '/me', options).map(response => response.json());
+    return this.http.get(this.spotifyApiUrl + '/me', options).pipe(catchError(this.handleError)).map(response => response.json());
   }
   /**
    * Get User Playlists:
@@ -36,18 +39,18 @@ export class SpotifyService {
     let options = this.generateRequestOptions();
     // return this.http.get('../../../assets/user-playlists.json').map(response => response.json());
 
-    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).map((response) => {
+    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).pipe(catchError(this.handleError)).map((response) => {
       // this.currentOffset = this.currentOffset + ((this.currentOffset - response.tracks.total) 
       return response.json();
-    })
+    });
   }
 
   getUserPlaylistPaginate(url: string): Observable<UserSpotifyPlaylists>{
     let options = this.generateRequestOptions();
 
-    return this.http.get(url, options).map((response) => {
+    return this.http.get(url, options).pipe(catchError(this.handleError)).map((response) => {
       return response.json();
-    })
+    });
   }
 
   /**
@@ -58,13 +61,13 @@ export class SpotifyService {
   getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
     let options = this.generateRequestOptions();
     // return this.http.get('../../../assets/playlist-tracks.json').map(response => response.json());
-    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).map(response => response.json());
+    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).pipe(catchError(this.handleError)).map(response => response.json());
   }
 
   getUserPlaylistTracksPaginate(url: string): Observable<SpotifyPlaylistTracks> {
     let options = this.generateRequestOptions();
 
-    return this.http.get(url, options).map(response => response.json());
+    return this.http.get(url, options).pipe(catchError(this.handleError)).map(response => response.json());
   }
   
   private generateRequestOptions(): RequestOptions {
@@ -86,5 +89,28 @@ export class SpotifyService {
 
     return text;
   };
+
+  private handleError(error: HttpErrorResponse) {
+    let errorResponse: any = {
+      status:400,
+      body:{},
+      description: 'Something bad happened; please try again later.'
+    }
+  if (error.error instanceof ErrorEvent) {
+    // A client-side or network error occurred. Handle it accordingly.
+    // console.error('An error occurred:', error.error.message);
+  } else {
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong,
+    // console.error(
+    //   `Backend returned code ${error.status}, ` +
+    //   `body was: ${error.error}`);
+    errorResponse.status = error.status;
+    errorResponse.body = error.error;
+  }
+  // return an ErrorObservable with a user-facing error message
+  return new ErrorObservable(
+    errorResponse);
+};
 
 }

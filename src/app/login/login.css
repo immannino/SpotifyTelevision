@@ -38,8 +38,13 @@ mat-card {
 .disabled:hover {
     cursor: not-allowed !important;
 }
-/* 
-#continue:hover {
+
+.error-info {
+    margin: auto;
+    text-align: center;
+    width: 40%;
+    background: red;
+    word-wrap: break-word;
     color: white;
-    background-color: #d71e95;
-} */
+    margin-bottom: 8px;
+}

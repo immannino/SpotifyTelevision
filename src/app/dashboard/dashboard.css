@@ -18,7 +18,8 @@ Css in this section is regarding UI ViewPorts for mobile width devices.
 
     .playlist-container {
         height: 40vh;
-        overflow: auto;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
     }
 
     .song-list {
@@ -56,7 +57,8 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
 
     .playlist-container {
         height: 64vh;
-        overflow: auto;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
     }
 
     .song-list {
@@ -102,7 +104,7 @@ mat-list-item:hover {
     width: inherit;
     grid-area: "video";
     text-align: center;
-    margin: 10px;
+    margin: 8px;
 }
 
 .video-default-text {

@@ -19,4 +19,14 @@ export class YoutubeService {
         return this.http.get(encodeURI(url)).map(response => response.json());
     }
 
+    /**
+     * Implement out statistics search. Not sure if I want to add in all this logic right now to handle the search. 
+     * I think if I want to implement something like this I might want to consider breaking out the UI portion and
+     * the backend portion to offload some of the logic and work that happens on client devices. 
+     */
+    // getVideoStatistics(videoId: string): Observable<number> {
+        
+    //     return null;
+    // }
+
 }

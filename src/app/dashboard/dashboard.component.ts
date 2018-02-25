@@ -53,10 +53,10 @@ export class DashboardComponent {
   }
 
   getUserProfileInformation() {
-    this.spotifyService.getSpotifyUserProfile().subscribe((data) => {
-      this.userProfile = data;
+    this.spotifyService.getSpotifyUserProfile().subscribe((value) => {
+      this.userProfile = value;
       this.getUserPlaylists();
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   /**
@@ -66,7 +66,7 @@ export class DashboardComponent {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
       this.spotifyPlaylists = playlistData;
       if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   /**
@@ -82,7 +82,7 @@ export class DashboardComponent {
       }
 
       if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
-    })
+    }, (error) => this.handleApiError(error), () => {})
   }
 
   getSpotifyPlaylistTracks(index: number) {
@@ -95,7 +95,7 @@ export class DashboardComponent {
       this.currentSpotifyPlaylistSongs = playlistTracks;
 
       if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   getSpotifyPlaylistTracksPaginate(index: number, paginateUrl: string) {
@@ -106,7 +106,7 @@ export class DashboardComponent {
       }
 
       if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
-    })
+    }, (error) => this.handleApiError(error), () => {})
   }
 
   expandPlaylist(index: number) {
@@ -160,7 +160,7 @@ export class DashboardComponent {
         this.id = videoId;
         this.displayYoutubePlayer = true;
       }
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   /**
@@ -263,10 +263,22 @@ export class DashboardComponent {
     }
   }
 
+  handleApiError(error: any) {
+    if (error) {
+      switch (error.status) {
+        case 401:
+          this.router.navigate(['/login']);
+          break;
+        default:
+          //someting
+      }
+    }
+  }
   /** 
    * Cleans up user app cache.
    */
   ngOnDestroy() {
     localStorage.clear();
+    localStorage.setItem("auth_error", "true");
   }
 }
