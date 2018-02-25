@@ -79,7 +79,7 @@ export class LoginComponent {
         /**
          * Update scopes to appropriate values for what information I'm requesting from the user.
          */
-        let scopes: string = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
+        let scopes: string = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative user-library-read';
 
         let url = 'https://accounts.spotify.com/authorize' +
         '?client_id=' + this.client_id +

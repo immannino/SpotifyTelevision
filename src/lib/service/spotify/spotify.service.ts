@@ -60,7 +60,6 @@ export class SpotifyService {
    */
   getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
     let options = this.generateRequestOptions();
-    // return this.http.get('../../../assets/playlist-tracks.json').map(response => response.json());
     return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).pipe(catchError(this.handleError)).map(response => response.json());
   }
 
@@ -68,6 +67,21 @@ export class SpotifyService {
     let options = this.generateRequestOptions();
 
     return this.http.get(url, options).pipe(catchError(this.handleError)).map(response => response.json());
+  }
+
+  getUserLibrarySongs(): Observable<SpotifyPlaylistTracks> {
+    let options = this.generateRequestOptions();
+    return this.http.get(this.spotifyApiUrl + '/me/tracks', options)
+                    .pipe(catchError(this.handleError))
+                    .map(response => response.json());
+  }
+
+  getUserLibrarySongsPaginate(url: string): Observable<SpotifyPlaylistTracks> {
+    let options = this.generateRequestOptions();
+
+    return this.http.get(url, options)
+                    .pipe(catchError(this.handleError))
+                    .map(response => response.json());
   }
   
   private generateRequestOptions(): RequestOptions {

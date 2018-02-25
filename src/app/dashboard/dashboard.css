@@ -104,7 +104,7 @@ mat-list-item:hover {
     width: inherit;
     grid-area: "video";
     text-align: center;
-    margin: 8px;
+    margin: 10px;
 }
 
 .video-default-text {

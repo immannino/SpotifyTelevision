@@ -55,6 +55,16 @@ export class DashboardComponent {
   getUserProfileInformation() {
     this.spotifyService.getSpotifyUserProfile().subscribe((value) => {
       this.userProfile = value;
+      /**
+       * Prep the playlist variables.
+       */
+      this.spotifyPlaylists = new UserSpotifyPlaylists();
+      this.spotifyPlaylists.items = new Array<SpotifyPlaylist>();
+
+      // Get the users songs and make it the first 'playlist' in the list.
+      this.getUserLibraryTracks();
+
+      // Get the users playlists.
       this.getUserPlaylists();
     }, (error) => this.handleApiError(error), () => {});
   }
@@ -64,7 +74,17 @@ export class DashboardComponent {
    */
   getUserPlaylists() {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
-      this.spotifyPlaylists = playlistData;
+      // this.spotifyPlaylists = playlistData;
+      /**
+       * Refactored to handle the users songs being added first. 
+       */
+      this.spotifyPlaylists.href = playlistData.href;
+      this.spotifyPlaylists.total = playlistData.total + 1;
+
+      for (let playlist of playlistData.items) {
+        this.spotifyPlaylists.items.push(playlist);
+      }
+
       if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
     }, (error) => this.handleApiError(error), () => {});
   }
@@ -106,6 +126,31 @@ export class DashboardComponent {
       }
 
       if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
+    }, (error) => this.handleApiError(error), () => {})
+  }
+
+  getUserLibraryTracks() {
+    this.spotifyService.getUserLibrarySongs().subscribe((libraryTracks) => {
+      let tempLocalPlaylists: SpotifyPlaylist = new SpotifyPlaylist();
+      tempLocalPlaylists.name = "User Library Songs";
+      let index: number = 0;
+      // tempLocalPlaylists.tracks = libraryTracks;
+      tempLocalPlaylists.tracks_local = libraryTracks;
+      
+      // Cache local tracks
+      this.spotifyPlaylists.items[0] = tempLocalPlaylists;
+
+      if (libraryTracks.next) this.getUserLibraryTracksPaginate(index, libraryTracks.next);
+    }, (error) => this.handleApiError(error), () => {});
+  }
+
+  getUserLibraryTracksPaginate(index: number, paginateUrl: string) {
+    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((libraryTracks) => {
+      for (let libraryTrack of libraryTracks.items) {
+        this.spotifyPlaylists.items[index].tracks_local.items.push(libraryTrack);
+      }
+
+      if (libraryTracks.next) this.getUserLibraryTracksPaginate(index, libraryTracks.next);
     }, (error) => this.handleApiError(error), () => {})
   }
 
