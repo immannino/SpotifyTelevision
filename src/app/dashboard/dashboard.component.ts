@@ -53,10 +53,10 @@ export class DashboardComponent {
   }
 
   getUserProfileInformation() {
-    this.spotifyService.getSpotifyUserProfile().subscribe(x => x, (error) => this.handleApiError(error), (data) => {
-      this.userProfile = data;
+    this.spotifyService.getSpotifyUserProfile().subscribe((value) => {
+      this.userProfile = value;
       this.getUserPlaylists();
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   /**
@@ -66,7 +66,7 @@ export class DashboardComponent {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
       this.spotifyPlaylists = playlistData;
       if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   /**
@@ -82,7 +82,7 @@ export class DashboardComponent {
       }
 
       if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
-    })
+    }, (error) => this.handleApiError(error), () => {})
   }
 
   getSpotifyPlaylistTracks(index: number) {
@@ -95,18 +95,18 @@ export class DashboardComponent {
       this.currentSpotifyPlaylistSongs = playlistTracks;
 
       if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   getSpotifyPlaylistTracksPaginate(index: number, paginateUrl: string) {
-    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((error) => this.handleApiError(error), (playlistTracks) => {
+    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((playlistTracks) => {
       for (let playlistTrack of playlistTracks.items) {
         this.spotifyPlaylists.items[index].tracks_local.items.push(playlistTrack);
         this.currentSpotifyPlaylistSongs.items.push(playlistTrack);
       }
 
       if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
-    })
+    }, (error) => this.handleApiError(error), () => {})
   }
 
   expandPlaylist(index: number) {
@@ -160,7 +160,7 @@ export class DashboardComponent {
         this.id = videoId;
         this.displayYoutubePlayer = true;
       }
-    });
+    }, (error) => this.handleApiError(error), () => {});
   }
 
   /**
@@ -264,12 +264,14 @@ export class DashboardComponent {
   }
 
   handleApiError(error: any) {
-    switch (error.status) {
-      case 401:
-        this.router.navigate(['/login']);
-        break;
-      default:
-        //someting
+    if (error) {
+      switch (error.status) {
+        case 401:
+          this.router.navigate(['/login']);
+          break;
+        default:
+          //someting
+      }
     }
   }
   /** 
@@ -277,5 +279,6 @@ export class DashboardComponent {
    */
   ngOnDestroy() {
     localStorage.clear();
+    localStorage.setItem("auth_error", "true");
   }
 }

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppMaterialsModule } from '../app-materials.module';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
 import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
@@ -20,7 +20,6 @@ export class LoginComponent {
     constructor(private config: AppConfig, private spotifyService: SpotifyService, private router: Router, private sanitizer: DomSanitizer) {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
-                console.log("Navigation starting.");
             } else if (event instanceof NavigationEnd ) {
                 let data = event.urlAfterRedirects.split("#")[1];
 
@@ -31,16 +30,22 @@ export class LoginComponent {
                      */
                     this.userSpotifyLogin(responseItems);
                 } else {
-                    console.warn("Non-auth event for user.");
+                    let currentToken: string = localStorage.getItem('auth_error');
+
+                    if (currentToken && currentToken === "true") {
+                        this.errorMessagePrimaryText = "Spotify session token has expired."
+                        this.errorMessageSubText = "Please log back in.";
+                        this.hasErrorOccurred = true;
+                    }
                 }
             } else if (event instanceof NavigationError ) {
-                console.error("Error in Navigation");
             } else if (event instanceof NavigationCancel ) {
-                console.log("Navigation Cancelled");
             }
           });
     }
-
+    errorMessagePrimaryText: string = "";
+    errorMessageSubText: string = "";
+    hasErrorOccurred: boolean = false;
     hrefUrl: SafeResourceUrl = "";
     client_id: string = this.config.getConfig('spotify').clientid;
 
@@ -60,14 +65,16 @@ export class LoginComponent {
         localStorage.setItem("token_timeout", String(Date.now() + tempUserData.refreshTokenTimeout));
         localStorage.setItem("token_type", tempUserData.token_type);
         localStorage.setItem("state", tempUserData.state);
+        
+        if (this.hasErrorOccurred) this.hasErrorOccurred = false;
 
         this.navigateToDashboard();
     }
 
     generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
-        let appRedirectUrl: string = "http://localhost:4200/login";
-        // let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
+        // let appRedirectUrl: string = "http://localhost:4200/login";
+        let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
         
         /**
          * Update scopes to appropriate values for what information I'm requesting from the user.
