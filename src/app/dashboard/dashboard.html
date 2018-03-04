@@ -8,7 +8,7 @@
         </div>
     </div>
     <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
-        <div class="playlist-container" *ngIf="spotifyPlaylists">
+        <div class="playlist-container" *ngIf="spotifyPlaylists.items.length">
             <mat-expansion-panel class="playlist-panel-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
                 <mat-expansion-panel-header (click)="expandPlaylist(i);">
                     <mat-panel-title matLine>{{playlist.name}}</mat-panel-title>

@@ -62,7 +62,7 @@ export class DashboardComponent {
       this.spotifyPlaylists.items = new Array<SpotifyPlaylist>();
 
       // Get the users songs and make it the first 'playlist' in the list.
-      this.getUserLibraryTracks();
+      // this.getUserLibraryTracks();
 
       // Get the users playlists.
       this.getUserPlaylists();
@@ -74,16 +74,16 @@ export class DashboardComponent {
    */
   getUserPlaylists() {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
-      // this.spotifyPlaylists = playlistData;
+      this.spotifyPlaylists = playlistData;
       /**
        * Refactored to handle the users songs being added first. 
        */
-      this.spotifyPlaylists.href = playlistData.href;
-      this.spotifyPlaylists.total = playlistData.total + 1;
+      // this.spotifyPlaylists.href = playlistData.href;
+      // this.spotifyPlaylists.total = playlistData.total + 1;
 
-      for (let playlist of playlistData.items) {
-        this.spotifyPlaylists.items.push(playlist);
-      }
+      // for (let playlist of playlistData.items) {
+      //   this.spotifyPlaylists.items.push(playlist);
+      // }
 
       if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
     }, (error) => this.handleApiError(error), () => {});
@@ -121,8 +121,14 @@ export class DashboardComponent {
   getSpotifyPlaylistTracksPaginate(index: number, paginateUrl: string) {
     this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((playlistTracks) => {
       for (let playlistTrack of playlistTracks.items) {
+
+        /**asdasd
+         * Try and remember the logic for caching
+         * 
+         * Need to spend more time on this, but this has seemed to fix the doubling up of list paginated items. /shrug.
+         */
         this.spotifyPlaylists.items[index].tracks_local.items.push(playlistTrack);
-        this.currentSpotifyPlaylistSongs.items.push(playlistTrack);
+        // this.currentSpotifyPlaylistSongs.items.push(playlistTrack);
       }
 
       if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
@@ -136,7 +142,7 @@ export class DashboardComponent {
       let index: number = 0;
       // tempLocalPlaylists.tracks = libraryTracks;
       tempLocalPlaylists.tracks_local = libraryTracks;
-      
+
       // Cache local tracks
       this.spotifyPlaylists.items[0] = tempLocalPlaylists;
 
@@ -191,11 +197,6 @@ export class DashboardComponent {
       let videoId = response.items[0].id.videoId;
       let youtubeUrl = this.getSingleSongYoutubeVideoUrl(videoId);
 
-      //I dont think I need this check. Commenting out until shit breaks or something.
-      // if (!this.spotifyPlaylists.items[this.selectedIndex].tracks_local) {
-      //   this.spotifyPlaylists.items[this.selectedIndex].tracks_local = new SpotifyPlaylistTracks();
-      // }
-
       this.spotifyPlaylists.items[this.selectedPlaylistIndex].tracks_local.items[index].youtubeVideoId = videoId;
       this.setCurrentVideoPlayer(index);
 
@@ -245,8 +246,12 @@ export class DashboardComponent {
    * @param changeValue 1 or -1
    */
   changeCurrentSong(changeValue: number) {
-    if ((this.selectedTrackIndex + changeValue) >= 0 && this.selectedTrackIndex < this.currentSpotifyPlaylistSongs.items.length - 1) {
-      this.playCurrentSong(this.selectedTrackIndex + changeValue);
+    if ((this.selectedTrackIndex + changeValue) >= 0 && this.selectedTrackIndex <= this.currentSpotifyPlaylistSongs.items.length - 1) {
+      // if last song in playlist, make sure that it can't try and exceed playlist length.
+      if ((this.selectedTrackIndex === this.currentSpotifyPlaylistSongs.items.length - 1) && changeValue == 1) {}
+      else {
+        this.playCurrentSong(this.selectedTrackIndex + changeValue);
+      }
     }
   }
 
@@ -262,7 +267,8 @@ export class DashboardComponent {
   }
 
   /** 
-   * Strictly used for testing. Will delete at some point. 
+   * Strictly used for testing. Will delete at some point.
+   * Takes in some json test data.
   */
   getTestData(): Array<SpotifySong> {
     let testData: Array<SpotifySong> = new Array<SpotifySong>();
@@ -279,7 +285,7 @@ export class DashboardComponent {
   }
 
   /**
-   * Handles setting the Youtube Player as a callback from the Factory.
+   * Handles setting the Youtube Player as a callback from the lib factory.
    * 
    * @param player The YoutubePlayer singleton. 
    */
