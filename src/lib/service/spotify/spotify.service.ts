@@ -71,7 +71,7 @@ export class SpotifyService {
 
   getUserLibrarySongs(): Observable<SpotifyPlaylistTracks> {
     let options = this.generateRequestOptions();
-    return this.http.get(this.spotifyApiUrl + '/me/tracks', options)
+    return this.http.get(this.spotifyApiUrl + '/me/tracks?limit=50', options)
                     .pipe(catchError(this.handleError))
                     .map(response => response.json());
   }

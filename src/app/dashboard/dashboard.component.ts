@@ -85,7 +85,7 @@ export class DashboardComponent {
       //   this.spotifyPlaylists.items.push(playlist);
       // }
 
-      if (this.spotifyPlaylists.next) this.userPlaylistPaginate(this.spotifyPlaylists.next);
+      if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
     }, (error) => this.handleApiError(error), () => {});
   }
 
@@ -100,7 +100,6 @@ export class DashboardComponent {
       for (let playlist of playlistData.items) {
         this.spotifyPlaylists.items.push(playlist);
       }
-
       if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
     }, (error) => this.handleApiError(error), () => {})
   }
@@ -140,7 +139,7 @@ export class DashboardComponent {
       let tempLocalPlaylists: SpotifyPlaylist = new SpotifyPlaylist();
       tempLocalPlaylists.name = "User Library Songs";
       let index: number = 0;
-      // tempLocalPlaylists.tracks = libraryTracks;
+      // tempLocalPlaylists.tracks = libraryTracks; 
       tempLocalPlaylists.tracks_local = libraryTracks;
 
       // Cache local tracks
@@ -151,7 +150,7 @@ export class DashboardComponent {
   }
 
   getUserLibraryTracksPaginate(index: number, paginateUrl: string) {
-    this.spotifyService.getUserPlaylistTracksPaginate(paginateUrl).subscribe((libraryTracks) => {
+    this.spotifyService.getUserLibrarySongsPaginate(paginateUrl).subscribe((libraryTracks) => {
       for (let libraryTrack of libraryTracks.items) {
         this.spotifyPlaylists.items[index].tracks_local.items.push(libraryTrack);
       }
