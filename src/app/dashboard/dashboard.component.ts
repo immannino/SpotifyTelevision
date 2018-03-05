@@ -61,11 +61,12 @@ export class DashboardComponent {
       this.spotifyPlaylists = new UserSpotifyPlaylists();
       this.spotifyPlaylists.items = new Array<SpotifyPlaylist>();
 
-      // Get the users songs and make it the first 'playlist' in the list.
-      // this.getUserLibraryTracks();
-
       // Get the users playlists.
       this.getUserPlaylists();
+
+      // Get the users songs and make it the first 'playlist' in the list.
+      this.getUserLibraryTracks();
+
     }, (error) => this.handleApiError(error), () => {});
   }
 
@@ -75,15 +76,6 @@ export class DashboardComponent {
   getUserPlaylists() {
     this.spotifyService.getUserPlaylists(this.userProfile.id).subscribe((playlistData) => {
       this.spotifyPlaylists = playlistData;
-      /**
-       * Refactored to handle the users songs being added first. 
-       */
-      // this.spotifyPlaylists.href = playlistData.href;
-      // this.spotifyPlaylists.total = playlistData.total + 1;
-
-      // for (let playlist of playlistData.items) {
-      //   this.spotifyPlaylists.items.push(playlist);
-      // }
 
       if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
     }, (error) => this.handleApiError(error), () => {});
@@ -142,8 +134,8 @@ export class DashboardComponent {
       // tempLocalPlaylists.tracks = libraryTracks; 
       tempLocalPlaylists.tracks_local = libraryTracks;
 
-      // Cache local tracks
-      this.spotifyPlaylists.items[0] = tempLocalPlaylists;
+      // Cache local tracks && Make user lib songs first element.
+      this.spotifyPlaylists.items.unshift(tempLocalPlaylists);
 
       if (libraryTracks.next) this.getUserLibraryTracksPaginate(index, libraryTracks.next);
     }, (error) => this.handleApiError(error), () => {});
