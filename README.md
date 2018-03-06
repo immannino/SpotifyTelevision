@@ -4,6 +4,8 @@
 
 Web application to view Spotify playlists as Youtube playlists in one UI. 
 
+### Articles
+[Hypebot SpotifyTelevision](http://www.hypebot.com/hypebot/2018/03/spotify-television-turns-playlists-into-youtube-stream.html)
 
 ### Dev Dependencies for future reference: 
 [ngx-youtube-player](https://github.com/orizens/ngx-youtube-player)
