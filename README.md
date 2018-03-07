@@ -2,6 +2,8 @@
 
 # Spotify Television
 
+[![Join the chat at https://gitter.im/SpotifyTelevision/Lobby](https://badges.gitter.im/SpotifyTelevision/Lobby.svg)](https://gitter.im/SpotifyTelevision/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Web application to view Spotify playlists as Youtube playlists in one UI. 
 
 ### Articles
