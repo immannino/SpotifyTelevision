@@ -10,6 +10,10 @@ Web application to view Spotify playlists as Youtube playlists in one UI.
 ### Dev Dependencies for future reference: 
 [ngx-youtube-player](https://github.com/orizens/ngx-youtube-player)
 
+### Join the discussion!
+If you have any suggestions or want to reach out, check out the [gitter](https://gitter.im/SpotifyTelevision) for this page!
+I'll try my best to respond, but always open to more suggestions. 
+
 ## Angular CLI Mumbo Jumbo
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
 
