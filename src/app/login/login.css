@@ -30,9 +30,9 @@ mat-card {
     background-color: white;
 }
 
-.disabled {
-  background-color: #dddddd !important;
-  /* pointer-events: none; */
+#continue:hover {
+    color: white;
+    background-color: #1ed760;
 }
 
 .disabled:hover {

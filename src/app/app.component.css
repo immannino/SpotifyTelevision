@@ -8,3 +8,7 @@ h1 {
     text-align: center;
     height: 100%;
 }
+
+.container:hover {
+    cursor: pointer;
+}
