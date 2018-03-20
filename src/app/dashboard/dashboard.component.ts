@@ -45,6 +45,10 @@ export class DashboardComponent {
   player: YT.Player;
   private id: string = 'qDuKsiwS5xw';
   displayYoutubePlayer: boolean = false;
+  isRandom: boolean = false;
+  isRepeat: boolean = false;
+  shuffleImgSrc: string = "./assets/shuffle.svg";
+  repeatImgSrc: string = "./assets/repeat.svg";
 
   ngOnInit() {
     if (!localStorage.getItem('userAccessToken')) {
@@ -237,11 +241,22 @@ export class DashboardComponent {
    * @param changeValue 1 or -1
    */
   changeCurrentSong(changeValue: number) {
-    if ((this.selectedTrackIndex + changeValue) >= 0 && this.selectedTrackIndex <= this.currentSpotifyPlaylistSongs.items.length - 1) {
+    if ((this.selectedTrackIndex + changeValue) >= 0 && (this.selectedTrackIndex <= this.currentSpotifyPlaylistSongs.items.length - 1)) {
       // if last song in playlist, make sure that it can't try and exceed playlist length.
-      if ((this.selectedTrackIndex === this.currentSpotifyPlaylistSongs.items.length - 1) && changeValue == 1) {}
-      else {
-        this.playCurrentSong(this.selectedTrackIndex + changeValue);
+      if (((this.selectedTrackIndex === this.currentSpotifyPlaylistSongs.items.length - 1) && changeValue == 1 && (this.isRepeat))) {
+        this.playCurrentSong(0);
+      } else {
+        if (this.isRandom) {
+          changeValue = Math.round(Math.random() * (this.currentSpotifyPlaylistSongs.items.length - 1));
+        } else {
+          changeValue = this.selectedTrackIndex + changeValue;
+        }
+
+        this.playCurrentSong(changeValue);
+      }
+    } else {
+      if (this.isRepeat && this.selectedTrackIndex == 0) {
+        this.playCurrentSong(this.currentSpotifyPlaylistSongs.items.length - 1);
       }
     }
   }
@@ -315,6 +330,26 @@ export class DashboardComponent {
           //someting
       }
     }
+  }
+
+  setShuffleFlag() {
+    if (this.isRandom) {
+      this.shuffleImgSrc = "./assets/shuffle.svg";
+    } else {
+      this.shuffleImgSrc = "./assets/shuffle-green.svg"
+    }
+
+    this.isRandom = !this.isRandom;
+  }
+
+  setRepeatFlag() {
+    if (this.isRepeat) {
+      this.repeatImgSrc = "./assets/repeat.svg";
+    } else {
+      this.repeatImgSrc = "./assets/repeat-green.svg"
+    }
+
+    this.isRepeat = !this.isRepeat;
   }
   /** 
    * Cleans up user app cache.

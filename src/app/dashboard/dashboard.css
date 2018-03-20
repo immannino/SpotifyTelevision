@@ -150,10 +150,11 @@ Css in this section is regarding the previous and next buttons for songs.
     height: 25px;
     grid-gap: 5px;
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     text-align: center;
     padding-top: 5px;
 }
+
 img {
     height: 32px;
     width: 32px;
@@ -161,9 +162,22 @@ img {
 
 .icon-container {
     width: 100%;
+    display:block;
+    margin:auto;
+
 }
 
 .icon-container:hover {
     background-color: #e0e0e0;
     cursor: pointer;
+}
+
+.shuffle-icon {
+    height: 15px;
+    width: 15px;
+}
+
+.repeat-icon {
+    height: 15px;
+    width: 15px;
 }

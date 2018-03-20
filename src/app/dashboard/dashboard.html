@@ -27,11 +27,17 @@
             <div matLine class="track-name" *ngIf="currentPlayingSpotifySong">{{currentPlayingSpotifySong.name}}</div>
             <div matLine class="artist-name" *ngIf="currentPlayingSpotifySong">{{currentPlayingSpotifySong.artists[0].name}}</div>
             <div class="track-buttons">
+                <div class="icon-container" (click)="setShuffleFlag()">
+                    <img [src]="shuffleImgSrc" alt="shuffle" class="shuffle-icon">
+                </div>
                 <div class="icon-container" (click)="changeCurrentSong(-1)">
                     <img src="./assets/rewind-96.png" alt="previous" class="previous-icon">
                 </div>
                 <div class="icon-container" (click)="changeCurrentSong(1)">
                     <img src="./assets/forward-96.png" alt="forward" class="next-icon">
+                </div>
+                <div class="icon-container" (click)="setRepeatFlag()">
+                    <img [src]="repeatImgSrc" alt="repeat" class="repeat-icon">
                 </div>
             </div>
         </mat-card>
