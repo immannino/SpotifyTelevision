@@ -1,0 +1,1667 @@
+{
+  "href" : "https://api.spotify.com/v1/users/1258188545/playlists?offset=0&limit=50",
+  "items" : [ {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/7aDgzb1RdC0KgutVjYt9F0"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7aDgzb1RdC0KgutVjYt9F0",
+    "id" : "7aDgzb1RdC0KgutVjYt9F0",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/0421a9ed621fa28114237004030c410d74f0cc2e",
+      "width" : 640
+    } ],
+    "name" : "Seu Jorge – Life Aquatic Studio Sessions",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "TZRsxzkdPE0TjvYXxxCq0sJxZ1TFKmWKGweCXIg9OvakKjGBNUR+H/368wsw1+2H",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7aDgzb1RdC0KgutVjYt9F0/tracks",
+      "total" : 14
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:7aDgzb1RdC0KgutVjYt9F0"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/614scqIs0RW0wlEtJrQbm0"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/614scqIs0RW0wlEtJrQbm0",
+    "id" : "614scqIs0RW0wlEtJrQbm0",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/ca1834e3baeb078d98ba2f35931b26d54b013b76",
+      "width" : 640
+    } ],
+    "name" : "Kero One – Kero & Azure",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "HdJ/kY1YatN2D2YLS1901kB9Yyip4hgbxd3Z+2l4pN1m7j9BeHzn8gl0ETUaKtuh",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/614scqIs0RW0wlEtJrQbm0/tracks",
+      "total" : 8
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:614scqIs0RW0wlEtJrQbm0"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1E9UfCwaYi5uBa"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1E9UfCwaYi5uBa",
+    "id" : "37i9dQZF1E9UfCwaYi5uBa",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://lineup-images.scdn.co/your-top-songs-2017_DEFAULT-en.jpg",
+      "width" : null
+    } ],
+    "name" : "Your Top Songs 2017",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : false,
+    "snapshot_id" : "tXefJo2siXbiN6WXWsV2+Q0+d8GAZTsfP+vfwkfQedCMbmX87XNPq95vdcg5oqUoFa2j2GKvxUk=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1E9UfCwaYi5uBa/tracks",
+      "total" : 100
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1E9UfCwaYi5uBa"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1EajHx1zw3SLs1"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1EajHx1zw3SLs1",
+    "id" : "37i9dQZF1EajHx1zw3SLs1",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://lineup-images.scdn.co/the-ones-that-got-away_DEFAULT-en.jpg",
+      "width" : null
+    } ],
+    "name" : "The Ones That Got Away",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : false,
+    "snapshot_id" : "tXefJo2siXbiN6WXWsV2+ajLRWa600LQIwQH/ivLmWhTmviV3Zg74j/6uzGSfZhWiSzNDkB8AeY=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1EajHx1zw3SLs1/tracks",
+      "total" : 30
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1EajHx1zw3SLs1"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/3eGUnTjpP9cduo5PDqeCuG"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/3eGUnTjpP9cduo5PDqeCuG",
+    "id" : "3eGUnTjpP9cduo5PDqeCuG",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/50793e89dce594d09a34ebe3dccb18f8450d3708",
+      "width" : 640
+    } ],
+    "name" : "Salvia Plath – The Bardo Story",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "JnScriLS5EXUgCM20TBVoli0nQGCZPRC/EaNasmCeXDuCC6x9sSBkvGVpEqLvI9L",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/3eGUnTjpP9cduo5PDqeCuG/tracks",
+      "total" : 13
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:3eGUnTjpP9cduo5PDqeCuG"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1CmC7Ml4jejrIufPNVDnYU"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1CmC7Ml4jejrIufPNVDnYU",
+    "id" : "1CmC7Ml4jejrIufPNVDnYU",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/7bd293881d63b35cf1575050db7f1f4ae2df618f9650f5923c7346c2bb3031898dd32007f94a2d6c6a6df788dc40679a7cbbd60696b89ea32572101b4b097f033cc20d982b91aac70090d769c924e4ab",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/7bd293881d63b35cf1575050db7f1f4ae2df618f9650f5923c7346c2bb3031898dd32007f94a2d6c6a6df788dc40679a7cbbd60696b89ea32572101b4b097f033cc20d982b91aac70090d769c924e4ab",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/7bd293881d63b35cf1575050db7f1f4ae2df618f9650f5923c7346c2bb3031898dd32007f94a2d6c6a6df788dc40679a7cbbd60696b89ea32572101b4b097f033cc20d982b91aac70090d769c924e4ab",
+      "width" : 60
+    } ],
+    "name" : "Saggy Soiree",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "UlUY3Ws3wC49UMdXJu9hu9zDQi5JxO840ttDDHpSfplEfbPU1o90YfvzaQygmsAh",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1CmC7Ml4jejrIufPNVDnYU/tracks",
+      "total" : 24
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1CmC7Ml4jejrIufPNVDnYU"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWVzZlRWgqAGH"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DWVzZlRWgqAGH",
+    "id" : "37i9dQZF1DWVzZlRWgqAGH",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/9003191b593f31a880e2cc7a86794cf36e3a675a",
+      "width" : 300
+    } ],
+    "name" : "Butter",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : false,
+    "snapshot_id" : "gPO8AI9Lp1WXYFUWvU5WKuoTioPeJOH0QGjUFaUamhslAxyAyjBsekmtO7ZYn9lBmliM/kPCLSw=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DWVzZlRWgqAGH/tracks",
+      "total" : 50
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1DWVzZlRWgqAGH"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/mattytys/playlist/49Fjp5snImHuVC1Nyvywat"
+    },
+    "href" : "https://api.spotify.com/v1/users/mattytys/playlists/49Fjp5snImHuVC1Nyvywat",
+    "id" : "49Fjp5snImHuVC1Nyvywat",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/9aed57996609270daded066ff160cdc55726db445c6f3ddf693cb774e9b6434e82728899b88ed59b901ba00d8aa95df110217d0d8b90c0a4ea03906a6f914b6c3dcedc3d9734d7f41cfc480efeec5177",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/9aed57996609270daded066ff160cdc55726db445c6f3ddf693cb774e9b6434e82728899b88ed59b901ba00d8aa95df110217d0d8b90c0a4ea03906a6f914b6c3dcedc3d9734d7f41cfc480efeec5177",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/9aed57996609270daded066ff160cdc55726db445c6f3ddf693cb774e9b6434e82728899b88ed59b901ba00d8aa95df110217d0d8b90c0a4ea03906a6f914b6c3dcedc3d9734d7f41cfc480efeec5177",
+      "width" : 60
+    } ],
+    "name" : "groggy saturdays",
+    "owner" : {
+      "display_name" : "Matt Tyson",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/mattytys"
+      },
+      "href" : "https://api.spotify.com/v1/users/mattytys",
+      "id" : "mattytys",
+      "type" : "user",
+      "uri" : "spotify:user:mattytys"
+    },
+    "public" : false,
+    "snapshot_id" : "eAm04xUQTcPbWKOpmWzWLFyO7E+4Iy3RjZ9I8APq3hpPnWHgblPE45Slgezo1c/G",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/mattytys/playlists/49Fjp5snImHuVC1Nyvywat/tracks",
+      "total" : 19
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:mattytys:playlist:49Fjp5snImHuVC1Nyvywat"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/thesoundsofspotify/playlist/49vErWAk7BLsLccmRxngH3"
+    },
+    "href" : "https://api.spotify.com/v1/users/thesoundsofspotify/playlists/49vErWAk7BLsLccmRxngH3",
+    "id" : "49vErWAk7BLsLccmRxngH3",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/865ea79dd723706ccf8fd341f33f5048134693ad",
+      "width" : null
+    } ],
+    "name" : "The Sound of Mellow Gold",
+    "owner" : {
+      "display_name" : "The Sounds of Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/thesoundsofspotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/thesoundsofspotify",
+      "id" : "thesoundsofspotify",
+      "type" : "user",
+      "uri" : "spotify:user:thesoundsofspotify"
+    },
+    "public" : false,
+    "snapshot_id" : "l705RWt/SsQav15t65CbI+3KpkHSp6bK0H4hR8ZuaJiK/+3kB8HDxaza2CeN/Nl7",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/thesoundsofspotify/playlists/49vErWAk7BLsLccmRxngH3/tracks",
+      "total" : 482
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:thesoundsofspotify:playlist:49vErWAk7BLsLccmRxngH3"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1cBQnFF44YaOidCK2csFQw"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1cBQnFF44YaOidCK2csFQw",
+    "id" : "1cBQnFF44YaOidCK2csFQw",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/5afc49edb6c6df13a419b2c090191b6fdd464d02",
+      "width" : 300
+    } ],
+    "name" : "Sriratchet",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "3kZH4bMsDYzoMowTZHvjEGjm/pfvx7Kaz1ZQmGUJ8vsoYXux1cTq0oklGgQTfSGo",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1cBQnFF44YaOidCK2csFQw/tracks",
+      "total" : 1
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1cBQnFF44YaOidCK2csFQw"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1E4S7t1b0k7snc"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1E4S7t1b0k7snc",
+    "id" : "37i9dQZF1E4S7t1b0k7snc",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/2ca79f7f364b2c241f132cd4825e3080a85781a3",
+      "width" : 300
+    } ],
+    "name" : "Your Time Capsule",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : false,
+    "snapshot_id" : "tXefJo2siXbiN6WXWsV2+ZwAGiByobhAoXSJhYPrAwKAKDktzQQLi6WDakFzOCLVPLNUH0nSv2g=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1E4S7t1b0k7snc/tracks",
+      "total" : 55
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1E4S7t1b0k7snc"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/18zfUkzLDykC3nkj1SsiKg"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/18zfUkzLDykC3nkj1SsiKg",
+    "id" : "18zfUkzLDykC3nkj1SsiKg",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/888431c36194c047cc43b82e562e7f82e7542326",
+      "width" : 300
+    } ],
+    "name" : "beach @boy",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "4rox78lsNkghBtvIpAojr1j4G2DnCuSfqkPbHY8Ml8ZaFnWcOzUxJXgDlmPEo0Vp",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/18zfUkzLDykC3nkj1SsiKg/tracks",
+      "total" : 9
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:18zfUkzLDykC3nkj1SsiKg"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1lwtqjedOexsuZoAwCkDpd"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1lwtqjedOexsuZoAwCkDpd",
+    "id" : "1lwtqjedOexsuZoAwCkDpd",
+    "images" : [ ],
+    "name" : "Alex Calder – Mold Boy",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "ZYafmGnW1Rodp4BWIuaL6So/C1TlO6vCjtJuSuTvERMz5XaDATbUYg4Er25nzxMl",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1lwtqjedOexsuZoAwCkDpd/tracks",
+      "total" : 14
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1lwtqjedOexsuZoAwCkDpd"
+  }, {
+    "collaborative" : true,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/5P9RSvIwOkfg8beGQUzM5T"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/5P9RSvIwOkfg8beGQUzM5T",
+    "id" : "5P9RSvIwOkfg8beGQUzM5T",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/45a1836a7dfc5380defebe9fc27a8f886079e4f489eb46ea38bb651983386698c2371907aca5d59aa56a7f39766b4a304e519d012af37076bc0d9147d5639bccc71bd3b0ab3ee357d23204bf8640cbdf",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/45a1836a7dfc5380defebe9fc27a8f886079e4f489eb46ea38bb651983386698c2371907aca5d59aa56a7f39766b4a304e519d012af37076bc0d9147d5639bccc71bd3b0ab3ee357d23204bf8640cbdf",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/45a1836a7dfc5380defebe9fc27a8f886079e4f489eb46ea38bb651983386698c2371907aca5d59aa56a7f39766b4a304e519d012af37076bc0d9147d5639bccc71bd3b0ab3ee357d23204bf8640cbdf",
+      "width" : 60
+    } ],
+    "name" : "Joof Baezos",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : false,
+    "snapshot_id" : "YKffuPiifh+IpA8NLVTPHU1AT0vG2oEMn0BDMVLl0oSiby3kF5exjnirilv7Q7Lk",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/5P9RSvIwOkfg8beGQUzM5T/tracks",
+      "total" : 7
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:5P9RSvIwOkfg8beGQUzM5T"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/thesoundsofspotify/playlist/0yqVOsxA2U4P260ad60QuU"
+    },
+    "href" : "https://api.spotify.com/v1/users/thesoundsofspotify/playlists/0yqVOsxA2U4P260ad60QuU",
+    "id" : "0yqVOsxA2U4P260ad60QuU",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/895863e9e0a669aa5df4ce6b71248deaa48bc65d",
+      "width" : null
+    } ],
+    "name" : "The Sound of Indietronica",
+    "owner" : {
+      "display_name" : "The Sounds of Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/thesoundsofspotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/thesoundsofspotify",
+      "id" : "thesoundsofspotify",
+      "type" : "user",
+      "uri" : "spotify:user:thesoundsofspotify"
+    },
+    "public" : false,
+    "snapshot_id" : "2XSfsMCsf/ef/RJOdrFcXBocgz417Zo/edHMYI0LpmBhre0VAVWJpk8QOzsBR7mz",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/thesoundsofspotify/playlists/0yqVOsxA2U4P260ad60QuU/tracks",
+      "total" : 533
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:thesoundsofspotify:playlist:0yqVOsxA2U4P260ad60QuU"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/napiernation13/playlist/1go6pPqfX0XSmorLBlzIw5"
+    },
+    "href" : "https://api.spotify.com/v1/users/napiernation13/playlists/1go6pPqfX0XSmorLBlzIw5",
+    "id" : "1go6pPqfX0XSmorLBlzIw5",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/92825f0db4c31bef8edc64bb82dba5a3939aa09c501efdae81dd3320c3c5dbba3fb0486b6dc616265adeab4457fdae83abfc52aa4f076cab8fa564ec783acaac542570fc40a4584d636d1ee2f968cee7",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/92825f0db4c31bef8edc64bb82dba5a3939aa09c501efdae81dd3320c3c5dbba3fb0486b6dc616265adeab4457fdae83abfc52aa4f076cab8fa564ec783acaac542570fc40a4584d636d1ee2f968cee7",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/92825f0db4c31bef8edc64bb82dba5a3939aa09c501efdae81dd3320c3c5dbba3fb0486b6dc616265adeab4457fdae83abfc52aa4f076cab8fa564ec783acaac542570fc40a4584d636d1ee2f968cee7",
+      "width" : 60
+    } ],
+    "name" : "Cowboys Red River",
+    "owner" : {
+      "display_name" : null,
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/napiernation13"
+      },
+      "href" : "https://api.spotify.com/v1/users/napiernation13",
+      "id" : "napiernation13",
+      "type" : "user",
+      "uri" : "spotify:user:napiernation13"
+    },
+    "public" : false,
+    "snapshot_id" : "TX3pdZ4kyuuniLusOKXPEvkAGtasR0u1Qi+tJ47qmZQ/xizmZ3Vi7gJw/8k3wVSk",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/napiernation13/playlists/1go6pPqfX0XSmorLBlzIw5/tracks",
+      "total" : 92
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:napiernation13:playlist:1go6pPqfX0XSmorLBlzIw5"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1YJvvdoJcVTAjC07Vdj4gg"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1YJvvdoJcVTAjC07Vdj4gg",
+    "id" : "1YJvvdoJcVTAjC07Vdj4gg",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/34f74fb5d5031ca01a0dd845bbdbfdc72ef9ab6c",
+      "width" : 300
+    } ],
+    "name" : "I mean yeah okay, but what?!",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "9UtOnHtXxkoD36xjzHOwKfLDb+sQVxMYe8L+vzLJdKJgxszFgcEGMk7P56FOhOA1",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1YJvvdoJcVTAjC07Vdj4gg/tracks",
+      "total" : 68
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1YJvvdoJcVTAjC07Vdj4gg"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZEVXcBO0zP4aYSFU"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZEVXcBO0zP4aYSFU",
+    "id" : "37i9dQZEVXcBO0zP4aYSFU",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/11258b6c69204820d79575e0587f415735db2350",
+      "width" : 300
+    } ],
+    "name" : "Discover Weekly",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : false,
+    "snapshot_id" : "1RnrvFNGFwHiN6WXWsV2+Q31IeUYt7enJ69zGjS1KXYFpzCyg/SHFxgiw6nrTpNLNDBFRuc552g=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZEVXcBO0zP4aYSFU/tracks",
+      "total" : 30
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZEVXcBO0zP4aYSFU"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/6N3M1mnb9YsHVQHXXLs3gA"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/6N3M1mnb9YsHVQHXXLs3gA",
+    "id" : "6N3M1mnb9YsHVQHXXLs3gA",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/151c9baf6da829cf71b4f24c498e5361bb640bcb",
+      "width" : 640
+    } ],
+    "name" : "lewis Del Mar",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "Q2+9Yl1UYOO4CbKfFIUAD9fHu3dV+41LsvCHZEDBT5ug7Gu/HQ9kK0a+ZI/U1yF+",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/6N3M1mnb9YsHVQHXXLs3gA/tracks",
+      "total" : 10
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:6N3M1mnb9YsHVQHXXLs3gA"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/0xwHNfyT9fPAn8MTulRZOk"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/0xwHNfyT9fPAn8MTulRZOk",
+    "id" : "0xwHNfyT9fPAn8MTulRZOk",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/5026fddc6c0b69e931ae99130f15d4214f1e7d41",
+      "width" : 640
+    } ],
+    "name" : "Khalid – American Teen",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "PxqjYVKTLN1W5TP4G0ikf1XMR5utFQYBm9T7+0KSEcrPkEp8KWoUXk7P56FOhOA1",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/0xwHNfyT9fPAn8MTulRZOk/tracks",
+      "total" : 15
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:0xwHNfyT9fPAn8MTulRZOk"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/7BHQ7LXyQrh3mv0a21TKzn"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7BHQ7LXyQrh3mv0a21TKzn",
+    "id" : "7BHQ7LXyQrh3mv0a21TKzn",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/a98be176e3eb7c720e55d7c08d9519a33460b6b6",
+      "width" : 640
+    } ],
+    "name" : "Milky Chance – Blossom (Deluxe)",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "Moy86dj4f6jkHSATkZivXcDXgmVQpQfYoN5rchFXhCk4neAVxw/Ye7MTR8d0OCP2",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7BHQ7LXyQrh3mv0a21TKzn/tracks",
+      "total" : 20
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:7BHQ7LXyQrh3mv0a21TKzn"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/mattytys/playlist/4c6XwKzxESUiRxYD7aOMFu"
+    },
+    "href" : "https://api.spotify.com/v1/users/mattytys/playlists/4c6XwKzxESUiRxYD7aOMFu",
+    "id" : "4c6XwKzxESUiRxYD7aOMFu",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/a14886b075df17dd30a3f21a1b6b052d610e129fd31d14ca494b4faabcec75738301a95b264573508fb1688fa8519794d7c46dcfe47330790a9df3c3ef33e22371c08397f4cb74870771e9d841302356",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/a14886b075df17dd30a3f21a1b6b052d610e129fd31d14ca494b4faabcec75738301a95b264573508fb1688fa8519794d7c46dcfe47330790a9df3c3ef33e22371c08397f4cb74870771e9d841302356",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/a14886b075df17dd30a3f21a1b6b052d610e129fd31d14ca494b4faabcec75738301a95b264573508fb1688fa8519794d7c46dcfe47330790a9df3c3ef33e22371c08397f4cb74870771e9d841302356",
+      "width" : 60
+    } ],
+    "name" : "So Clotchhh",
+    "owner" : {
+      "display_name" : "Matt Tyson",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/mattytys"
+      },
+      "href" : "https://api.spotify.com/v1/users/mattytys",
+      "id" : "mattytys",
+      "type" : "user",
+      "uri" : "spotify:user:mattytys"
+    },
+    "public" : true,
+    "snapshot_id" : "SsfxNBnaXZ6kCneTK7veMc5tUIhxH111EKSv8/w24Pza1hHz1+yFNIBBSHlbI6PW",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/mattytys/playlists/4c6XwKzxESUiRxYD7aOMFu/tracks",
+      "total" : 254
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:mattytys:playlist:4c6XwKzxESUiRxYD7aOMFu"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX82GYcclJ3Ug"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX82GYcclJ3Ug",
+    "id" : "37i9dQZF1DX82GYcclJ3Ug",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/f5a6c60a1546084d889139768f0d13cca991c321",
+      "width" : 300
+    } ],
+    "name" : "Digging Now",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : true,
+    "snapshot_id" : "cP9iIF467p2oPN+8/MHVPDRD4Qvjf51qpFn0YKfZSrVSdi8bDX9o/ayukWQliX+lby4HFLg1i2E=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX82GYcclJ3Ug/tracks",
+      "total" : 86
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1DX82GYcclJ3Ug"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/6REr1AfVezLHMirjMWIlbi"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/6REr1AfVezLHMirjMWIlbi",
+    "id" : "6REr1AfVezLHMirjMWIlbi",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/d4e1e36b7115e645dc6fd432cdd3ea7c0c4d939a",
+      "width" : 640
+    } ],
+    "name" : "Harry Styles – Harry Styles",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "Sunvwt06oclG3qJAd2l7U0mnwp2btxO/WWZT0SEqU/SWVBKaA+q9UOdIsdUmXk1z",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/6REr1AfVezLHMirjMWIlbi/tracks",
+      "total" : 10
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:6REr1AfVezLHMirjMWIlbi"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/allchillnations/playlist/66m2EyRwKT3ZI82cBx8Qjl"
+    },
+    "href" : "https://api.spotify.com/v1/users/allchillnations/playlists/66m2EyRwKT3ZI82cBx8Qjl",
+    "id" : "66m2EyRwKT3ZI82cBx8Qjl",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/3a9ff1467e0e777f2a771bd68b08008c8b418668",
+      "width" : null
+    } ],
+    "name" : "Sun Kissed",
+    "owner" : {
+      "display_name" : "Chill Nation",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/allchillnations"
+      },
+      "href" : "https://api.spotify.com/v1/users/allchillnations",
+      "id" : "allchillnations",
+      "type" : "user",
+      "uri" : "spotify:user:allchillnations"
+    },
+    "public" : true,
+    "snapshot_id" : "4Lp9RFtXbr3N9uwva20gGCDQLVmwO4gv2c7de8DRTDgRZtozCJF4Jb0QjWTz/d9o",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/allchillnations/playlists/66m2EyRwKT3ZI82cBx8Qjl/tracks",
+      "total" : 33
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:allchillnations:playlist:66m2EyRwKT3ZI82cBx8Qjl"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1223656148/playlist/62YNkEBYyNmRJuRJd5qlRe"
+    },
+    "href" : "https://api.spotify.com/v1/users/1223656148/playlists/62YNkEBYyNmRJuRJd5qlRe",
+    "id" : "62YNkEBYyNmRJuRJd5qlRe",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/bc6fa996c1bc8996bc4584e89ab24b041a95af88753c7c16944a833111bea2cd34b3ff5e14284a3fe7dee3f588730780fe8568ad6c304b2cceb333e4923ffe1deb60c1905bddbf9307c4485e0f48c88d",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/bc6fa996c1bc8996bc4584e89ab24b041a95af88753c7c16944a833111bea2cd34b3ff5e14284a3fe7dee3f588730780fe8568ad6c304b2cceb333e4923ffe1deb60c1905bddbf9307c4485e0f48c88d",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/bc6fa996c1bc8996bc4584e89ab24b041a95af88753c7c16944a833111bea2cd34b3ff5e14284a3fe7dee3f588730780fe8568ad6c304b2cceb333e4923ffe1deb60c1905bddbf9307c4485e0f48c88d",
+      "width" : 60
+    } ],
+    "name" : "Current Favorites",
+    "owner" : {
+      "display_name" : "Bryan Nguyen",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1223656148"
+      },
+      "href" : "https://api.spotify.com/v1/users/1223656148",
+      "id" : "1223656148",
+      "type" : "user",
+      "uri" : "spotify:user:1223656148"
+    },
+    "public" : true,
+    "snapshot_id" : "lm4Jdr2ZpEyDhBR+WZfDcrZMsC98TiAxNyj09Bb74iHUeWvDMNuClh2mO3RAR2A6",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1223656148/playlists/62YNkEBYyNmRJuRJd5qlRe/tracks",
+      "total" : 112
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1223656148:playlist:62YNkEBYyNmRJuRJd5qlRe"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/galantis/playlist/2uhpfOIVrJIkl5kb4ujXHc"
+    },
+    "href" : "https://api.spotify.com/v1/users/galantis/playlists/2uhpfOIVrJIkl5kb4ujXHc",
+    "id" : "2uhpfOIVrJIkl5kb4ujXHc",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/d7d125a2a9ecd3f17f50ca6a3cda62a59f28ec4b",
+      "width" : null
+    } ],
+    "name" : "Galantis FM",
+    "owner" : {
+      "display_name" : "Galantis",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/galantis"
+      },
+      "href" : "https://api.spotify.com/v1/users/galantis",
+      "id" : "galantis",
+      "type" : "user",
+      "uri" : "spotify:user:galantis"
+    },
+    "public" : true,
+    "snapshot_id" : "86Ny+7c5Vey82IeW4mETQFLUi3989FdHCTbLRqzxgSMTBGxJTZPrtPexYSeu5BVr",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/galantis/playlists/2uhpfOIVrJIkl5kb4ujXHc/tracks",
+      "total" : 505
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:galantis:playlist:2uhpfOIVrJIkl5kb4ujXHc"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/7erxGB61XwMM5qHg5Qb5bf"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7erxGB61XwMM5qHg5Qb5bf",
+    "id" : "7erxGB61XwMM5qHg5Qb5bf",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/48787c279dab6e8c1cc3b4beb27875ff37715fecc1e2622aa7237803bde47e0174b1ff65af143ff8c6bd58eaaa5146d1b73f7ded6148c4358bece23954ce43cceb69dda3cfa1f053fa9f496f17fc0874",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/48787c279dab6e8c1cc3b4beb27875ff37715fecc1e2622aa7237803bde47e0174b1ff65af143ff8c6bd58eaaa5146d1b73f7ded6148c4358bece23954ce43cceb69dda3cfa1f053fa9f496f17fc0874",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/48787c279dab6e8c1cc3b4beb27875ff37715fecc1e2622aa7237803bde47e0174b1ff65af143ff8c6bd58eaaa5146d1b73f7ded6148c4358bece23954ce43cceb69dda3cfa1f053fa9f496f17fc0874",
+      "width" : 60
+    } ],
+    "name" : "Wine Wednesday",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "r28lAf0WHjBmUonnED5JzSiScxqBbGd3ygPhmj2qisBRODO3X8MkO5IRt8ftEpgh",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7erxGB61XwMM5qHg5Qb5bf/tracks",
+      "total" : 37
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:7erxGB61XwMM5qHg5Qb5bf"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/debobcat/playlist/5Bf3CTcIXdv35tZ8UwSjSh"
+    },
+    "href" : "https://api.spotify.com/v1/users/debobcat/playlists/5Bf3CTcIXdv35tZ8UwSjSh",
+    "id" : "5Bf3CTcIXdv35tZ8UwSjSh",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/a30eee2aac1bca52b8764fe15bcf9125f99df24f",
+      "width" : null
+    } ],
+    "name" : "shrek",
+    "owner" : {
+      "display_name" : null,
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/debobcat"
+      },
+      "href" : "https://api.spotify.com/v1/users/debobcat",
+      "id" : "debobcat",
+      "type" : "user",
+      "uri" : "spotify:user:debobcat"
+    },
+    "public" : true,
+    "snapshot_id" : "XAgAhSUBcs8VVpIYfb4U8RbMPA6gtCWXrkEn+RFX0StBx/WhdRNgLou1+5lLp4AX",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/debobcat/playlists/5Bf3CTcIXdv35tZ8UwSjSh/tracks",
+      "total" : 224
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:debobcat:playlist:5Bf3CTcIXdv35tZ8UwSjSh"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/alltrapnation/playlist/0NCspsyf0OS4BsPgGhkQXM"
+    },
+    "href" : "https://api.spotify.com/v1/users/alltrapnation/playlists/0NCspsyf0OS4BsPgGhkQXM",
+    "id" : "0NCspsyf0OS4BsPgGhkQXM",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/5bf2fc0d627651aa782ace51edc732997e445ec9",
+      "width" : null
+    } ],
+    "name" : "Trap Nation",
+    "owner" : {
+      "display_name" : "Trap Nation",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/alltrapnation"
+      },
+      "href" : "https://api.spotify.com/v1/users/alltrapnation",
+      "id" : "alltrapnation",
+      "type" : "user",
+      "uri" : "spotify:user:alltrapnation"
+    },
+    "public" : true,
+    "snapshot_id" : "4iaJvCrg4GNywFNow6U3D52Dq9NApn9a6/USeZSYwykb3+gU+zgrFDg1uWfeqAY8",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/alltrapnation/playlists/0NCspsyf0OS4BsPgGhkQXM/tracks",
+      "total" : 105
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:alltrapnation:playlist:0NCspsyf0OS4BsPgGhkQXM"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/allchillnations/playlist/2X5BPknxexv0e7DdDKUj0C"
+    },
+    "href" : "https://api.spotify.com/v1/users/allchillnations/playlists/2X5BPknxexv0e7DdDKUj0C",
+    "id" : "2X5BPknxexv0e7DdDKUj0C",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/df121b74f765fac677b2ba787e3b4c0376d7a669",
+      "width" : null
+    } ],
+    "name" : "Chill Nation",
+    "owner" : {
+      "display_name" : "Chill Nation",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/allchillnations"
+      },
+      "href" : "https://api.spotify.com/v1/users/allchillnations",
+      "id" : "allchillnations",
+      "type" : "user",
+      "uri" : "spotify:user:allchillnations"
+    },
+    "public" : true,
+    "snapshot_id" : "Cmnh/sT9Sx1q2WHhu1HkhD6Q0S0BvPJhIgtW7yrq2JGFCxxlUIE20YlpD8zQd8Bd",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/allchillnations/playlists/2X5BPknxexv0e7DdDKUj0C/tracks",
+      "total" : 46
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:allchillnations:playlist:2X5BPknxexv0e7DdDKUj0C"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/allindienation/playlist/0OfG84TeEu3fgv7d6JhTlP"
+    },
+    "href" : "https://api.spotify.com/v1/users/allindienation/playlists/0OfG84TeEu3fgv7d6JhTlP",
+    "id" : "0OfG84TeEu3fgv7d6JhTlP",
+    "images" : [ {
+      "height" : null,
+      "url" : "https://pl.scdn.co/images/pl/default/9a9a0c68fe1346cb842b023e5c374d832499dc69",
+      "width" : null
+    } ],
+    "name" : "Indie Nation",
+    "owner" : {
+      "display_name" : "Indie Nation",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/allindienation"
+      },
+      "href" : "https://api.spotify.com/v1/users/allindienation",
+      "id" : "allindienation",
+      "type" : "user",
+      "uri" : "spotify:user:allindienation"
+    },
+    "public" : true,
+    "snapshot_id" : "qYIJd/hehf5b4tXMondtsrniFKyJkanSTD90nEJjUl7kEfdjM6ywPzhiutaapmLi",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/allindienation/playlists/0OfG84TeEu3fgv7d6JhTlP/tracks",
+      "total" : 59
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:allindienation:playlist:0OfG84TeEu3fgv7d6JhTlP"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX2sUQwD7tbmL"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX2sUQwD7tbmL",
+    "id" : "37i9dQZF1DX2sUQwD7tbmL",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/35e55ca1334bf34c374390aa7554a040d7219f27",
+      "width" : 300
+    } ],
+    "name" : "Feel-Good Indie Rock",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : true,
+    "snapshot_id" : "TrAG5zh3CIoKVjWLZKmfp7FObYhfWA0jP7xoJkbJD5oJbG7eDWCHeJy73pEJEsiWaokcw8ClrNA=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX2sUQwD7tbmL/tracks",
+      "total" : 199
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1DX2sUQwD7tbmL"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/2Z5BJrBJmgeaQhke6eWcKF"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/2Z5BJrBJmgeaQhke6eWcKF",
+    "id" : "2Z5BJrBJmgeaQhke6eWcKF",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/5cd065db740b31a135757ac8e7edc2d2507992b84c7a0b089f59e0b635a84ddc431ca8d1ed128345b0cfd0cd267aa467ec8292682cced422c715dad5d24a735d8ff6ef1b39abc09a3129260a21b2e55b",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/5cd065db740b31a135757ac8e7edc2d2507992b84c7a0b089f59e0b635a84ddc431ca8d1ed128345b0cfd0cd267aa467ec8292682cced422c715dad5d24a735d8ff6ef1b39abc09a3129260a21b2e55b",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/5cd065db740b31a135757ac8e7edc2d2507992b84c7a0b089f59e0b635a84ddc431ca8d1ed128345b0cfd0cd267aa467ec8292682cced422c715dad5d24a735d8ff6ef1b39abc09a3129260a21b2e55b",
+      "width" : 60
+    } ],
+    "name" : "Barn Socks",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "duJ0WYYq0ahGKP1Z32XIKij/NJkb9zqwKRFGDzBJ+TvPq2NZs0dCvwxIOhiqZaS9",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/2Z5BJrBJmgeaQhke6eWcKF/tracks",
+      "total" : 37
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:2Z5BJrBJmgeaQhke6eWcKF"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1Cz52s0XmpePuW"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1Cz52s0XmpePuW",
+    "id" : "37i9dQZF1Cz52s0XmpePuW",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/e25ca9fb548a9c1f51fbc74289307e37fa8ae176",
+      "width" : 300
+    } ],
+    "name" : "Your Top Songs 2016",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : true,
+    "snapshot_id" : "bmknLixSvY3iN6WXWsV2+UFuQYJw9Kfckfn9CXNECVpVEtSa4Ppr07q9k6+pPapjt+H2bnfRalA=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1Cz52s0XmpePuW/tracks",
+      "total" : 101
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1Cz52s0XmpePuW"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX8c93KtGDPub"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX8c93KtGDPub",
+    "id" : "37i9dQZF1DX8c93KtGDPub",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/2d278a445a5243d962b99fc5c123bb1625d85f77",
+      "width" : 300
+    } ],
+    "name" : "Folksy Christmas",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : true,
+    "snapshot_id" : "iZTOaoCFpzn+4J8wm7OkIz1VShV/CCFGLjMTA+G+HQEDISlOPldflqe+pfc1YGf9tP8DQmWH8J8=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX8c93KtGDPub/tracks",
+      "total" : 171
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1DX8c93KtGDPub"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1XxYXLmGEHIdsWSTOGlk0H"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1XxYXLmGEHIdsWSTOGlk0H",
+    "id" : "1XxYXLmGEHIdsWSTOGlk0H",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/77e55f5445616020f6fe7209e025754afd885778",
+      "width" : 640
+    } ],
+    "name" : "Ramin Djawadi – Westworld: Season 1 (Music from the HBO® Series)",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "dXVtkWCFvbLc4Af0VunAAsOpS1ReHZ/8/y2xwLIAA+xunOHPjynLdWX9YViL09nj",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1XxYXLmGEHIdsWSTOGlk0H/tracks",
+      "total" : 34
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1XxYXLmGEHIdsWSTOGlk0H"
+  }, {
+    "collaborative" : true,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/4dBqMu3SpH2mr7xYMDMm8e"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/4dBqMu3SpH2mr7xYMDMm8e",
+    "id" : "4dBqMu3SpH2mr7xYMDMm8e",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/f9b3343c82332a75dd9d38267cd62632e371e162",
+      "width" : 300
+    } ],
+    "name" : "Merry LIT'mas",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : false,
+    "snapshot_id" : "82qXm4nm74KBV0ThxCJbcSfB9PqAvna6fufAh7DvNvldx+Csh3KjBPGVpEqLvI9L",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/4dBqMu3SpH2mr7xYMDMm8e/tracks",
+      "total" : 85
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:4dBqMu3SpH2mr7xYMDMm8e"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/532R1H8f4s60o82H6gmxpD"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/532R1H8f4s60o82H6gmxpD",
+    "id" : "532R1H8f4s60o82H6gmxpD",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/e3a58ff90033a7ead7b9a918b137eedc06da3f4b",
+      "width" : 640
+    } ],
+    "name" : "A$AP Mob – Cozy Tapes: Vol. 1 Friends -",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "DAkceXmThl1/Y+zdMt9jCDI7kBYBfWC+tVpoKrZICjV1pj82rgNj8q9pgMHdgvan",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/532R1H8f4s60o82H6gmxpD/tracks",
+      "total" : 12
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:532R1H8f4s60o82H6gmxpD"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWUoqEG4WY6ce"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DWUoqEG4WY6ce",
+    "id" : "37i9dQZF1DWUoqEG4WY6ce",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/b2006d8266bc3539a8ba85b17e3aff0da64a9773",
+      "width" : 300
+    } ],
+    "name" : "Indie Rock Road Trip",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : true,
+    "snapshot_id" : "TQPvjHj25rCN/pmJhLrxQKwfflLdE4a+FkNH7s3wJoMKtw4QewxbeLbyGI51cH0s93OAXycNn6o=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DWUoqEG4WY6ce/tracks",
+      "total" : 89
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1DWUoqEG4WY6ce"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX2Nc3B70tvx0"
+    },
+    "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX2Nc3B70tvx0",
+    "id" : "37i9dQZF1DX2Nc3B70tvx0",
+    "images" : [ {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/2e74fd31eab146c7676424597020d4a1c1d18f0f",
+      "width" : 300
+    } ],
+    "name" : "Ultimate Indie",
+    "owner" : {
+      "display_name" : "Spotify",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/spotify"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify",
+      "id" : "spotify",
+      "type" : "user",
+      "uri" : "spotify:user:spotify"
+    },
+    "public" : true,
+    "snapshot_id" : "5wgehVNHwEAJylxLh6waoFR133FpJIHpYHSmBUTc+0JS1ZVJCh+6wEYBzBobd2MAUCld83/Ss9Q=",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/37i9dQZF1DX2Nc3B70tvx0/tracks",
+      "total" : 50
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:spotify:playlist:37i9dQZF1DX2Nc3B70tvx0"
+  }, {
+    "collaborative" : true,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1MgaCBlI3F5YK0qHrnMXOr"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1MgaCBlI3F5YK0qHrnMXOr",
+    "id" : "1MgaCBlI3F5YK0qHrnMXOr",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/80cce6b1bb492fd45ddb26a81c79959527d98a635fd86564048358bb78a35f3eba3479f254e3f9f63552ffc635b98336be7ee26b91d5e7ba4764d79e70cdef7025e351ae2b051500b44f2dc378681b0a",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/80cce6b1bb492fd45ddb26a81c79959527d98a635fd86564048358bb78a35f3eba3479f254e3f9f63552ffc635b98336be7ee26b91d5e7ba4764d79e70cdef7025e351ae2b051500b44f2dc378681b0a",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/80cce6b1bb492fd45ddb26a81c79959527d98a635fd86564048358bb78a35f3eba3479f254e3f9f63552ffc635b98336be7ee26b91d5e7ba4764d79e70cdef7025e351ae2b051500b44f2dc378681b0a",
+      "width" : 60
+    } ],
+    "name" : "Tunes De Planose",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : false,
+    "snapshot_id" : "KrQg9LQYvm15is2nNxCbOqty1U9QvsgMnrOFGdFrYml3ay061S37tKN61aiFAPt9",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1MgaCBlI3F5YK0qHrnMXOr/tracks",
+      "total" : 332
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1MgaCBlI3F5YK0qHrnMXOr"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/beaags/playlist/3nEmoFVQErIL6dHMKKYFpg"
+    },
+    "href" : "https://api.spotify.com/v1/users/beaags/playlists/3nEmoFVQErIL6dHMKKYFpg",
+    "id" : "3nEmoFVQErIL6dHMKKYFpg",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/1b9be8284c975eee9089c2f524faad0702155757b58b8e3877cb921a294258881b7e2324a3bbbab9a7a2bca48d9267a2ab847267a63229945877d1b2453235a325efc2766a37e7faa2eade0ebe137405",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/1b9be8284c975eee9089c2f524faad0702155757b58b8e3877cb921a294258881b7e2324a3bbbab9a7a2bca48d9267a2ab847267a63229945877d1b2453235a325efc2766a37e7faa2eade0ebe137405",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/1b9be8284c975eee9089c2f524faad0702155757b58b8e3877cb921a294258881b7e2324a3bbbab9a7a2bca48d9267a2ab847267a63229945877d1b2453235a325efc2766a37e7faa2eade0ebe137405",
+      "width" : 60
+    } ],
+    "name" : "kieve jams",
+    "owner" : {
+      "display_name" : "Meg Forelli",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/beaags"
+      },
+      "href" : "https://api.spotify.com/v1/users/beaags",
+      "id" : "beaags",
+      "type" : "user",
+      "uri" : "spotify:user:beaags"
+    },
+    "public" : true,
+    "snapshot_id" : "4Ivpw2YO/X3z/ZxJQc6EB81MQY/6np1wT4/dXhAHBJJuo88XWGCd98rNp9hsk0y3",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/beaags/playlists/3nEmoFVQErIL6dHMKKYFpg/tracks",
+      "total" : 136
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:beaags:playlist:3nEmoFVQErIL6dHMKKYFpg"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/7n25qgYPqDCSNj0tkFQQty"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7n25qgYPqDCSNj0tkFQQty",
+    "id" : "7n25qgYPqDCSNj0tkFQQty",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/459a41f6504626d0290335a7c349d5c8f02f6503bfc9c7b3ef9cc240aa19389479f4d12bee434d48c51458d331a70106077bccb89f2a508aae34d571f1046306d533cc4042e9a4e0f30dc7f406966682",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/459a41f6504626d0290335a7c349d5c8f02f6503bfc9c7b3ef9cc240aa19389479f4d12bee434d48c51458d331a70106077bccb89f2a508aae34d571f1046306d533cc4042e9a4e0f30dc7f406966682",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/459a41f6504626d0290335a7c349d5c8f02f6503bfc9c7b3ef9cc240aa19389479f4d12bee434d48c51458d331a70106077bccb89f2a508aae34d571f1046306d533cc4042e9a4e0f30dc7f406966682",
+      "width" : 60
+    } ],
+    "name" : "LI(f)T",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "ZYdq2YKLVmP8umVbFOCWWBh+Z16ZjtaC2h/5jgF/xFR/K5Uj+C6krDYd1CjEF3rN",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/7n25qgYPqDCSNj0tkFQQty/tracks",
+      "total" : 82
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:7n25qgYPqDCSNj0tkFQQty"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/1zIZM8ZyAVp6iljitZEwh4"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1zIZM8ZyAVp6iljitZEwh4",
+    "id" : "1zIZM8ZyAVp6iljitZEwh4",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/a64efe5fc6600f3e36079eaaa95ffa0781575e6e",
+      "width" : 640
+    } ],
+    "name" : "Logic – Bobby Tarantino",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "GP+5WWaZcWgGQy+LvuMr/TeHSrrTRIxfYBAIodDqvMdqlo15QClY0ZIRt8ftEpgh",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/1zIZM8ZyAVp6iljitZEwh4/tracks",
+      "total" : 11
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:1zIZM8ZyAVp6iljitZEwh4"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/5SpXvxsFjPpB047AXt2xPQ"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/5SpXvxsFjPpB047AXt2xPQ",
+    "id" : "5SpXvxsFjPpB047AXt2xPQ",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/717290460ec646ffa372c7f483835eaacfea34f7",
+      "width" : 640
+    } ],
+    "name" : "Chance The Rapper – Coloring Book",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "rSv+rFqnBYcc4TUpG/mzFRyak6eTpZPB65bSs0xgUUxCxm7koP1xNg9Nd7TGl8ur",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/5SpXvxsFjPpB047AXt2xPQ/tracks",
+      "total" : 14
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:5SpXvxsFjPpB047AXt2xPQ"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/35uz7kNKzhhygK9U22Akmf"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/35uz7kNKzhhygK9U22Akmf",
+    "id" : "35uz7kNKzhhygK9U22Akmf",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/e73c706e842eb5233eab7afd3404218a2696d568",
+      "width" : 640
+    } ],
+    "name" : "Drake – Views",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : true,
+    "snapshot_id" : "niR4vWPHFFtdjaJlvM/iwnDj5PMYQ9PYUUeAes172i9heNV5lMbCjHwVkHfQZ/aD",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/35uz7kNKzhhygK9U22Akmf/tracks",
+      "total" : 20
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:35uz7kNKzhhygK9U22Akmf"
+  }, {
+    "collaborative" : true,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1258188545/playlist/2PTcXbYc6hEO71yYOmyMRO"
+    },
+    "href" : "https://api.spotify.com/v1/users/1258188545/playlists/2PTcXbYc6hEO71yYOmyMRO",
+    "id" : "2PTcXbYc6hEO71yYOmyMRO",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/9ed9487f51866edbb8164f51f89e4334a169ef31ad09dc108b0e0cd6f2294904e65d5b8625a60e32a127d2db8755f1c624d987c83e5aa83f456a9e68408f0601a6f11b790ab7bef48672cc5d3cbee50f",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/9ed9487f51866edbb8164f51f89e4334a169ef31ad09dc108b0e0cd6f2294904e65d5b8625a60e32a127d2db8755f1c624d987c83e5aa83f456a9e68408f0601a6f11b790ab7bef48672cc5d3cbee50f",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/9ed9487f51866edbb8164f51f89e4334a169ef31ad09dc108b0e0cd6f2294904e65d5b8625a60e32a127d2db8755f1c624d987c83e5aa83f456a9e68408f0601a6f11b790ab7bef48672cc5d3cbee50f",
+      "width" : 60
+    } ],
+    "name" : "Coachella was okay",
+    "owner" : {
+      "display_name" : "Tony Mannino",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1258188545"
+      },
+      "href" : "https://api.spotify.com/v1/users/1258188545",
+      "id" : "1258188545",
+      "type" : "user",
+      "uri" : "spotify:user:1258188545"
+    },
+    "public" : false,
+    "snapshot_id" : "qb4SiyIdFifMJeAgLAhD7lA+mOLHRNfIFeOCrVwQbb2tEj0JTZZjVLegEiEbDpDQ",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1258188545/playlists/2PTcXbYc6hEO71yYOmyMRO/tracks",
+      "total" : 125
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1258188545:playlist:2PTcXbYc6hEO71yYOmyMRO"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/1217111127/playlist/2H9FxCaDDqDOcc7gNTwIxL"
+    },
+    "href" : "https://api.spotify.com/v1/users/1217111127/playlists/2H9FxCaDDqDOcc7gNTwIxL",
+    "id" : "2H9FxCaDDqDOcc7gNTwIxL",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/584e1b574f85c2cbfd818c7e25ea017e66319b8d7cf0421038bcb2f6c3b9d82f0ad0357ffb9f2c8ba1202e3c454e45734adcb38e697992223cf1f1a9dae8ad17a47a3563b770beb3a1b85fce0e7b6089",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/584e1b574f85c2cbfd818c7e25ea017e66319b8d7cf0421038bcb2f6c3b9d82f0ad0357ffb9f2c8ba1202e3c454e45734adcb38e697992223cf1f1a9dae8ad17a47a3563b770beb3a1b85fce0e7b6089",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/584e1b574f85c2cbfd818c7e25ea017e66319b8d7cf0421038bcb2f6c3b9d82f0ad0357ffb9f2c8ba1202e3c454e45734adcb38e697992223cf1f1a9dae8ad17a47a3563b770beb3a1b85fce0e7b6089",
+      "width" : 60
+    } ],
+    "name" : "Reddit's Top 100 One Hit Wonders",
+    "owner" : {
+      "display_name" : "Sean Lambert",
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/1217111127"
+      },
+      "href" : "https://api.spotify.com/v1/users/1217111127",
+      "id" : "1217111127",
+      "type" : "user",
+      "uri" : "spotify:user:1217111127"
+    },
+    "public" : true,
+    "snapshot_id" : "QKXdvUzDi2cG7wz4Sk4pP0SjzckOWPKAGsa1APrnwsGEIUgjRYqjYo4Uwy6Ofldv",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/1217111127/playlists/2H9FxCaDDqDOcc7gNTwIxL/tracks",
+      "total" : 100
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:1217111127:playlist:2H9FxCaDDqDOcc7gNTwIxL"
+  }, {
+    "collaborative" : false,
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/user/fco221/playlist/4srhNCiHD14D5XvFNjgdHs"
+    },
+    "href" : "https://api.spotify.com/v1/users/fco221/playlists/4srhNCiHD14D5XvFNjgdHs",
+    "id" : "4srhNCiHD14D5XvFNjgdHs",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://mosaic.scdn.co/640/eda50e6eb9d59e339baf96b3b98d6e9ae8a8ee95f17f4dc72f1594ccce328b305fe0d2b9b1c32ee9dab9f6761e3c516cbb599c7d003e79d72e0cf9df99392f98a40abd0c0e65180b2e3ed27c31f2fc62",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://mosaic.scdn.co/300/eda50e6eb9d59e339baf96b3b98d6e9ae8a8ee95f17f4dc72f1594ccce328b305fe0d2b9b1c32ee9dab9f6761e3c516cbb599c7d003e79d72e0cf9df99392f98a40abd0c0e65180b2e3ed27c31f2fc62",
+      "width" : 300
+    }, {
+      "height" : 60,
+      "url" : "https://mosaic.scdn.co/60/eda50e6eb9d59e339baf96b3b98d6e9ae8a8ee95f17f4dc72f1594ccce328b305fe0d2b9b1c32ee9dab9f6761e3c516cbb599c7d003e79d72e0cf9df99392f98a40abd0c0e65180b2e3ed27c31f2fc62",
+      "width" : 60
+    } ],
+    "name" : "House MD Soundtrack",
+    "owner" : {
+      "display_name" : null,
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/user/fco221"
+      },
+      "href" : "https://api.spotify.com/v1/users/fco221",
+      "id" : "fco221",
+      "type" : "user",
+      "uri" : "spotify:user:fco221"
+    },
+    "public" : false,
+    "snapshot_id" : "aEkAcoqZPyFxnv+HoRVkDl8jz1f3SjnOhSaTwgS0tA9XcvjDWJXFQVw/a9JqmX5x",
+    "tracks" : {
+      "href" : "https://api.spotify.com/v1/users/fco221/playlists/4srhNCiHD14D5XvFNjgdHs/tracks",
+      "total" : 314
+    },
+    "type" : "playlist",
+    "uri" : "spotify:user:fco221:playlist:4srhNCiHD14D5XvFNjgdHs"
+  } ],
+  "limit" : 50,
+  "next" : "https://api.spotify.com/v1/users/1258188545/playlists?offset=50&limit=50",
+  "offset" : 0,
+  "previous" : null,
+  "total" : 175
+}
