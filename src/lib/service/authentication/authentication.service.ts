@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Subject }    from 'rxjs/Subject';
+import { Subject ,  Observable }  from 'rxjs';
 
 import { AuthData } from './authentication.model';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthenticationService {

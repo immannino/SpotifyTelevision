@@ -1,0 +1,6 @@
+<div class="video-container">
+    <h2 class="video-default-text" *ngIf="!displayYoutubePlayer">Click on a video to begin</h2>
+    <div class="iframe-container" *ngIf="displayYoutubePlayer">
+        <youtube-player height="100%" width="100%" [videoId]="id" (ready)="savePlayer($event)" (change)="onStateChange($event)"></youtube-player>
+    </div>
+</div>

@@ -5,32 +5,8 @@ Css in this section is regarding UI ViewPorts for mobile width devices.
     .container {
         grid-template-columns: 1;
         grid-template-rows: 1fr 1fr;
-        grid-template-areas: "sidebar" "video";
         background-color: #464646;
         background: transparent;
-    }
-
-    .iframe-container {
-        position: relative;
-        width: 100%;
-        height: 40vh;
-    }
-
-    .playlist-container {
-        height: 40vh;
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .song-list {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        height: 30em;
-    }
-
-    .current-song {
-        position: absolute;
-        width: 100%;
     }
 }
 
@@ -44,27 +20,8 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
         height: 80vh;
         grid-template-rows: 1fr;
         grid-template-columns: 1fr 250px;
-        grid-template-areas: "sidebar" "video";
         background: transparent;
         font-size: 12px;
-    }
-
-    .iframe-container {
-        position: relative;
-        width: 100%;
-        height: 80vh;
-    }
-
-    .playlist-container {
-        height: 64vh;
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .song-list {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        height: 30em;
     }
 }
 
@@ -82,102 +39,4 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
     height: 100%;
     position: absolute;
     background: linear-gradient(90deg, #77C9D4, #57DC90);
-}
-
-/********************************************************************************
-Css in this section is regarding random stylistic elements for main body content.
-********************************************************************************/
-mat-list-item:hover {
-    background-color: #e0e0e0;
-}
-
-.sidebar {
-    grid-area: "sidebar";
-}
-
-.mat-expanded {
-    background-color: #FAFAFA !important;
-}
-
-.video-container {
-    height: 100%;
-    width: inherit;
-    grid-area: "video";
-    text-align: center;
-    margin: 10px;
-}
-
-.video-default-text {
-    color: white;
-}
-
-.playlist-panel-item {
-    background-color: white;
-    margin: 2px;
-}
-
-.song-list-item {
-    background-color: #e0e0e0;
-    margin: 2px;
-    height: 4em !important;
-}
-
-.song-list-item:hover {
-    background-color: white;
-}
-
-/************************************************************************ 
-Css in this section is regarding current song play info.
-************************************************************************/
-.current-song {
-    margin-top: 5px;
-    color: black;
-    background-color: #FAFAFA;
-}
-
-.track-name {
-    font-size: 16px;
-}
-.artist-name {
-    font-weight: 400;
-}
-
-/************************************************************************ 
-Css in this section is regarding the previous and next buttons for songs.
-************************************************************************/
-.track-buttons {
-    display: grid;
-    height: 25px;
-    grid-gap: 5px;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    text-align: center;
-    padding-top: 5px;
-}
-
-img {
-    height: 32px;
-    width: 32px;
-}
-
-.icon-container {
-    width: 100%;
-    display:block;
-    margin:auto;
-
-}
-
-.icon-container:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-}
-
-.shuffle-icon {
-    height: 15px;
-    width: 15px;
-}
-
-.repeat-icon {
-    height: 15px;
-    width: 15px;
 }

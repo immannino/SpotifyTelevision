@@ -1,56 +1,48 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { Headers, RequestOptions } from '@angular/http'
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import 'rxjs/add/operator/map'
 
 import { AppConfig } from '../../../app/app.config';
 import { UserData, UserSpotifyPlaylists, SpotifyPlaylistTracks, SpotifyUserProfile } from './spotify.model';
+import { Store } from '@ngxs/store';
 
 @Injectable()
 export class SpotifyService {
 
-  constructor(private config: AppConfig, private http: Http) { }
+  constructor(private config: AppConfig, private http: HttpClient, private store: Store) { }
 
   spotifyApiUrl: string = "https://api.spotify.com/v1";
   currentOffset: number = 0;
 
   /**
    * 
-   * TODO:
-   * Replace UserData with localstorage for now. 
-   * 
    * Just want it working, I'll get the proper design out there soon enough.
    * Currently getting race condition in app.
    */
   getSpotifyUserProfile(): Observable<SpotifyUserProfile> {
-    let options = this.generateRequestOptions();
+    let headers: HttpHeaders = this.generateRequestOptions();
 
-    return this.http.get(this.spotifyApiUrl + '/me', options).pipe(catchError(this.handleError)).map(response => response.json());
+    return this.http.get<SpotifyUserProfile>(`${this.spotifyApiUrl}/me`, { headers });
   }
   /**
    * Get User Playlists:
    * 
    * endpoint: /users/{user_id}/playlists
    */
-  getUserPlaylists(user_id: string): Observable<UserSpotifyPlaylists> {
-    let options = this.generateRequestOptions();
+  getUserPlaylists(user_id: string) {
+    let headers: HttpHeaders = this.generateRequestOptions();
     // return this.http.get('../../../assets/user-playlists.json').map(response => response.json());
 
-    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists?limit=50', options).pipe(catchError(this.handleError)).map((response) => {
-      // this.currentOffset = this.currentOffset + ((this.currentOffset - response.tracks.total) 
-      return response.json();
-    });
+    return this.http.get<UserSpotifyPlaylists>(`${this.spotifyApiUrl}/users/${user_id}/playlists?limit=50`, { headers }).pipe(catchError(this.handleError));
   }
 
-  getUserPlaylistPaginate(url: string): Observable<UserSpotifyPlaylists>{
-    let options = this.generateRequestOptions();
+  getUserPlaylistPaginate(url: string) {
+    let headers: HttpHeaders = this.generateRequestOptions();
 
-    return this.http.get(url, options).pipe(catchError(this.handleError)).map((response) => {
-      return response.json();
-    });
+    return this.http.get<UserSpotifyPlaylists>(url, { headers }).pipe(catchError(this.handleError));
   }
 
   /**
@@ -58,45 +50,45 @@ export class SpotifyService {
    * 
    * endpoint: /users/{user_id}/playlists/{playlist_id}/tracks
    */
-  getUserPlaylistTracks(playlistId: string, user_id: string): Observable<SpotifyPlaylistTracks> {
-    let options = this.generateRequestOptions();
-    return this.http.get(this.spotifyApiUrl + '/users/' + user_id + '/playlists/' + playlistId + '/tracks', options).pipe(catchError(this.handleError)).map(response => response.json());
+  getUserPlaylistTracks(playlistId: string, user_id: string) {
+    let headers: HttpHeaders = this.generateRequestOptions();
+    return this.http.get<SpotifyPlaylistTracks>(`${this.spotifyApiUrl}/users/${user_id}/playlists/${playlistId}/tracks`, { headers }).pipe(catchError(this.handleError));
   }
 
-  getUserPlaylistTracksPaginate(url: string): Observable<SpotifyPlaylistTracks> {
-    let options = this.generateRequestOptions();
+  getUserPlaylistTracksPaginate(url: string) {
+    let headers: HttpHeaders = this.generateRequestOptions();
 
-    return this.http.get(url, options).pipe(catchError(this.handleError)).map(response => response.json());
+    return this.http.get<SpotifyPlaylistTracks>(url, { headers }).pipe(catchError(this.handleError));
   }
 
-  getUserLibrarySongs(): Observable<SpotifyPlaylistTracks> {
-    let options = this.generateRequestOptions();
-    return this.http.get(this.spotifyApiUrl + '/me/tracks?limit=50', options)
-                    .pipe(catchError(this.handleError))
-                    .map(response => response.json());
+  getUserLibrarySongs() {
+    let headers: HttpHeaders = this.generateRequestOptions();
+    return this.http.get<SpotifyPlaylistTracks>(`${this.spotifyApiUrl}/me/tracks?limit=50`, { headers })
+      .pipe(catchError(this.handleError));
   }
 
-  getUserLibrarySongsPaginate(url: string): Observable<SpotifyPlaylistTracks> {
-    let options = this.generateRequestOptions();
+  getUserLibrarySongsPaginate(url: string) {
+    let headers: HttpHeaders = this.generateRequestOptions();
 
-    return this.http.get(url, options)
-                    .pipe(catchError(this.handleError))
-                    .map(response => response.json());
+    return this.http.get<SpotifyPlaylistTracks>(url, { headers })
+      .pipe(catchError(this.handleError));
   }
-  
-  private generateRequestOptions(): RequestOptions {
-    let clientId = localStorage.getItem("userAccessToken");
-    let requestHeaders: Headers = new Headers();
-    requestHeaders.append('Authorization', "Bearer " + clientId);
 
-    let options = new RequestOptions({headers: requestHeaders});
-    return options;
+  private generateRequestOptions() {
+    let clientId = this.store.snapshot().survey.userAccessToken;
+
+    let requestHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${clientId}`
+    });
+
+    return requestHeaders;
   }
-  
+
   generateRandomString(length: number): string {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  
+
     for (var i = 0; i < length; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
@@ -106,25 +98,25 @@ export class SpotifyService {
 
   private handleError(error: HttpErrorResponse) {
     let errorResponse: any = {
-      status:400,
-      body:{},
+      status: 400,
+      body: {},
       description: 'Something bad happened; please try again later.'
     }
-  if (error.error instanceof ErrorEvent) {
-    // A client-side or network error occurred. Handle it accordingly.
-    // console.error('An error occurred:', error.error.message);
-  } else {
-    // The backend returned an unsuccessful response code.
-    // The response body may contain clues as to what went wrong,
-    // console.error(
-    //   `Backend returned code ${error.status}, ` +
-    //   `body was: ${error.error}`);
-    errorResponse.status = error.status;
-    errorResponse.body = error.error;
-  }
-  // return an ErrorObservable with a user-facing error message
-  return new ErrorObservable(
-    errorResponse);
-};
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      // console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      // console.error(
+      //   `Backend returned code ${error.status}, ` +
+      //   `body was: ${error.error}`);
+      errorResponse.status = error.status;
+      errorResponse.body = error.error;
+    }
+    // return an ErrorObservable with a user-facing error message
+    return new Observable(
+      errorResponse);
+  };
 
 }
