@@ -81,8 +81,8 @@ export class LoginComponent {
     generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
         // let appRedirectUrl: string = "http://localhost:4200/login";
-        let appRedirectUrl: string = "http://10.0.0.156:4200/login";
-        // let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
+        // let appRedirectUrl: string = "http://10.0.0.156:4200/login";
+        let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
         
         /**
          * Update scopes to appropriate values for what information I'm requesting from the user.
