@@ -1,0 +1,24 @@
+<div class="sidebar-container">
+    <div class="logo" routerLink="/login" matTooltip="Click to logout" matTooltipPosition="before" matTooltipClass="logo-tip">
+        <img alt="logout" src="assets/logo-128.png">
+        <div>Spotify Television</div>
+    </div>
+    <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
+        <div class="playlist-container" *ngIf="spotifyPlaylists.items.length">
+            <mat-accordion>
+                <mat-expansion-panel class="playlist-panel-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;" (click)="expandPlaylist(i);">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title matLine>{{playlist.name}}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list class="song-list" *ngIf="shouldDisplaySidebarSongs(i);">
+                        <!-- <mat-list class="song-list"> -->
+                        <mat-list-item class="song-list-item" *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
+                            <span matLine class="list-song-name">{{song.track.name}}</span>
+                            <span matLine class="list-artist-name">{{song.track.artists[0].name}}</span>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </mat-list>
+</div>

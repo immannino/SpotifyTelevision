@@ -48,3 +48,18 @@ mat-card {
     color: white;
     margin-bottom: 8px;
 }
+
+.container {
+    text-align: center;
+    height: 100%;
+}
+
+h1 {
+    width: 100%;
+    margin:0;
+    padding-bottom: 5px;
+}
+
+.container:hover {
+    cursor: pointer;
+}

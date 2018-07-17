@@ -1,45 +1,9 @@
 <div class="transparent-gradient"></div>
 <div class="color-gradient"></div>
-<div class="container" fxFlex>
-    <div class="video-container" fxLayoutAlign="left" fxLayout="column">
-        <h2 class="video-default-text" *ngIf="!displayYoutubePlayer">Click on a video to begin</h2>
-        <div class="iframe-container" *ngIf="displayYoutubePlayer">
-            <youtube-player height="100%" width="100%" [videoId]="id" (ready)="savePlayer($event)" (change)="onStateChange($event)"></youtube-player>
-        </div>
+<div class="container">
+    <div class="video-group">
+        <video-player></video-player>
+        <current-song></current-song>
     </div>
-    <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
-        <div class="playlist-container" *ngIf="spotifyPlaylists.items.length">
-            <mat-expansion-panel class="playlist-panel-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
-                <mat-expansion-panel-header (click)="expandPlaylist(i);">
-                    <mat-panel-title matLine>{{playlist.name}}</mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-list class="song-list" *ngIf="i === selectedPlaylistIndex">
-                    <mat-list-item class="song-list-item" *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
-                        <span matLine class="list-song-name">{{song.track.name}}</span>
-                        <span matLine class="list-artist-name">{{song.track.artists[0].name}}</span>
-                    </mat-list-item>
-                </mat-list>
-            </mat-expansion-panel>
-        </div>
-        <!-- <mat-card class="current-song" *ngIf="currentPlayingSpotifySong"> -->
-        <mat-card class="current-song">
-            <div matLine *ngIf="!currentPlayingSpotifySong">Pending Song</div>
-            <div matLine class="track-name" *ngIf="currentPlayingSpotifySong">{{currentPlayingSpotifySong.name}}</div>
-            <div matLine class="artist-name" *ngIf="currentPlayingSpotifySong">{{currentPlayingSpotifySong.artists[0].name}}</div>
-            <div class="track-buttons">
-                <div class="icon-container" (click)="setShuffleFlag()">
-                    <img [src]="shuffleImgSrc" alt="shuffle" class="shuffle-icon">
-                </div>
-                <div class="icon-container" (click)="changeCurrentSong(-1)">
-                    <img src="./assets/rewind-96.png" alt="previous" class="previous-icon">
-                </div>
-                <div class="icon-container" (click)="changeCurrentSong(1)">
-                    <img src="./assets/forward-96.png" alt="forward" class="next-icon">
-                </div>
-                <div class="icon-container" (click)="setRepeatFlag()">
-                    <img [src]="repeatImgSrc" alt="repeat" class="repeat-icon">
-                </div>
-            </div>
-        </mat-card>
-    </mat-list>
+    <sidebar></sidebar>
 </div>

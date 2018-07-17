@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-/* @import '~@angular/material/prebuilt-themes/purple-green.css'; */
+@import '~@angular/material/prebuilt-themes/purple-green.css';
 
 html {
     height: 100vh;
@@ -8,6 +8,9 @@ html {
     /* background-repeat: repeat; */
 }
 
+body {
+    margin: 0;
+}
 /*
 Following spinner css courtesy of 0xD34F on codepen. <3
 */

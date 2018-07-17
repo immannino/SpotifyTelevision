@@ -1,0 +1,33 @@
+/************************************************************************ 
+Css in this section is regarding UI ViewPorts for mobile width devices.
+************************************************************************/
+@media (max-width: 599px) {
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        height: 40vh;
+    }
+}
+
+/************************************************************************ 
+Css in this section is regarding UI ViewPorts for desktop width devices.
+************************************************************************/
+@media (min-width: 600px) {
+    .iframe-container {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+    }
+}
+
+.video-container {
+    /* height: 100%; */
+    width: inherit;
+    grid-area: "video";
+    text-align: center;
+    margin: 10px;
+}
+
+.video-default-text {
+    color: white;
+}

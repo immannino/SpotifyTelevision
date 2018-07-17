@@ -8,7 +8,9 @@ import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
 import { UserData } from '../../lib/service/spotify/spotify.model';
 import { AppConfig } from '../app.config';
-import { Timestamp } from 'rxjs/operators/timestamp';
+import { Timestamp } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { SetAuth } from '../shared/auth.state';
 
 @Component({
     moduleId: module.id,
@@ -17,10 +19,15 @@ import { Timestamp } from 'rxjs/operators/timestamp';
     styleUrls: [ 'login.css' ]
 })
 export class LoginComponent {
-    constructor(private config: AppConfig, private spotifyService: SpotifyService, private router: Router, private sanitizer: DomSanitizer) {
+    constructor(
+        private config: AppConfig, 
+        private spotifyService: SpotifyService, 
+        private router: Router, 
+        private sanitizer: DomSanitizer,
+        private store: Store
+    ) {
         this.router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-            } else if (event instanceof NavigationEnd ) {
+            if (event instanceof NavigationEnd ) {
                 let data = event.urlAfterRedirects.split("#")[1];
 
                 if (data && data !== '' && !data.includes("error")) {
@@ -38,11 +45,12 @@ export class LoginComponent {
                         this.hasErrorOccurred = true;
                     }
                 }
-            } else if (event instanceof NavigationError ) {
-            } else if (event instanceof NavigationCancel ) {
             }
           });
     }
+
+
+    title = 'Spotify Television';
     errorMessagePrimaryText: string = "";
     errorMessageSubText: string = "";
     hasErrorOccurred: boolean = false;
@@ -61,10 +69,9 @@ export class LoginComponent {
             state: responseItems[3].split("=")[1]
         };
 
-        localStorage.setItem("userAccessToken", tempUserData.userAccessToken);
-        localStorage.setItem("token_timeout", String(Date.now() + tempUserData.refreshTokenTimeout));
-        localStorage.setItem("token_type", tempUserData.token_type);
-        localStorage.setItem("state", tempUserData.state);
+        this.store.dispatch(new SetAuth(tempUserData)).subscribe(() => {
+            
+        });
         
         if (this.hasErrorOccurred) this.hasErrorOccurred = false;
 
@@ -74,6 +81,7 @@ export class LoginComponent {
     generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
         // let appRedirectUrl: string = "http://localhost:4200/login";
+        // let appRedirectUrl: string = "http://10.0.0.156:4200/login";
         let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
         
         /**

@@ -1,13 +1,11 @@
 ### ISSUES
 - Issue: Artist or Songs with encodable chars.
-    - example: Searching for a song with artist Parekh & Singh kept returning the wrong video. By converting the ampersand to the work 'and' it fixed the issue. 
-    - Sidebar items need to be converted to accordions. Right now just displays songs, but we need to expand that item out. 
-    - If a playlist doesn't get found (404) then it defaults to the last successful playlist. In expandPlaylists() reset current index to null or something. 
-    - Add error handling across the board (apis/auth/get calls from controller)
-    - Styling blowswsw23wwsasfdasdasd
-    - Cache user app data so that if the page resets back to /dashboard, the clientid is still present. 
-    - Pagination for playlist tracks. Limit is currently 100, need to add logic to cache indexing and such. 
     - Caching user playlists + playlist tracks so that we don't have to make api calls every single time. 
-    - User logout button and interface (rerouting to login page, etc)
-    - Login without spotify credentials ( i.e. login with my credentials or figure out how to use the API with clientid + secret only)
-    - I think thats it for now. Fuck.
+        - Need to rethink the logic and simplify passing around and storying cache of playlists. 
+        - Logic should follow: 
+            - Check State
+            - If state is good, then return
+            - if state is not good, make a service request
+            - Always update state
+        - Draw out pattern on paper
+    - Update designs

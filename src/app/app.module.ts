@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { APP_INITIALIZER } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppConfig }       from './app.config';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -21,6 +21,13 @@ import { SafeUrlPipe } from '../lib/utils/safeurl.pipe';
 import { AuthenticationService } from '../lib/service/authentication/authentication.service';
 import { SpotifyService } from '../lib/service/spotify/spotify.service';
 import { YoutubeService } from '../lib/service/youtube/youtube.service';
+import { NgxsModule } from '@ngxs/store';
+import { SpotifyAuthState } from './shared/auth.state';
+import { SpotifyDataState } from './shared/spotify.state';
+import { DataService } from '../lib/service/data/data.service';
+import { VideoComponent } from './components/video/video.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CurrentSongComponent } from './components/current-song-meta/current-song.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +35,17 @@ import { YoutubeService } from '../lib/service/youtube/youtube.service';
     LoginComponent,
     DashboardComponent,
     FourOhFourComponent,
-    SafeUrlPipe
+    VideoComponent,
+    SidebarComponent,
+    SafeUrlPipe,
+    CurrentSongComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     AppMaterialsModule,
+    NgxsModule.forRoot([SpotifyAuthState, SpotifyDataState]),
     YoutubePlayerModule
     // environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : []
   ],
@@ -42,6 +53,7 @@ import { YoutubeService } from '../lib/service/youtube/youtube.service';
     YoutubeService,
     SpotifyService,
     AuthenticationService,
+    DataService,
     AppConfig,
     { provide: APP_INITIALIZER, useFactory: (config: AppConfig) => () => config.load(), deps: [AppConfig], multi: true }
   ],
