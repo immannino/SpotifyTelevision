@@ -10,6 +10,7 @@ export class DataService {
     public playlistSubject: Subject<SpotifyPlaylistTracks> = new Subject<SpotifyPlaylistTracks>();
     public currentSongSubject: Subject<SpotifyPlaylistTrack> = new Subject<SpotifyPlaylistTrack>();
     public playerStatusSubject: Subject<boolean> = new Subject<boolean>();
+    public playPauseSubject: Subject<string> = new Subject<string>();
 
     constructor(private store: Store) {
     }
@@ -70,6 +71,10 @@ export class DataService {
             // Trigger event to let video component know song was updated
             this.updateCurrentSong(newSong);
         }
+    }
+
+    togglePlayPause(change: string) {
+        this.playPauseSubject.next(change);
     }
 
     updatePlayerStatus(change: boolean) {

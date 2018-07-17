@@ -92,10 +92,15 @@ export class VideoComponent {
     onStateChange(event) {
         switch (event.data) {
             case 0: // Status: ended
+                this.dataService.togglePlayPause('Play');
                 this.dataService.toggleNextSong(1);
                 break;
             case 1: // Status: playing
+                this.dataService.togglePlayPause('Pause');
+                break;
             case 2: // Status: paused
+                this.dataService.togglePlayPause('Play');
+                break;
             case 3: // Status: buffering
             case 5: // Status: video cued
             default:

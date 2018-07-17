@@ -21,12 +21,15 @@ export class CurrentSongComponent {
 
     constructor(private store: Store, private dataService: DataService) { 
         this.dataService.currentSongSubject.subscribe((song) => {
-            this.playText = 'Pause';
             this.currentPlayingSpotifySong = song;
         });
 
         this.dataService.playerStatusSubject.subscribe((status) => {
             this.playerStatus = status;
+        });
+
+        this.dataService.playPauseSubject.subscribe((status) => {
+            this.playText = status;
         });
     }
 
@@ -58,7 +61,10 @@ export class CurrentSongComponent {
     }
 
     togglePlay() {
-        this.playerStatus ? this.playText = 'Pause' : this.playText = 'Play';
+        let playPauseText = '';
+        this.playerStatus ? playPauseText = 'Pause' : playPauseText = 'Play';
+
+        this.dataService.togglePlayPause(playPauseText);
         this.dataService.updatePlayerStatus(!this.playerStatus);
     }
 }
