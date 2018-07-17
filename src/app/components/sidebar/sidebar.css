@@ -1,22 +1,28 @@
+.sidebar-container {
+    /* display: flex; */
+}
+
+mat-list {
+    padding-top: 0!important;
+}
 /************************************************************************ 
 Css in this section is regarding UI ViewPorts for mobile width devices.
 ************************************************************************/
 @media (max-width: 599px) {
     .playlist-container {
-        height: 40vh;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
+        height: 100vh;
     }
 
     .song-list {
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
-        height: 30em;
+        max-height: 30em;
     }
 
-    .current-song {
-        position: absolute;
-        width: 100%;
+    .logo {
+        display: non
     }
 }
 
@@ -25,7 +31,8 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
 ************************************************************************/
 @media (min-width: 600px) {
     .playlist-container {
-        height: 64vh;
+        height: 100vh;
+        width: 100%;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
     }
@@ -33,7 +40,23 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
     .song-list {
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
-        height: 30em;
+        max-height: 30em;
+        /* height: 30em; */
+    }
+
+    .logo {
+        background-color: #424242;
+        color: white;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+
+    .logo-tip {
+        background-color: rgba(255, 0, 0, 0.707);
+    }
+
+    .logo:hover {
+        cursor: pointer;
     }
 }
 
@@ -41,80 +64,25 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
 Css in this section is regarding random stylistic elements for main body content.
 ********************************************************************************/
 mat-list-item:hover {
-    background-color: #e0e0e0;
+    background-color: #68686862;
 }
 
 .mat-expanded {
+    background-color: #4242428e;
     /* background-color: #FAFAFA !important; */
 }
 
 .playlist-panel-item {
     /* background-color: white; */
-    margin: 2px;
+    /* margin: 2px; */
 }
 
 .song-list-item {
     /* background-color: #e0e0e0; */
-    margin: 2px;
-    height: 4em !important;
+    /* margin: 2px; */
+    /* height: 4em !important; */
 }
 
 .song-list-item:hover {
     /* background-color: white; */
-} 
-
-/************************************************************************ 
-Css in this section is regarding current song play info.
-************************************************************************/
-.current-song {
-    margin-top: 5px;
-    color: black;
-    background-color: #FAFAFA;
-}
-
-.track-name {
-    font-size: 16px;
-}
-.artist-name {
-    font-weight: 400;
-}
-
-/************************************************************************ 
-Css in this section is regarding the previous and next buttons for songs.
-************************************************************************/
-.track-buttons {
-    display: grid;
-    height: 25px;
-    grid-gap: 5px;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    text-align: center;
-    padding-top: 5px;
-}
-
-img {
-    height: 32px;
-    width: 32px;
-}
-
-.icon-container {
-    width: 100%;
-    display:block;
-    margin:auto;
-
-}
-
-.icon-container:hover {
-    background-color: #e0e0e0;
-    cursor: pointer;
-}
-
-.shuffle-icon {
-    height: 15px;
-    width: 15px;
-}
-
-.repeat-icon {
-    height: 15px;
-    width: 15px;
 }

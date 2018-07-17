@@ -49,6 +49,8 @@ export class LoginComponent {
           });
     }
 
+
+    title = 'Spotify Television';
     errorMessagePrimaryText: string = "";
     errorMessageSubText: string = "";
     hasErrorOccurred: boolean = false;
@@ -78,7 +80,8 @@ export class LoginComponent {
 
     generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
-        let appRedirectUrl: string = "http://localhost:4200/login";
+        // let appRedirectUrl: string = "http://localhost:4200/login";
+        let appRedirectUrl: string = "http://10.0.0.156:4200/login";
         // let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
         
         /**

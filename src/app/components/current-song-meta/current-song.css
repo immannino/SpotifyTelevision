@@ -1,0 +1,83 @@
+/************************************************************************ 
+Css in this section is regarding current song play info.
+************************************************************************/
+
+@media (max-width: 599px) {
+    .current-song {
+        display: grid;
+        grid-template-rows: 40px 1fr;
+        text-align: center;
+        margin: auto;
+        color: white;
+        background-color: #424242;
+        /* width: 100vw; */
+        padding-right: 25px;
+    }
+}
+
+@media (min-width: 600px) {
+    .current-song {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        margin: auto;
+        color: white;
+        background-color: #424242;
+        max-width: 50%;
+    }
+}
+.song-meta {
+    margin-left: 10px;
+    max-height: 50px;
+}
+.track-name {
+    font-size: 16px;
+}
+.artist-name {
+    /* font-size: 16px; */
+    font-weight: 400;
+}
+
+/************************************************************************ 
+Css in this section is regarding the previous and next buttons for songs.
+************************************************************************/
+.track-buttons {
+    display: grid;
+    height: 25px;
+    grid-gap: 5px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    text-align: center;
+    padding-top: 5px;
+}
+
+img {
+    height: 20px;
+    width: 20px;
+}
+
+.icon-container {
+    width: 100%;
+    display:block;
+    margin:auto;
+
+}
+
+.icon-container:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.icon-container > img:hover {
+    background-color: #e0e0e0;
+    /* cursor: pointer; */
+}
+
+.shuffle-icon {
+    height: 15px;
+    width: 15px;
+}
+
+.repeat-icon {
+    height: 15px;
+    width: 15px;
+}

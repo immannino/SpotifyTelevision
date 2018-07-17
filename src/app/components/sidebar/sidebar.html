@@ -1,38 +1,24 @@
 <div class="sidebar-container">
+    <div class="logo" routerLink="/login" matTooltip="Click to logout" matTooltipPosition="before" matTooltipClass="logo-tip">
+        <img alt="logout" src="assets/logo-128.png">
+        <div>Spotify Television</div>
+    </div>
     <mat-list class="sidebar" *ngIf="spotifyPlaylists" fxLayoutAlign="right" fxLayout="column">
         <div class="playlist-container" *ngIf="spotifyPlaylists.items.length">
-            <mat-expansion-panel class="playlist-panel-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;">
-                <mat-expansion-panel-header (click)="expandPlaylist(i);">
-                    <mat-panel-title matLine>{{playlist.name}}</mat-panel-title>
-                </mat-expansion-panel-header>
-                <mat-list class="song-list" *ngIf="i === selectedPlaylistIndex">
-                    <!-- <mat-list class="song-list"> -->
-                    <mat-list-item class="song-list-item" *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
-                        <span matLine class="list-song-name">{{song.track.name}}</span>
-                        <span matLine class="list-artist-name">{{song.track.artists[0].name}}</span>
-                    </mat-list-item>
-                </mat-list>
-            </mat-expansion-panel>
+            <mat-accordion>
+                <mat-expansion-panel class="playlist-panel-item" *ngFor="let playlist of spotifyPlaylists.items; let i = index;" (click)="expandPlaylist(i);">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title matLine>{{playlist.name}}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-list class="song-list" *ngIf="shouldDisplaySidebarSongs(i);">
+                        <!-- <mat-list class="song-list"> -->
+                        <mat-list-item class="song-list-item" *ngFor="let song of currentSpotifyPlaylistSongs.items; let i = index;" (click)="playCurrentSong(i);">
+                            <span matLine class="list-song-name">{{song.track.name}}</span>
+                            <span matLine class="list-artist-name">{{song.track.artists[0].name}}</span>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
         </div>
-        <!-- <mat-card class="current-song" *ngIf="currentPlayingSpotifySong"> -->
-        <mat-card class="current-song">
-            <div matLine *ngIf="!currentPlayingSpotifySong">Pending Song</div>
-            <div matLine class="track-name" *ngIf="currentPlayingSpotifySong">{{currentPlayingSpotifySong.track.name}}</div>
-            <div matLine class="artist-name" *ngIf="currentPlayingSpotifySong">{{currentPlayingSpotifySong.track.artists[0].name}}</div>
-            <div class="track-buttons">
-                <div class="icon-container" (click)="setShuffleFlag()">
-                    <img [src]="shuffleImgSrc" alt="shuffle" class="shuffle-icon">
-                </div>
-                <div class="icon-container" (click)="changeCurrentSong(-1)">
-                    <img src="./assets/rewind-96.png" alt="previous" class="previous-icon">
-                </div>
-                <div class="icon-container" (click)="changeCurrentSong(1)">
-                    <img src="./assets/forward-96.png" alt="forward" class="next-icon">
-                </div>
-                <div class="icon-container" (click)="setRepeatFlag()">
-                    <img [src]="repeatImgSrc" alt="repeat" class="repeat-icon">
-                </div>
-            </div>
-        </mat-card>
     </mat-list>
 </div>

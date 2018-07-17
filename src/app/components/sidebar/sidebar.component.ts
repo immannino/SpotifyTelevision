@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { DataService } from '../../../lib/service/data/data.service';
 import { UserSpotifyPlaylists, SpotifyPlaylistTracks, SpotifyPlaylistTrack } from '../../../lib/service/spotify/spotify.model';
 import { Store } from '@ngxs/store';
@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
     moduleId: module.id,
     selector: 'sidebar',
     templateUrl: 'sidebar.html',
-    styleUrls: [ 'sidebar.css' ]
+    styleUrls: [ 'sidebar.css' ],
+    encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent {
     spotifyPlaylists: UserSpotifyPlaylists = null;
@@ -19,8 +20,6 @@ export class SidebarComponent {
     selectedPlaylistIndex: number = -1;
     isRandom: boolean = false;
     isRepeat: boolean = false;
-    shuffleImgSrc: string = './assets/shuffle.svg';
-    repeatImgSrc: string = './assets/repeat.svg';
 
     constructor(private store: Store, private dataService: DataService, private spotifyService: SpotifyService, private router: Router) {
         this.dataService.userPlaylistsSubject.subscribe((playlists) => {
@@ -101,26 +100,7 @@ export class SidebarComponent {
         this.dataService.toggleNextSong(changeVal);
     }
 
-    setShuffleFlag() {
-      if (this.isRandom) {
-        this.shuffleImgSrc = "./assets/shuffle.svg";
-      } else {
-        this.shuffleImgSrc = "./assets/shuffle-green.svg"
-      }
-  
-      this.isRandom = !this.isRandom;
-      this.store.dispatch(new SetShuffle(this.isRandom));
-    }
-  
-    setRepeatFlag() {
-      if (this.isRepeat) {
-        this.repeatImgSrc = "./assets/repeat.svg";
-      } else {
-        this.repeatImgSrc = "./assets/repeat-green.svg"
-      }
-  
-      this.isRepeat = !this.isRepeat;
-
-      this.store.dispatch(new SetRepeat(this.isRepeat));
+    shouldDisplaySidebarSongs(index: number): boolean {
+      return (index === this.selectedPlaylistIndex && this.currentSpotifyPlaylistSongs !== null);
     }
 }

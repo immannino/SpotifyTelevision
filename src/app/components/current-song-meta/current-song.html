@@ -1,0 +1,23 @@
+<!-- <mat-card class="current-song" *ngIf="currentPlayingSpotifySong"> -->
+<mat-card class="current-song">
+    <div matLine *ngIf="!currentPlayingSpotifySong" class="song-meta">Pending Song</div>
+    <div matLine *ngIf="currentPlayingSpotifySong" class="song-meta">
+        <div matLine class="track-name">{{currentPlayingSpotifySong.track.name}}</div>
+        <div matLine class="artist-name">{{currentPlayingSpotifySong.track.artists[0].name}}</div>
+    </div>
+    <div class="track-buttons">
+            <div class="icon-container" (click)="setShuffleFlag()">
+                <img [src]="shuffleImgSrc" alt="shuffle" class="shuffle-icon">
+            </div>
+            <div class="icon-container" (click)="changeCurrentSong(-1)">
+                <img src="./assets/rewind-96.png" alt="previous" class="previous-icon">
+            </div>
+            <button mat-raised-button class="icon-container" (click)="togglePlay()">{{playText}}</button>
+            <div class="icon-container" (click)="changeCurrentSong(1)">
+                <img src="./assets/forward-96.png" alt="forward" class="next-icon">
+            </div>
+            <div class="icon-container" (click)="setRepeatFlag()">
+                <img [src]="repeatImgSrc" alt="repeat" class="repeat-icon">
+            </div>
+        </div>
+</mat-card>

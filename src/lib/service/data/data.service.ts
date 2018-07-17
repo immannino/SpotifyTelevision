@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { UserSpotifyPlaylists, SpotifyPlaylist, SpotifySong, SpotifyPlaylistTrack, SpotifyPlaylistTracks } from "../spotify/spotify.model";
 import { Observable, Subject } from "rxjs";
 import { Store } from "@ngxs/store";
-import { SetPlaylists, SetPlayingSong, SetSinglePlaylist, SetTrackIndex } from "../../../app/shared/spotify.state";
+import { SetPlaylists, SetPlayingSong, SetSinglePlaylist, SetTrackIndex, SetPlayerStatus } from "../../../app/shared/spotify.state";
 
 @Injectable()
 export class DataService {
     public userPlaylistsSubject: Subject<UserSpotifyPlaylists> = new Subject<UserSpotifyPlaylists>();
     public playlistSubject: Subject<SpotifyPlaylistTracks> = new Subject<SpotifyPlaylistTracks>();
     public currentSongSubject: Subject<SpotifyPlaylistTrack> = new Subject<SpotifyPlaylistTrack>();
+    public playerStatusSubject: Subject<boolean> = new Subject<boolean>();
 
     constructor(private store: Store) {
     }
@@ -69,6 +70,12 @@ export class DataService {
             // Trigger event to let video component know song was updated
             this.updateCurrentSong(newSong);
         }
+    }
+
+    updatePlayerStatus(change: boolean) {
+        this.store.dispatch(new SetPlayerStatus(change));
+
+        this.playerStatusSubject.next(change);
     }
 
     updateUserPlaylists(playlists: UserSpotifyPlaylists) {

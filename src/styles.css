@@ -8,6 +8,9 @@ html {
     /* background-repeat: repeat; */
 }
 
+body {
+    margin: 0;
+}
 /*
 Following spinner css courtesy of 0xD34F on codepen. <3
 */

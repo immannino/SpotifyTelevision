@@ -21,7 +21,7 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
 }
 
 .video-container {
-    height: 100%;
+    /* height: 100%; */
     width: inherit;
     grid-area: "video";
     text-align: center;

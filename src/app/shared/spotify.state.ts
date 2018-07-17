@@ -29,6 +29,10 @@ export class SetShuffle {
   static readonly type = '[Auth] Set Shuffle Flag';
   constructor(public shouldShuffleSongs: boolean) {}
 }
+export class SetPlayerStatus {
+  static readonly type = '[Auth] Set Player Status';
+  constructor(public playerStatus: boolean) {}
+}
 
 export class SpotifyDataStateModel {
     spotifyPlaylists: UserSpotifyPlaylists;
@@ -38,6 +42,7 @@ export class SpotifyDataStateModel {
     trackIndex: number;
     shouldRepeatSongs: boolean;
     shouldShuffleSongs: boolean;
+    playerStatus: boolean;
 }
 
 @State({
@@ -49,7 +54,8 @@ export class SpotifyDataStateModel {
     userProfile: null,
     trackIndex: null,
     shouldRepeatSongs: null,
-    shouldShuffleSongs: null
+    shouldShuffleSongs: null,
+    playerStatus: null
   }
 })
 export class SpotifyDataState {
@@ -134,5 +140,15 @@ export class SpotifyDataState {
       ...localState,
       shouldShuffleSongs: action.shouldShuffleSongs
     });
+  }
+
+  @Action(SetPlayerStatus)
+  setPlayerStatus(ctx: StateContext<SpotifyDataStateModel>, action: SetPlayerStatus) {
+    const localState = ctx.getState();
+
+    ctx.patchState({
+      ...localState,
+      playerStatus: action.playerStatus
+    })
   }
 }

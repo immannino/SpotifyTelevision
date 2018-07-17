@@ -27,6 +27,7 @@ import { SpotifyDataState } from './shared/spotify.state';
 import { DataService } from '../lib/service/data/data.service';
 import { VideoComponent } from './components/video/video.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CurrentSongComponent } from './components/current-song-meta/current-song.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     FourOhFourComponent,
     VideoComponent,
     SidebarComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
+    CurrentSongComponent
   ],
   imports: [
     BrowserModule,

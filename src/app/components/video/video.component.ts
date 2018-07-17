@@ -19,11 +19,15 @@ export class VideoComponent {
     player: YT.Player;
     isRandom: boolean = false;
     isRepeat: boolean = false;
-
+    
     constructor(private dataService: DataService, private youtubeService: YoutubeService, private store: Store, private router: Router) {
         this.dataService.currentSongSubject.subscribe((song) => {
             this.currentSong = song;
             this.checkSongCache(song);
+        });
+
+        this.dataService.playerStatusSubject.subscribe((status) => {
+            status ? this.player.pauseVideo() : this.player.playVideo();
         });
     }
 
