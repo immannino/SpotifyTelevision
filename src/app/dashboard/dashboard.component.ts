@@ -58,7 +58,7 @@ export class DashboardComponent {
 
         this.getUserPlaylists();
       });
-    }, (error) => this.handleApiError(error), () => { });
+    }, error => this.handleApiError(error), () => { });
   }
 
   /**
@@ -95,7 +95,7 @@ export class DashboardComponent {
         if (playlistData.next) this.userPlaylistPaginate(playlistData.next);
         else this.getUserLibraryTracks();
       });
-    }, (error) => this.handleApiError(error), () => { })
+    }, error => this.handleApiError(error), () => { })
   }
 
   getUserLibraryTracks() {

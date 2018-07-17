@@ -62,7 +62,7 @@ export class SidebarComponent {
           this.dataService.updateUserPlaylists(this.spotifyPlaylists);
           if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
         });
-      }, (error) => this.handleApiError(error), () => { });
+      }, error => this.handleApiError(error), () => { });
     }
   
     getSpotifyPlaylistTracksPaginate(index: number, paginateUrl: string) {
@@ -74,7 +74,7 @@ export class SidebarComponent {
         this.store.dispatch(new SetPlaylists(this.spotifyPlaylists)).subscribe(() => {
           if (playlistTracks.next) this.getSpotifyPlaylistTracksPaginate(index, playlistTracks.next);
         });
-      }, (error) => this.handleApiError(error), () => { })
+      }, error => this.handleApiError(error), () => { })
     }
 
     handleApiError(error: any) {
@@ -84,6 +84,7 @@ export class SidebarComponent {
             this.router.navigate(['/login']);
             break;
           default:
+            this.router.navigate(['/login']);
         }
       }
     }
