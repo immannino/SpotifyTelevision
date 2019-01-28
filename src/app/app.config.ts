@@ -1,11 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import * as data from './config.development.json';
+
 @Injectable()
 export class AppConfig {
 
-    private config: Object = null;
-    private env:    Object = null;
-    private configPath: string = "../lib/config/config.json";
+    private config: any = null;
 
     constructor() { }
 
@@ -13,14 +12,7 @@ export class AppConfig {
      * Use to get the data found in the second file (config file)
      */
     public getConfig(key: any) {
-        return this.config[key];
-    }
-
-    /**
-     * Use to get the data found in the first file (env file)
-     */
-    public getEnv(key: any) {
-        return this.env[key];
+        return this.config.default[key];
     }
 
     /**

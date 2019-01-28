@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppMaterialsModule } from '../app-materials.module';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
@@ -18,7 +18,7 @@ import { SetAuth } from '../shared/auth.state';
     templateUrl: 'login.html',
     styleUrls: [ 'login.css' ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     constructor(
         private config: AppConfig, 
         private spotifyService: SpotifyService, 
@@ -49,15 +49,15 @@ export class LoginComponent {
           });
     }
 
-
     title = 'Spotify Television';
     errorMessagePrimaryText: string = "";
     errorMessageSubText: string = "";
     hasErrorOccurred: boolean = false;
     hrefUrl: SafeResourceUrl = "";
-    client_id: string = this.config.getConfig('spotify').clientid;
+    client_id: string;
 
     ngOnInit() {
+        this.client_id =  this.config.getConfig('spotify').clientid;
         this.generateSpotifyLoginUrl();
     }
 

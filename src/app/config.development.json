@@ -1,5 +1,1 @@
-{
-    "youtube": {
-        "apikey": "https://console.developers.google.com"
-    }
-}
+{"spotify":{"redirect_url": "https://immannino.github.io/SpotifyTelevision/login"},"youtube":{"apikey":""}}
