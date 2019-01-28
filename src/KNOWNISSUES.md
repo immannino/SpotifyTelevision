@@ -1,11 +1,2 @@
 ### ISSUES
-- Issue: Artist or Songs with encodable chars.
-    - Caching user playlists + playlist tracks so that we don't have to make api calls every single time. 
-        - Need to rethink the logic and simplify passing around and storying cache of playlists. 
-        - Logic should follow: 
-            - Check State
-            - If state is good, then return
-            - if state is not good, make a service request
-            - Always update state
-        - Draw out pattern on paper
-    - Update designs
+- Update designs
