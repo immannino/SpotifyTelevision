@@ -16,12 +16,11 @@ Css in this section is regarding UI ViewPorts for desktop width devices.
 @media (min-width: 600px) {
     .container {
         display: grid;
-        /* grid-gap: 5px; */
-        height: 100vh;
-        grid-template-rows: 1fr;
+        grid-template-rows: 100vh;
         grid-template-columns: 1fr 250px;
         background: transparent;
         font-size: 12px;
+        overflow: hidden;
     }
 }
 

@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
     generateSpotifyLoginUrl() {
         let clientStateKey = this.spotifyService.generateRandomString(50);
         // let appRedirectUrl: string = "http://localhost:4200/login";
-        // let appRedirectUrl: string = "http://10.0.0.156:4200/login";
+        // let appRedirectUrl: string = "http://10.0.0.101:4200/login";
         let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
         
         /**

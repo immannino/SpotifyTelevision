@@ -8,7 +8,6 @@
     "create404": "cp ./docs/index.html ./docs/404.html",
     "build:prod": "ng build --prod --output-path docs --base-href \"https://immannino.github.io/SpotifyTelevision/\"",
     "deploy:prod": "npm run build:prod && npm run create404",
-    "setcreds": "node set-creds.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -2,12 +2,10 @@
     <img src="assets/spotify-mtv-logo.svg"> <h1 class="mat-display-1">{{ title }}</h1>
 </div>
 <mat-card class="error-info" *ngIf="hasErrorOccurred">{{errorMessagePrimaryText}}<br>{{errorMessageSubText}}</mat-card>
-<mat-card>
-    <mat-card-title>Login</mat-card-title>
-    <mat-card-subtitle>Choose to login using Spotify or browse around without logging in.</mat-card-subtitle>
+<div class="button-container">
+    <div class="title">Login</div>
+    <div class="subtitle">Choose to login using Spotify or Sign Up for a Spotify account.</div>
     <a mat-raised-button class="login-button" id="spotify" [href]="hrefUrl">Spotify</a>
     <br>
-    <!-- comment this back in when login w/o spotify is done -->
-    <!-- <a mat-raised-button class="login-button disabled" id="continue" (click)="authUser()">Continue without Logging in</a> -->
     <a mat-raised-button class="login-button" id="continue" href="https://www.spotify.com/us/signup/">Sign up</a>
-</mat-card>
+</div>
