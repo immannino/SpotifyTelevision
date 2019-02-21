@@ -1,26 +1,23 @@
-.sidebar-container {
-    /* display: flex; */
-}
-
 mat-list {
     padding-top: 0!important;
 }
+
+.song-list {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    max-height: 30em;
+}
+
+.playlist-container {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    height: 100vh;
+}
+
 /************************************************************************ 
 Css in this section is regarding UI ViewPorts for mobile width devices.
 ************************************************************************/
 @media (max-width: 599px) {
-    .playlist-container {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        height: 100vh;
-    }
-
-    .song-list {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        max-height: 30em;
-    }
-
     .logo {
         display: none;
     }
@@ -30,20 +27,6 @@ Css in this section is regarding UI ViewPorts for mobile width devices.
 Css in this section is regarding UI ViewPorts for desktop width devices.
 ************************************************************************/
 @media (min-width: 600px) {
-    .playlist-container {
-        height: 100vh;
-        width: 100%;
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .song-list {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        max-height: 30em;
-        /* height: 30em; */
-    }
-
     .logo {
         background-color: #424242;
         color: white;
@@ -69,20 +52,4 @@ mat-list-item:hover {
 
 .mat-expanded {
     background-color: #4242428e;
-    /* background-color: #FAFAFA !important; */
-}
-
-.playlist-panel-item {
-    /* background-color: white; */
-    /* margin: 2px; */
-}
-
-.song-list-item {
-    /* background-color: #e0e0e0; */
-    /* margin: 2px; */
-    /* height: 4em !important; */
-}
-
-.song-list-item:hover {
-    /* background-color: white; */
 }

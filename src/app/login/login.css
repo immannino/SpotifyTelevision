@@ -1,7 +1,14 @@
-mat-card {
+.button-container {
     text-align: center;
     color: white;
     background: linear-gradient(to bottom left, #77C9D4, #57DC90);
+    box-shadow: 0 0 5px inset gray;
+    padding-bottom: 0.5em;
+}
+
+.title {
+    font-size: 1.5rem;
+    padding: 0.5em 0;
 }
 
 .login-button {
