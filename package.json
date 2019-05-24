@@ -29,7 +29,7 @@
     "@angular/router": "^7.2.2",
     "@angular/service-worker": "^7.2.2",
     "@ngxs/store": "^3.3.4",
-    "@types/youtube": "0.0.35",
+    "@types/youtube": "0.0.37",
     "core-js": "^2.6.3",
     "ngx-youtube-player": "^6.0.0",
     "rxjs": "^6.3.3",
