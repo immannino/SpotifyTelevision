@@ -31,7 +31,7 @@
     "@ngxs/store": "^3.3.4",
     "@types/youtube": "0.0.35",
     "core-js": "^2.6.3",
-    "ngx-youtube-player": "^6.0.0",
+    "ngx-youtube-player": "^7.1.1",
     "rxjs": "^6.3.3",
     "youtube": "^0.1.0",
     "youtube-player": "^5.5.2",
