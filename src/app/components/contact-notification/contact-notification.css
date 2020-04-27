@@ -1,0 +1,37 @@
+.container {
+    background-color: ghostwhite;
+    color: black;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    border: 1px solid blue;
+}
+
+
+.container > a {
+    padding: 0.25rem;
+}
+
+.close {
+    color: red;
+}
+
+.glitchLink {
+    color: blue;
+}
+
+.container > a:hover {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 600px) {
+    .container {
+        flex-direction: row;
+        width: 90%;
+        box-shadow: 5px 5px 0px blue;
+        margin: 0 auto;
+        margin-top: 0.25rem;
+    }
+}

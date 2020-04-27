@@ -42,7 +42,7 @@ Css in this section is regarding the previous and next buttons for songs.
 ************************************************************************/
 .track-buttons {
     display: grid;
-    height: 25px;
+    /* height: 25px; */
     grid-gap: 5px;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -51,8 +51,8 @@ Css in this section is regarding the previous and next buttons for songs.
 }
 
 img {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
 }
 
 .icon-container {
@@ -73,11 +73,11 @@ img {
 }
 
 .shuffle-icon {
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
 }
 
 .repeat-icon {
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
 }

@@ -1,5 +1,9 @@
 {
+    "spotify": {
+        "redirect_url": "https://immannino.github.io/SpotifyTelevision/login",
+        "clientid": ""
+    },
     "youtube": {
-        "apikey": "https://console.developers.google.com"
+        "apikey": ""
     }
 }
