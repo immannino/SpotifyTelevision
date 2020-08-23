@@ -28,7 +28,6 @@ export class YoutubeService {
     getApiKey() {
         const key = this.apiKeys[this.requestCount % this.apiKeys.length];
         this.requestCount += 1;
-        console.log(key, this.requestCount);
         return key;
     }
 }
