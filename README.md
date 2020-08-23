@@ -2,19 +2,16 @@
 
 # Spotify Television
 
-[![Join the chat at https://gitter.im/SpotifyTelevision/Lobby](https://badges.gitter.im/SpotifyTelevision/Lobby.svg)](https://gitter.im/SpotifyTelevision/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Web application to view Spotify playlists as Youtube playlists in one UI. 
+
+## Feedback
+Have some suggestions or ideas to make this app better? [Send some feedback](https://spotifytv-community.glitch.me/)
 
 ### Articles
 [Hypebot SpotifyTelevision](http://www.hypebot.com/hypebot/2018/03/spotify-television-turns-playlists-into-youtube-stream.html)
 
 ### Dev Dependencies for future reference: 
 [ngx-youtube-player](https://github.com/orizens/ngx-youtube-player)
-
-### Join the discussion!
-If you have any suggestions or want to reach out, check out the [gitter](https://gitter.im/SpotifyTelevision) for this page!
-I'll try my best to respond, but always open to more suggestions. 
 
 ## Angular CLI Mumbo Jumbo
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
