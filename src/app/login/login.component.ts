@@ -1,14 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AppMaterialsModule } from '../app-materials.module';
+import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
-import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
+import { Router,  NavigationEnd } from '@angular/router';
 import { SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
-import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
 import { UserData } from '../../lib/service/spotify/spotify.model';
 import { AppConfig } from '../app.config';
-import { Timestamp } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { SetAuth } from '../shared/auth.state';
 
@@ -28,23 +23,31 @@ export class LoginComponent implements OnInit {
     ) {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd ) {
-                let data = event.urlAfterRedirects.split("#")[1];
+                const urlParams = new URLSearchParams(event.urlAfterRedirects.split('/login')[1]);
 
-                if (data && data !== '' && !data.includes("error")) {
-                    let responseItems: string[] = data.split("&");
-                    /**
-                     * In the future, add logic to check that client state key is valid from response; 
-                     */
-                    this.userSpotifyLogin(responseItems);
+                if (urlParams.get('code')) {
+                    let code = urlParams.get('code');
+                    this.exchangeAccessToken(code)
                 } else {
-                    let currentToken: string = localStorage.getItem('auth_error');
+                    let err: string = localStorage.getItem('auth_error');
 
-                    if (currentToken && currentToken === "true") {
+                    if (err && err === "true") {
                         this.errorMessagePrimaryText = "Spotify session token has expired."
                         this.errorMessageSubText = "Please log back in.";
                         this.hasErrorOccurred = true;
                     }
                 }
+                // let data = event.urlAfterRedirects.split("#")[1];
+
+                // if (data && data !== '' && !data.includes("error")) {
+                //     let responseItems: string[] = data.split("&");
+                //     /**
+                //      * In the future, add logic to check that client state key is valid from response; 
+                //      */
+                //     this.userSpotifyLogin(responseItems);
+                // } else {
+                
+                // }
             }
           });
     }
@@ -58,51 +61,92 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         this.client_id =  this.config.getConfig('spotify').clientid;
-        this.generateSpotifyLoginUrl();
     }
 
-    userSpotifyLogin(responseItems: string[]) {
+    async handleLogin() {
+        await this.generateSpotifyLoginUrl();
+    }
+
+    async exchangeAccessToken(code: string) {
+        const codeVerifier = window.localStorage.getItem('code_verifier')
+        const url = "https://accounts.spotify.com/api/token"
+        const redirectURI: string = this.config.getConfig('spotify').redirect_url;
+        const params = new URLSearchParams({
+                client_id: this.config.getConfig('spotify').clientid,
+                grant_type: 'authorization_code',
+                code,
+                redirect_uri: redirectURI,
+                code_verifier: codeVerifier,
+        })
+        const payload = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params.toString()
+        }
+        const body = await fetch(url, payload)
+        const response = await body.json();
+
+        if (!response.access_token) {
+            this.router.navigate(['/login'])
+            return
+        }
+
         let tempUserData: UserData = {
-            userAccessToken: responseItems[0].split("=")[1],
-            token_type: responseItems[1].split("=")[1],
-            refreshTokenTimeout: Number(responseItems[2].split("=")[1]),
-            state: responseItems[3].split("=")[1]
+            userAccessToken: response.access_token,
+            token_type: response.token_type,
+            refreshTokenTimeout: (response.expires_in * 1000) + new Date().getTime(),
+            state: response.scope
         };
 
-        this.store.dispatch(new SetAuth(tempUserData)).subscribe(() => {
-            
-        });
+        await this.store.dispatch(new SetAuth(tempUserData)).toPromise()
         
         if (this.hasErrorOccurred) this.hasErrorOccurred = false;
 
-        this.navigateToDashboard();
-    }
-
-    generateSpotifyLoginUrl() {
-        let clientStateKey = this.spotifyService.generateRandomString(50);
-        // let appRedirectUrl: string = "http://localhost:4200/login";
-        // let appRedirectUrl: string = "http://10.0.0.101:4200/login";
-        let appRedirectUrl: string = this.config.getConfig('spotify').redirect_url;
-        
-        /**
-         * Update scopes to appropriate values for what information I'm requesting from the user.
-         */
-        let scopes: string = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative user-library-read';
-
-        let url = 'https://accounts.spotify.com/authorize' +
-        '?client_id=' + this.client_id +
-        '&redirect_uri=' + encodeURIComponent(appRedirectUrl) +
-        (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-        '&response_type=token' + '&state=' + clientStateKey;
-
-        this.hrefUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    }
-
-    authUser() {
-        this.navigateToDashboard();
-    }
-
-    navigateToDashboard() {
         this.router.navigate(['/dashboard']);
+    }
+
+    async generateSpotifyLoginUrl() {
+        const verifyCode = this.generateRandomString(64);
+        const codeChallenge = this.base64Encode(await this.sha256(verifyCode))
+        const clientID = this.client_id;
+        const appRedirectUrl = this.config.getConfig('spotify').redirect_url;
+        const scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative user-library-read';
+        const authUrl = new URL("https://accounts.spotify.com/authorize");
+
+        window.localStorage.setItem('code_verifier', verifyCode);
+
+        const params = {
+            response_type: 'code',
+            client_id: clientID,
+            scope,
+            code_challenge_method: 'S256',
+            code_challenge: codeChallenge,
+            redirect_uri: appRedirectUrl,
+        }
+
+        authUrl.search = new URLSearchParams(params).toString();
+
+        window.location.replace(authUrl.toString());
+    }
+
+    generateRandomString(length: number): string {
+        const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const values = crypto.getRandomValues(new Uint8Array(length));
+        return values.reduce((acc, x) => acc + possible[x % possible.length], "");
+    };
+
+    async sha256(plain): Promise<any> {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(plain);
+        return window.crypto.subtle.digest('SHA-256', data);
+    }
+
+    base64Encode(input: any): any {
+        return btoa(String.fromCharCode(...new Uint8Array(input)))
+            .replace(/=/g, '')
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_');
     }
 }

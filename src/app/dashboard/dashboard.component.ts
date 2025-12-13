@@ -1,19 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 
-import { AuthenticationService } from '../../lib/service/authentication/authentication.service';
-import { AuthData } from '../../lib/service/authentication/authentication.model';
-import { SpotifySong, SpotifyPlaylist, SpotifyUserProfile, UserSpotifyPlaylists, SpotifyPlaylistTracks, SpotifyPlaylistTrack, SimpleSpotifyTrack } from '../../lib/service/spotify/spotify.model';
-import { DashboardPlaylist, PlaylistItem } from './dashboard.model';
-import { SafeUrlPipe } from '../../lib/utils/safeurl.pipe';
-
-import { Observable } from 'rxjs';
+import { SpotifyPlaylist, SpotifyUserProfile, UserSpotifyPlaylists, SpotifyPlaylistTracks } from '../../lib/service/spotify/spotify.model';
 
 import { SpotifyService } from '../../lib/service/spotify/spotify.service';
-import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
-import { EventListener } from '@angular/core/src/debug/debug_node';
+import { Router,  NavigationEnd } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { SetProfile, SetPlaylists, SetSinglePlaylist, SetPlayingSong } from '../shared/spotify.state';
+import { SetProfile, SetPlaylists } from '../shared/spotify.state';
 import { DataService } from '../../lib/service/data/data.service';
 
 @Component({
@@ -22,12 +14,15 @@ import { DataService } from '../../lib/service/data/data.service';
   styleUrls: ['./dashboard.css']
 })
 export class DashboardComponent {
-  constructor(private authService: AuthenticationService, private spotifyService: SpotifyService, private router: Router, private store: Store, private dataService: DataService) {
+  constructor(private spotifyService: SpotifyService, private router: Router, private store: Store, private dataService: DataService) {
     this.router.events.subscribe(event => {
+        console.log(event)
       if (event instanceof NavigationEnd) {
         if (!this.store.snapshot().spotifydata.spotifyPlaylists) {
+            console.log("spotifydata.spotifyPlaylists")
           this.getUserProfileInformation();
         } else {
+            console.log("refreshLocalStateData")
           this.refreshLocalStateData();
         }
       }

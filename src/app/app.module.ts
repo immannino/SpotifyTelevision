@@ -28,7 +28,6 @@ import { DataService } from '../lib/service/data/data.service';
 import { VideoComponent } from './components/video/video.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CurrentSongComponent } from './components/current-song-meta/current-song.component';
-import {ContactNotifyComponent} from './components/contact-notification/contact-notification.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +38,7 @@ import {ContactNotifyComponent} from './components/contact-notification/contact-
     VideoComponent,
     SidebarComponent,
     SafeUrlPipe,
-    CurrentSongComponent,
-    ContactNotifyComponent
+    CurrentSongComponent
   ],
   imports: [
     BrowserModule,

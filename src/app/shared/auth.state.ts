@@ -28,7 +28,7 @@ export class SpotifyAuthState {
   @Action(SetAuth)
   setAuth(ctx: StateContext<UserData>, action: SetAuth) {
     const localState = ctx.getState();
-
+    
     ctx.patchState({
       ...localState,
       userAccessToken: action.authData.userAccessToken,
