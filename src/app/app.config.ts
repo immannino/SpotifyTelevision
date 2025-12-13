@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import * as data from './config.development.json';
+// import * as data from './config.development.json';
+import * as data from './config.production.json';
 
 @Injectable()
 export class AppConfig {
