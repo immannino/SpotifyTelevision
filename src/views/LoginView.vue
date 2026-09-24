@@ -36,7 +36,15 @@ onMounted(async () => {
 
 async function login() {
   busy.value = true
-  await beginLogin()
+  error.value = null
+  try {
+    await beginLogin()
+  } catch (err) {
+    busy.value = false
+    error.value = window.isSecureContext
+      ? `Couldn't start Spotify login: ${err instanceof Error ? err.message : String(err)}`
+      : 'Login needs a secure connection. Open this page over https:// and try again.'
+  }
 }
 </script>
 

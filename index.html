@@ -2,6 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script>
+      // Login (Web Crypto) and the Worker (CORS allowlist) only work over HTTPS. Loopback
+      // addresses are exempt because Spotify requires http://127.0.0.1 for local dev.
+      if (location.protocol === 'http:' && !/^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname)) {
+        location.replace('https://' + location.host + location.pathname + location.search + location.hash)
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0b0d10" />
     <meta name="description" content="Watch music videos for the songs in your Spotify playlists." />
