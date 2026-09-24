@@ -59,6 +59,8 @@ export async function createLocalYouTubePlayer(el: HTMLElement, events: VideoPla
     pause: () => player.pauseVideo(),
     seekTo: (seconds) => player.seekTo(seconds, true),
     currentTime: () => player.getCurrentTime() ?? 0,
+    duration: () => player.getDuration() ?? 0,
+    setMuted: (muted) => (muted ? player.mute() : player.unMute()),
     destroy: () => player.destroy(),
   }
 }

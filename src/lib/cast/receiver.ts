@@ -42,6 +42,7 @@ export class TvReceiver {
       this.seq = message.seq
       this.items = message.items
       this.loop = message.loop
+      this.player?.setMuted(message.muted)
       if (keepPlaying) {
         this.index = 0
         this.report()
@@ -132,6 +133,7 @@ export class TvReceiver {
       index: this.index,
       state: this.state,
       currentTime: this.player?.currentTime() ?? 0,
+      duration: this.player?.duration() ?? 0,
       item: this.current,
     })
     this.onChange()

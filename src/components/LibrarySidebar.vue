@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useLibraryStore } from '@/stores/library'
 import { usePlayerStore } from '@/stores/player'
 import AppIcon from './AppIcon.vue'
+import FollowSpotifyRow from './FollowSpotifyRow.vue'
 import PlaylistRow from './PlaylistRow.vue'
 
 const auth = useAuthStore()
@@ -41,6 +42,8 @@ const avatar = computed(() => library.user?.images.at(-1)?.url ?? null)
         <AppIcon name="logout" :size="20" />
       </button>
     </header>
+
+    <FollowSpotifyRow />
 
     <label class="search">
       <AppIcon name="search" :size="18" />

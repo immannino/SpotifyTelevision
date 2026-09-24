@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
-import type { CastItem, IncomingForRemote, RemoteMessage, StatusMessage } from '@/lib/cast/protocol'
+import type { CastItem, CastTrack, IncomingForRemote, RemoteMessage, StatusMessage } from '@/lib/cast/protocol'
 import { openRoomSocket, type RoomSocket } from '@/lib/cast/socket'
+import type { VideoSnapshot } from '@/lib/follow'
 import type { Track } from '@/lib/models'
 import type { PlaybackState, VideoPlayer, VideoPlayerEvents } from '@/lib/player/types'
 import { advance, buildOrder, extendOrder, nextRepeatMode, type RepeatMode } from '@/lib/queue'
@@ -32,6 +33,12 @@ export type VideoStatus =
 /** off → connecting → waiting-for-tv / connected; reconnecting while the socket is down. */
 export type CastState = 'off' | 'connecting' | 'waiting-for-tv' | 'connected'
 
+/**
+ * queue: we play a playlist, with our own shuffle/repeat.
+ * follow: music plays in a Spotify app; the video follows it, muted (see stores/follow.ts).
+ */
+export type PlayerMode = 'queue' | 'follow'
+
 export const usePlayerStore = defineStore('player', () => {
   const auth = useAuthStore()
   const library = useLibraryStore()
@@ -44,10 +51,15 @@ export const usePlayerStore = defineStore('player', () => {
   const repeat = ref<RepeatMode>(prefs.repeat)
   const playback = ref<PlaybackState>('unstarted')
   const video = ref<VideoStatus>({ kind: 'idle' })
+  const mode = ref<PlayerMode>('queue')
+  /** In follow mode, the song Spotify is playing. */
+  const followTrack = shallowRef<Track | null>(null)
 
   const tracks = computed<Track[]>(() => (playlistId.value ? (library.lists[playlistId.value]?.tracks ?? []) : []))
   const currentIndex = computed(() => order.value[position.value] ?? -1)
-  const currentTrack = computed(() => tracks.value[currentIndex.value] ?? null)
+  const currentTrack = computed(() =>
+    mode.value === 'follow' ? followTrack.value : (tracks.value[currentIndex.value] ?? null),
+  )
   const currentVideo = computed(() => (video.value.kind === 'ready' ? video.value.candidates[video.value.index] : null))
   const isPlaying = computed(() => playback.value === 'playing' || playback.value === 'buffering')
 
@@ -83,6 +95,7 @@ export const usePlayerStore = defineStore('player', () => {
   let lastRestartSeq = 0
   let catchUpTimer: ReturnType<typeof setTimeout> | undefined
   let lastTvTime = { seconds: 0, receivedAt: 0 }
+  let lastTvDuration = 0
 
   // --- Local player --------------------------------------------------------------------
 
@@ -90,7 +103,7 @@ export const usePlayerStore = defineStore('player', () => {
     onStateChange(state) {
       if (isCasting.value) return
       playback.value = state
-      if (state === 'ended') next({ auto: true })
+      if (state === 'ended' && mode.value === 'queue') next({ auto: true })
     },
     onError(kind) {
       if (!isCasting.value && kind === 'unavailable') tryNextCandidate()
@@ -99,6 +112,7 @@ export const usePlayerStore = defineStore('player', () => {
 
   function attachPlayer(p: VideoPlayer) {
     player = p
+    p.setMuted(mode.value === 'follow')
     if (currentVideo.value && !isCasting.value) p.load(currentVideo.value.id)
   }
 
@@ -150,10 +164,12 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function scheduleSkip() {
-    skipTimer = setTimeout(() => next({ auto: true }), AUTO_SKIP_MS)
+    if (mode.value === 'queue') skipTimer = setTimeout(() => next({ auto: true }), AUTO_SKIP_MS)
   }
 
   function playFrom(id: string, trackIndex: number) {
+    // Picking a song takes over from following Spotify.
+    leaveFollowMode()
     playlistId.value = id
     order.value = buildOrder(tracks.value.length, shuffle.value, trackIndex)
     void playAt(shuffle.value ? 0 : trackIndex)
@@ -170,6 +186,7 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function next({ auto = false } = {}) {
+    if (mode.value === 'follow') return
     if (auto && repeat.value === 'one' && player && currentVideo.value && !isCasting.value) {
       player.seekTo(0)
       player.play()
@@ -184,6 +201,7 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function previous() {
+    if (mode.value === 'follow') return
     if (currentTime() > RESTART_THRESHOLD_S) {
       seekTo(0)
       return
@@ -194,13 +212,20 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function togglePlay() {
-    if (isCasting.value) {
-      socket?.send({ type: 'command', command: isPlaying.value ? 'pause' : 'play' })
-      return
-    }
-    if (!player || !currentVideo.value) return
-    if (isPlaying.value) player.pause()
-    else player.play()
+    // While following, Spotify decides; the next poll would undo a local pause anyway.
+    if (mode.value === 'follow') return
+    if (isPlaying.value) pause()
+    else play()
+  }
+
+  function play() {
+    if (isCasting.value) socket?.send({ type: 'command', command: 'play' })
+    else if (currentVideo.value) player?.play()
+  }
+
+  function pause() {
+    if (isCasting.value) socket?.send({ type: 'command', command: 'pause' })
+    else player?.pause()
   }
 
   function seekTo(seconds: number) {
@@ -215,6 +240,7 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function toggleShuffle() {
+    if (mode.value === 'follow') return
     shuffle.value = !shuffle.value
     const index = currentIndex.value
     if (index < 0) return
@@ -224,6 +250,7 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   function cycleRepeat() {
+    if (mode.value === 'follow') return
     repeat.value = nextRepeatMode(repeat.value)
     refreshTvQueue()
   }
@@ -233,22 +260,99 @@ export const usePlayerStore = defineStore('player', () => {
     clearTimeout(skipTimer)
     requestId++
     player?.pause()
+    mode.value = 'queue'
+    followTrack.value = null
     playlistId.value = null
     order.value = []
     position.value = -1
     video.value = { kind: 'idle' }
   }
 
+  // --- Follow mode (driven by stores/follow.ts) -----------------------------------------
+
+  function enterFollowMode() {
+    if (mode.value === 'follow') return
+    clearTimeout(skipTimer)
+    requestId++
+    pause()
+    playlistId.value = null
+    order.value = []
+    position.value = -1
+    video.value = { kind: 'idle' }
+    mode.value = 'follow'
+    player?.setMuted(true)
+  }
+
+  function leaveFollowMode() {
+    if (mode.value !== 'follow') return
+    requestId++
+    pause()
+    mode.value = 'queue'
+    followTrack.value = null
+    video.value = { kind: 'idle' }
+    player?.setMuted(false)
+  }
+
+  /** Shows the video for the song Spotify is on, muted, starting at `at` seconds. */
+  async function followLoad(track: Track, at: number, autoplay: boolean) {
+    if (mode.value !== 'follow' || !track.id) return
+    followTrack.value = track
+    const id = ++requestId
+    const requestedAt = Date.now()
+    video.value = { kind: 'searching' }
+    try {
+      const candidates = await resolve(track)
+      if (id !== requestId) return
+      video.value = { kind: 'ready', candidates, index: 0 }
+      // The song kept playing during the lookup.
+      const start = at + (autoplay ? (Date.now() - requestedAt) / 1000 : 0)
+      if (isCasting.value) {
+        sendFollowItem(track, candidates, start)
+        if (!autoplay) pause()
+      } else {
+        player?.setMuted(true)
+        player?.load(candidates[0]!.id, start)
+        if (!autoplay) player?.pause()
+      }
+    } catch (err) {
+      if (id !== requestId) return
+      video.value = { kind: 'error', message: err instanceof Error ? err.message : 'Video lookup failed.' }
+    }
+  }
+
+  function sendFollowItem(track: Track, candidates: VideoCandidate[], startSeconds: number) {
+    lastRestartSeq = ++castSeq
+    socket?.send({
+      type: 'queue',
+      seq: castSeq,
+      items: [{ key: `follow:${track.id}`, track: toCastTrack(track), candidates }],
+      loop: false,
+      restart: true,
+      startSeconds,
+      muted: true,
+    })
+  }
+
+  /** What the video is doing, for the follow-mode sync logic. */
+  function videoSnapshot(): VideoSnapshot {
+    return {
+      // Includes a song still being looked up, or with no video, so we don't retry every poll.
+      trackId: followTrack.value?.id ?? null,
+      playing: isPlaying.value,
+      positionSeconds: currentTime(),
+      durationSeconds: isCasting.value ? lastTvDuration : (player?.duration() ?? 0),
+    }
+  }
+
   // --- Casting -------------------------------------------------------------------------
+
+  function toCastTrack(track: Track): CastTrack {
+    return { name: track.name, artists: track.artists, album: track.album, artworkUrl: track.artworkUrl }
+  }
 
   function toCastItem(pos: number, candidates: VideoCandidate[]): CastItem {
     const index = order.value[pos]!
-    const track = tracks.value[index]!
-    return {
-      key: `${playlistId.value}:${index}`,
-      track: { name: track.name, artists: track.artists, album: track.album, artworkUrl: track.artworkUrl },
-      candidates,
-    }
+    return { key: `${playlistId.value}:${index}`, track: toCastTrack(tracks.value[index]!), candidates }
   }
 
   /**
@@ -268,6 +372,7 @@ export const usePlayerStore = defineStore('player', () => {
         loop: repeat.value === 'one',
         restart: restartNow,
         startSeconds: restartNow ? startSeconds : undefined,
+        muted: false,
       })
     }
 
@@ -294,12 +399,13 @@ export const usePlayerStore = defineStore('player', () => {
 
   /** Re-sends the queue after shuffle/repeat changes so the TV's up-next matches. */
   function refreshTvQueue() {
-    if (isCasting.value && video.value.kind === 'ready') void sendQueue(requestId, video.value.candidates, false)
+    if (mode.value === 'queue' && isCasting.value && video.value.kind === 'ready') void sendQueue(requestId, video.value.candidates, false)
   }
 
   function onTvStatus(status: StatusMessage) {
     tvItem.value = status.item
     lastTvTime = { seconds: status.currentTime, receivedAt: Date.now() }
+    lastTvDuration = status.duration
     playback.value = status.state === 'idle' || status.state === 'failing' ? 'unstarted' : status.state
     tvFailing.value = status.state === 'failing'
 
@@ -340,7 +446,10 @@ export const usePlayerStore = defineStore('player', () => {
       onOpen() {
         // Hand the current song over on first connect, resuming where the phone was; on
         // reconnects just re-sync without restarting what the TV is playing.
-        if (currentTrack.value) {
+        if (mode.value === 'follow') {
+          // Re-send the followed song; the next Spotify poll fixes position and pause state.
+          if (followTrack.value) void followLoad(followTrack.value, handedOff ? currentTime() : (startSeconds ?? 0), true)
+        } else if (currentTrack.value) {
           void playAt(position.value, handedOff ? { restart: false } : { restart: true, startSeconds })
         }
         handedOff = true
@@ -380,6 +489,7 @@ export const usePlayerStore = defineStore('player', () => {
     sessionStorage.removeItem(CAST_KEY)
     playback.value = 'unstarted'
     if (handOff && currentVideo.value && player) {
+      player.setMuted(mode.value === 'follow')
       player.load(currentVideo.value.id, resumeAt)
       if (!wasPlaying) player.pause()
     }
@@ -408,6 +518,8 @@ export const usePlayerStore = defineStore('player', () => {
     tvItem,
     tvFailing,
     isCasting,
+    mode,
+    followTrack,
     attachPlayer,
     detachPlayer,
     playFrom,
@@ -417,6 +529,13 @@ export const usePlayerStore = defineStore('player', () => {
     toggleShuffle,
     cycleRepeat,
     stop,
+    play,
+    pause,
+    seekTo,
+    enterFollowMode,
+    leaveFollowMode,
+    followLoad,
+    videoSnapshot,
     connectTv,
     disconnectTv,
     resumeCasting,

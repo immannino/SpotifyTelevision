@@ -5,15 +5,18 @@ import { MAX_CONSECUTIVE_FAILURES, TvReceiver } from './receiver'
 
 function fakePlayer() {
   const calls: string[] = []
+  const state = { muted: false }
   const player: VideoPlayer = {
     load: (id, start) => calls.push(`load:${id}${start ? `@${start}` : ''}`),
     play: () => calls.push('play'),
     pause: () => calls.push('pause'),
     seekTo: (s) => calls.push(`seek:${s}`),
     currentTime: () => 42,
+    duration: () => 200,
+    setMuted: (muted) => (state.muted = muted),
     destroy: () => {},
   }
-  return { player, calls }
+  return { player, calls, state }
 }
 
 const item = (key: string, ...videos: string[]): CastItem => ({
@@ -28,15 +31,16 @@ const queue = (seq: number, items: CastItem[], extra: Partial<QueueMessage> = {}
   items,
   loop: false,
   restart: false,
+  muted: false,
   ...extra,
 })
 
 function setup() {
   const sent: StatusMessage[] = []
   const receiver = new TvReceiver((m) => sent.push(m))
-  const { player, calls } = fakePlayer()
+  const { player, calls, state } = fakePlayer()
   receiver.attach(player)
-  return { receiver, calls, sent, lastStatus: () => sent.at(-1)! }
+  return { receiver, calls, sent, state, lastStatus: () => sent.at(-1)! }
 }
 
 describe('TvReceiver', () => {
@@ -109,6 +113,15 @@ describe('TvReceiver', () => {
     expect(lastStatus().state).toBe('failing')
     receiver.handle(queue(2, [item('x', 'vx')], { restart: true }))
     expect(lastStatus().state).toBe('buffering')
+  })
+
+  it('mutes or unmutes with each queue, and reports the duration', () => {
+    const { receiver, state, lastStatus } = setup()
+    receiver.handle(queue(1, [item('a', 'va')], { muted: true }))
+    expect(state.muted).toBe(true)
+    expect(lastStatus().duration).toBe(200)
+    receiver.handle(queue(2, [item('b', 'vb')], { muted: false }))
+    expect(state.muted).toBe(false)
   })
 
   it('loops the current item for repeat-one', () => {

@@ -2,7 +2,7 @@
 
 # Spotify Television
 
-Watch your Spotify playlists as a stream of music videos. Log in with Spotify, pick a playlist, and each song plays its YouTube video, advancing through the playlist like a TV channel. Cast it to any TV with a web browser, using your phone as the remote.
+Watch your Spotify playlists as a stream of music videos. Log in with Spotify, pick a playlist, and each song plays its YouTube video, advancing through the playlist like a TV channel. Cast it to any TV with a web browser, using your phone as the remote. Or turn on Follow Spotify mode and just play music in Spotify: the video follows along.
 
 Live at **https://tv.ope.cool** (TV mode: **https://tv.ope.cool/tv**).
 
@@ -81,6 +81,15 @@ npm run deploy
 
 1. Settings → Pages → Source: **GitHub Actions** (it previously served `docs/` from the branch).
 2. Set `VITE_WORKER_URL` in `.env` to the deployed Worker URL (it's public). The build fails if it's missing or not an absolute URL.
+
+## Follow Spotify mode
+
+Turn on **Follow my Spotify** at the top of the sidebar, then play music in any Spotify app (phone, desktop, a smart speaker). The video for whatever's playing shows up muted and stays in sync: it starts at Spotify's position, pauses and resumes with it, jumps when you scrub, and switches when the song changes. It works while casting too, so the TV shows the videos while the music comes from your speakers. Picking a song in the sidebar switches back to the normal playlist mode.
+
+- **Polling** (`src/stores/follow.ts`): reads `GET /me/player` every few seconds while playing, again right as the current song should end, and less often when paused, idle or in a background tab.
+- **Sync decisions** (`src/lib/follow.ts`): pure, tested functions turn Spotify's state and the video's state into load/seek/play/pause actions. Positions are corrected for request latency; drift beyond 2.5s (4s while casting) triggers a seek.
+- **Permission**: needs the `user-read-playback-state` scope. Sessions from before this feature get an **Allow** button, which logs in again to grant it.
+- **Limitation**: only the phone can ask Spotify what's playing, so while casting in follow mode the phone needs to stay awake.
 
 ## TV mode
 

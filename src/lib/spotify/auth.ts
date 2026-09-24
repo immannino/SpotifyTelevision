@@ -12,6 +12,8 @@ export interface Tokens {
   refreshToken: string
   /** Epoch ms. */
   expiresAt: number
+  /** Space-separated scopes granted. Missing on tokens saved before scopes were tracked. */
+  scope?: string
 }
 
 export class AuthError extends Error {}
@@ -73,6 +75,7 @@ async function tokenRequest(params: Record<string, string>): Promise<Tokens> {
     accessToken: body.access_token,
     refreshToken: body.refresh_token ?? '',
     expiresAt: Date.now() + (body.expires_in ?? 3600) * 1000,
+    scope: body.scope,
   }
 }
 

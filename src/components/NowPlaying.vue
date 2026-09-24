@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useFollowStore } from '@/stores/follow'
 import { usePlayerStore } from '@/stores/player'
 import AppIcon from './AppIcon.vue'
 import CastDialog from './CastDialog.vue'
 
 const player = usePlayerStore()
+const follow = useFollowStore()
 // After a reload while casting, the local queue is gone but the TV still knows its song.
 const track = computed(() => player.currentTrack ?? player.tvItem?.track ?? null)
 const canPlayPause = computed(() => (player.isCasting ? player.castState === 'connected' : !!player.currentVideo))
@@ -23,46 +25,51 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
         <p class="title">{{ track?.name ?? 'Nothing playing' }}</p>
         <p class="artist">
           <span v-if="player.castState === 'connected'" class="on-tv">On TV · </span>
+          <span v-else-if="follow.active" class="on-tv">Following Spotify · </span>
           {{ track ? track.artists.join(', ') : 'Choose a song to begin' }}
         </p>
       </div>
     </div>
 
     <div class="controls">
-      <button
-        class="icon-btn"
-        :class="{ on: player.shuffle }"
-        :aria-pressed="player.shuffle"
-        title="Shuffle (S)"
-        aria-label="Shuffle"
-        @click="player.toggleShuffle"
-      >
-        <AppIcon name="shuffle" :size="20" />
-      </button>
-      <button class="icon-btn" title="Previous (P)" aria-label="Previous" :disabled="!player.currentTrack" @click="player.previous">
-        <AppIcon name="previous" />
-      </button>
-      <button
-        class="play-btn"
-        :title="player.isPlaying ? 'Pause (Space)' : 'Play (Space)'"
-        :aria-label="player.isPlaying ? 'Pause' : 'Play'"
-        :disabled="!canPlayPause"
-        @click="player.togglePlay"
-      >
-        <AppIcon :name="player.isPlaying ? 'pause' : 'play'" :size="28" />
-      </button>
-      <button class="icon-btn" title="Next (N)" aria-label="Next" :disabled="!player.currentTrack" @click="player.next()">
-        <AppIcon name="next" />
-      </button>
-      <button
-        class="icon-btn"
-        :class="{ on: player.repeat !== 'off' }"
-        :title="`${repeatLabel} (R)`"
-        :aria-label="repeatLabel"
-        @click="player.cycleRepeat"
-      >
-        <AppIcon :name="player.repeat === 'one' ? 'repeatOne' : 'repeat'" :size="20" />
-      </button>
+      <!-- Spotify is in charge while following; offer the way out instead of queue controls. -->
+      <button v-if="follow.active" class="stop-follow" @click="follow.stop">Stop following</button>
+      <template v-else>
+        <button
+          class="icon-btn"
+          :class="{ on: player.shuffle }"
+          :aria-pressed="player.shuffle"
+          title="Shuffle (S)"
+          aria-label="Shuffle"
+          @click="player.toggleShuffle"
+        >
+          <AppIcon name="shuffle" :size="20" />
+        </button>
+        <button class="icon-btn" title="Previous (P)" aria-label="Previous" :disabled="!player.currentTrack" @click="player.previous">
+          <AppIcon name="previous" />
+        </button>
+        <button
+          class="play-btn"
+          :title="player.isPlaying ? 'Pause (Space)' : 'Play (Space)'"
+          :aria-label="player.isPlaying ? 'Pause' : 'Play'"
+          :disabled="!canPlayPause"
+          @click="player.togglePlay"
+        >
+          <AppIcon :name="player.isPlaying ? 'pause' : 'play'" :size="28" />
+        </button>
+        <button class="icon-btn" title="Next (N)" aria-label="Next" :disabled="!player.currentTrack" @click="player.next()">
+          <AppIcon name="next" />
+        </button>
+        <button
+          class="icon-btn"
+          :class="{ on: player.repeat !== 'off' }"
+          :title="`${repeatLabel} (R)`"
+          :aria-label="repeatLabel"
+          @click="player.cycleRepeat"
+        >
+          <AppIcon :name="player.repeat === 'one' ? 'repeatOne' : 'repeat'" :size="20" />
+        </button>
+      </template>
       <button
         class="icon-btn cast-btn"
         :class="{ on: player.isCasting }"
@@ -140,6 +147,16 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
 }
 .cast-btn {
   margin-left: 8px;
+}
+.stop-follow {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+}
+.stop-follow:hover {
+  background: rgb(255 255 255 / 0.08);
 }
 .on-tv {
   color: var(--accent);

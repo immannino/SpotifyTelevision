@@ -7,11 +7,13 @@ import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts'
 import { normalizeCode } from '@/lib/cast/socket'
 import { PENDING_CAST_KEY } from '@/router'
 import { useMediaSession } from '@/composables/useMediaSession'
+import { useFollowStore } from '@/stores/follow'
 import { useLibraryStore } from '@/stores/library'
 import { usePlayerStore } from '@/stores/player'
 
 const library = useLibraryStore()
 const player = usePlayerStore()
+const follow = useFollowStore()
 
 useKeyboardShortcuts()
 useMediaSession()
@@ -23,6 +25,7 @@ onMounted(() => {
   sessionStorage.removeItem(PENDING_CAST_KEY)
   if (pending) player.connectTv(pending)
   else player.resumeCasting()
+  follow.resume()
 })
 
 const backdrop = computed(() => (player.currentTrack?.artworkUrl ? `url("${player.currentTrack.artworkUrl}")` : 'none'))

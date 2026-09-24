@@ -64,6 +64,14 @@ export interface SavedTrackEntry {
   track: SpotifyTrack
 }
 
+export interface PlaybackState {
+  device: { id: string | null; name: string; type: string; is_active: boolean }
+  is_playing: boolean
+  progress_ms: number | null
+  currently_playing_type: 'track' | 'episode' | 'ad' | 'unknown'
+  item: SpotifyTrack | SpotifyEpisode | null
+}
+
 export interface TokenResponse {
   access_token: string
   token_type: string

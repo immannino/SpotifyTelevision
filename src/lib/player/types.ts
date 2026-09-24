@@ -19,5 +19,8 @@ export interface VideoPlayer {
   pause(): void
   seekTo(seconds: number): void
   currentTime(): number
+  /** Seconds; 0 until the video's metadata has loaded. */
+  duration(): number
+  setMuted(muted: boolean): void
   destroy(): void
 }

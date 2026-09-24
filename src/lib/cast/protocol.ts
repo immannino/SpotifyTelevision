@@ -34,6 +34,8 @@ export interface QueueMessage {
   restart: boolean
   /** Where to start items[0] when (re)loading it, e.g. when handing off from the phone. */
   startSeconds?: number
+  /** Silence the TV, e.g. when following Spotify, which provides the audio itself. */
+  muted: boolean
 }
 
 export type CommandMessage =
@@ -49,6 +51,8 @@ export interface StatusMessage {
   /** 'failing': several videos in a row wouldn't play, so the TV stopped rather than skip on. */
   state: PlaybackState | 'idle' | 'failing'
   currentTime: number
+  /** Length of the current video in seconds; 0 if unknown. */
+  duration: number
   item: CastItem | null
 }
 

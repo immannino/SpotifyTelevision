@@ -2,10 +2,12 @@
 import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue'
 import { createLocalYouTubePlayer } from '@/lib/player/youtube-iframe'
 import type { VideoPlayer } from '@/lib/player/types'
+import { useFollowStore } from '@/stores/follow'
 import { usePlayerStore } from '@/stores/player'
 import AppIcon from './AppIcon.vue'
 
 const player = usePlayerStore()
+const follow = useFollowStore()
 const mount = useTemplateRef<HTMLElement>('mount')
 const loadError = ref(false)
 const castTrack = computed(() => player.currentTrack ?? player.tvItem?.track ?? null)
@@ -66,6 +68,10 @@ onBeforeUnmount(() => {
       <template v-else-if="player.video.kind === 'error'">
         <p class="headline">{{ player.currentTrack?.name }}</p>
         <p class="sub" role="status">{{ player.video.message }}</p>
+      </template>
+      <template v-else-if="follow.active">
+        <p class="headline">Play something on Spotify</p>
+        <p class="sub">Start music in any Spotify app, and its video shows up here, muted and in sync.</p>
       </template>
       <template v-else>
         <p class="headline">Pick a song to start the show</p>

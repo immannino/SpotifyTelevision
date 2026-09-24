@@ -1,4 +1,4 @@
-import type { Paging, PlaylistEntry, SavedTrackEntry, SpotifyPlaylist, SpotifyUser } from './types'
+import type { Paging, PlaybackState, PlaylistEntry, SavedTrackEntry, SpotifyPlaylist, SpotifyUser } from './types'
 
 const API_URL = 'https://api.spotify.com/v1'
 const MAX_RETRIES = 4
@@ -26,6 +26,7 @@ export function createSpotifyApi(tokens: TokenSource) {
 
     for (let attempt = 0; ; attempt++) {
       const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, signal })
+      if (res.status === 204) return null as T
       if (res.ok) return (await res.json()) as T
 
       if (res.status === 401 && attempt === 0) {
@@ -60,6 +61,8 @@ export function createSpotifyApi(tokens: TokenSource) {
     playlistItems: (playlistId: string, signal?: AbortSignal) =>
       paginate<PlaylistEntry>(`/playlists/${encodeURIComponent(playlistId)}/items?limit=50&additional_types=track`, signal),
     likedSongs: (signal?: AbortSignal) => paginate<SavedTrackEntry>('/me/tracks?limit=50', signal),
+    /** What's playing in any Spotify app; null when nothing is (204). */
+    playbackState: () => request<PlaybackState | null>('/me/player?additional_types=track'),
   }
 }
 

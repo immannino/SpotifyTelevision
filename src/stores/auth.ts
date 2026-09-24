@@ -11,6 +11,12 @@ export const useAuthStore = defineStore('auth', () => {
   const tokens = ref<Tokens | null>(readStoredTokens())
   const sessionExpired = ref(false)
   const isAuthenticated = computed(() => tokens.value !== null)
+  const grantedScopes = computed(() => new Set(tokens.value?.scope?.split(' ') ?? []))
+
+  /** Scopes added after someone logged in need a fresh login to be granted. */
+  function hasScope(scope: string): boolean {
+    return grantedScopes.value.has(scope)
+  }
 
   watch(tokens, (value) => {
     if (value) localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
@@ -51,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     sessionExpired.value = expired
   }
 
-  return { isAuthenticated, sessionExpired, getAccessToken, forceRefresh, handleCallback, logout }
+  return { isAuthenticated, sessionExpired, hasScope, getAccessToken, forceRefresh, handleCallback, logout }
 })
 
 let api: SpotifyApi | undefined
