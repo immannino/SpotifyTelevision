@@ -31,6 +31,15 @@ describe('parseKeys', () => {
     expect(parseKeys('a, b\nc  a', undefined, 'd')).toEqual(['a', 'b', 'c', 'd'])
   })
 
+  it('accepts a JSON array', () => {
+    expect(parseKeys('["a","b", "c"]')).toEqual(['a', 'b', 'c'])
+  })
+
+  it('strips quotes and brackets from loosely formatted lists', () => {
+    expect(parseKeys(`["a", 'b' ,c]`)).toEqual(['a', 'b', 'c'])
+    expect(parseKeys('"a","b"')).toEqual(['a', 'b'])
+  })
+
   it('returns nothing when unset', () => {
     expect(parseKeys(undefined, '')).toEqual([])
   })

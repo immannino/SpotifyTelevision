@@ -70,6 +70,7 @@ export default {
     }
 
     const result = await searchWithPool(track, pool)
+    if (result === 'no-working-keys') return json({ error: 'no_working_keys' }, 500, cors)
     if (result === 'quota') {
       return json({ error: 'quota_exceeded' }, 503, { ...cors, 'Retry-After': String(secondsUntilQuotaReset(Date.now())) })
     }
@@ -101,12 +102,20 @@ async function fetchSpotifyTrack(trackId: string, token: string): Promise<TrackI
   return artist ? { name: track.name, artist } : null
 }
 
-/** Tries each available key in rotation, moving on when one is out of quota or rejected. */
-async function searchWithPool(track: TrackInfo, pool: KeyPool): Promise<Candidate[] | 'quota' | 'error'> {
+/**
+ * Tries each available key in rotation, moving on when one is out of quota or rejected.
+ * Reports the most actionable failure: a transient error, then quota, then bad keys.
+ */
+async function searchWithPool(
+  track: TrackInfo,
+  pool: KeyPool,
+): Promise<Candidate[] | 'quota' | 'error' | 'no-working-keys'> {
   let sawError = false
+  let sawQuota = false
   for await (const key of pool.available()) {
     const result = await searchYouTube(track, key)
     if (result === 'quota') {
+      sawQuota = true
       await pool.markExhausted(key)
     } else if (result === 'bad-key') {
       console.error(`YouTube key ${await KeyPool.describe(key)} was rejected (invalid, API disabled, or referrer-restricted)`)
@@ -116,7 +125,14 @@ async function searchWithPool(track: TrackInfo, pool: KeyPool): Promise<Candidat
       return result
     }
   }
-  return sawError ? 'error' : 'quota'
+  if (sawError) return 'error'
+  // Keys skipped as already exhausted never reach the loop, so no results at all means quota.
+  return sawQuota || !(await hasUsableKey(pool)) ? 'quota' : 'no-working-keys'
+}
+
+async function hasUsableKey(pool: KeyPool): Promise<boolean> {
+  for await (const _ of pool.available()) return true
+  return false
 }
 
 // Reasons that mean this key will never work, as opposed to a transient failure.

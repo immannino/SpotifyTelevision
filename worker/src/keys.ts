@@ -11,9 +11,26 @@ export interface QuotaStore {
   put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>
 }
 
-/** Accepts keys separated by commas, whitespace or newlines, dropping duplicates. */
+/**
+ * Accepts a JSON array (`["k1","k2"]`) or keys separated by commas, whitespace or
+ * newlines, optionally quoted. Drops duplicates.
+ */
 export function parseKeys(...sources: (string | undefined)[]): string[] {
-  const keys = sources.flatMap((s) => (s ?? '').split(/[\s,]+/)).filter(Boolean)
+  const keys = sources
+    .flatMap((source) => {
+      const text = (source ?? '').trim()
+      if (text.startsWith('[')) {
+        try {
+          const parsed: unknown = JSON.parse(text)
+          if (Array.isArray(parsed)) return parsed.map(String)
+        } catch {
+          // Not valid JSON; fall through to splitting.
+        }
+      }
+      return text.split(/[\s,]+/)
+    })
+    .map((key) => key.trim().replace(/^[\s"'[]+|[\s"'\]]+$/g, ''))
+    .filter(Boolean)
   return [...new Set(keys)]
 }
 
