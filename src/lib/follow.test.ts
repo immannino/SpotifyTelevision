@@ -104,8 +104,8 @@ describe('nextPollDelay', () => {
   })
 
   it('backs off when paused, idle or hidden', () => {
-    expect(nextPollDelay(spotify({ playing: false }), true)).toBe(5_000)
-    expect(nextPollDelay(spotify({ trackId: null }), true)).toBe(8_000)
+    expect(nextPollDelay(spotify({ playing: false }), true)).toBe(4_000)
+    expect(nextPollDelay(spotify({ trackId: null }), true)).toBe(5_000)
     expect(nextPollDelay(spotify(), false)).toBe(15_000)
   })
 })

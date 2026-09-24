@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import { AuthError, completeLogin, refreshTokens, type Tokens } from '@/lib/spotify/auth'
+import { AuthError, refreshTokens, type Tokens } from '@/lib/spotify/auth'
 import { createSpotifyApi, type SpotifyApi } from '@/lib/spotify/api'
 
 const STORAGE_KEY = 'stv:tokens'
@@ -47,8 +47,8 @@ export const useAuthStore = defineStore('auth', () => {
     return forceRefresh()
   }
 
-  async function handleCallback(code: string, state: string | null) {
-    tokens.value = await completeLogin(code, state)
+  function signIn(newTokens: Tokens) {
+    tokens.value = newTokens
     sessionExpired.value = false
   }
 
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     sessionExpired.value = expired
   }
 
-  return { isAuthenticated, sessionExpired, hasScope, getAccessToken, forceRefresh, handleCallback, logout }
+  return { isAuthenticated, sessionExpired, hasScope, getAccessToken, forceRefresh, signIn, logout }
 })
 
 let api: SpotifyApi | undefined

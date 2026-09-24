@@ -13,6 +13,8 @@ export const router = createRouter({
     { path: '/dashboard', redirect: '/' },
     // The TV receiver. No Spotify login: the phone does the Spotify work.
     { path: '/tv', name: 'tv', component: () => import('./views/TvView.vue') },
+    // Opened from the TV's QR code: log in on the phone so the TV can follow Spotify itself.
+    { path: '/tv/connect', name: 'tv-connect', component: () => import('./views/ConnectTvView.vue') },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('./views/NotFoundView.vue') },
   ],
 })

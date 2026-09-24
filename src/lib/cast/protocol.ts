@@ -6,6 +6,7 @@
 // TV can keep playing on its own while the phone is locked or asleep. The TV reports which
 // of those items it's on, and the phone catches up and tops up the queue when it wakes.
 import type { PlaybackState } from '@/lib/player/types'
+import type { Tokens } from '@/lib/spotify/auth'
 import type { VideoCandidate } from '@/lib/video-lookup'
 
 export interface CastTrack {
@@ -24,6 +25,8 @@ export interface CastItem {
 
 export interface QueueMessage {
   type: 'queue'
+  /** Set by the Worker when replaying stored state to someone (re)connecting. */
+  replay?: boolean
   /** Increases with every queue the phone sends; status reports echo it. */
   seq: number
   /** items[0] is the current song; the rest play in order after it. */
@@ -56,6 +59,17 @@ export interface StatusMessage {
   item: CastItem | null
 }
 
+/** A Spotify login made on a phone for the TV to follow Spotify with (see tv-grant.ts). */
+export interface SpotifyAuthMessage {
+  type: 'spotify-auth'
+  tokens: Tokens
+}
+
+/** The TV received a login and is now following Spotify. */
+export interface SpotifyAuthAckMessage {
+  type: 'spotify-auth-ack'
+}
+
 /** Sent by the Worker whenever someone joins or leaves. */
 export interface PresenceMessage {
   type: 'presence'
@@ -63,7 +77,7 @@ export interface PresenceMessage {
   remotes: number
 }
 
-export type RemoteMessage = QueueMessage | CommandMessage
-export type TvMessage = StatusMessage
-export type IncomingForRemote = StatusMessage | PresenceMessage
+export type RemoteMessage = QueueMessage | CommandMessage | SpotifyAuthMessage
+export type TvMessage = StatusMessage | SpotifyAuthAckMessage
+export type IncomingForRemote = StatusMessage | SpotifyAuthAckMessage | PresenceMessage
 export type IncomingForTv = RemoteMessage | PresenceMessage

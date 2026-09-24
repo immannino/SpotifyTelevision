@@ -18,16 +18,32 @@ export interface Tokens {
 
 export class AuthError extends Error {}
 
-export async function beginLogin(): Promise<never> {
+/**
+ * Why a login was started, carried through the Spotify redirect. A TV login is a separate
+ * grant made on the phone and handed to a TV (see views/ConnectTvView.vue), so it must not
+ * replace the phone's own session.
+ */
+export type LoginPurpose = { type: 'app' } | { type: 'tv'; room: string }
+
+interface PendingLogin {
+  verifier: string
+  state: string
+  purpose: LoginPurpose
+}
+
+export async function beginLogin({
+  scopes = config.spotifyScopes,
+  purpose = { type: 'app' },
+}: { scopes?: string[]; purpose?: LoginPurpose } = {}): Promise<never> {
   const verifier = randomString(64)
   const state = randomString(16)
-  sessionStorage.setItem(PENDING_KEY, JSON.stringify({ verifier, state }))
+  sessionStorage.setItem(PENDING_KEY, JSON.stringify({ verifier, state, purpose } satisfies PendingLogin))
 
   const url = new URL(AUTHORIZE_URL)
   url.search = new URLSearchParams({
     response_type: 'code',
     client_id: config.spotifyClientId,
-    scope: config.spotifyScopes.join(' '),
+    scope: scopes.join(' '),
     code_challenge_method: 'S256',
     code_challenge: base64Url(await sha256(verifier)),
     redirect_uri: config.redirectUri,
@@ -39,20 +55,21 @@ export async function beginLogin(): Promise<never> {
   return new Promise<never>(() => {})
 }
 
-export async function completeLogin(code: string, state: string | null): Promise<Tokens> {
+export async function completeLogin(code: string, state: string | null): Promise<{ tokens: Tokens; purpose: LoginPurpose }> {
   const pending = sessionStorage.getItem(PENDING_KEY)
   sessionStorage.removeItem(PENDING_KEY)
   if (!pending) throw new AuthError('Login session expired. Please try again.')
 
-  const { verifier, state: expectedState } = JSON.parse(pending) as { verifier: string; state: string }
+  const { verifier, state: expectedState, purpose } = JSON.parse(pending) as PendingLogin
   if (state !== expectedState) throw new AuthError('Login response did not match the request. Please try again.')
 
-  return tokenRequest({
+  const tokens = await tokenRequest({
     grant_type: 'authorization_code',
     code,
     redirect_uri: config.redirectUri,
     code_verifier: verifier,
   })
+  return { tokens, purpose: purpose ?? { type: 'app' } }
 }
 
 export async function refreshTokens(refreshToken: string): Promise<Tokens> {

@@ -1,7 +1,8 @@
 // One Durable Object per pairing code. It relays messages between the TV and any phones
 // ("remotes") in the room, and doesn't interpret them beyond two details:
-//  - The latest message of a "sticky" type from each side is kept and replayed to anyone
-//    who (re)connects, so a phone waking up immediately learns what the TV is doing.
+//  - The latest message of a "sticky" type from each side is kept and replayed (marked
+//    `replay: true`) to anyone who (re)connects, so a phone waking up immediately learns
+//    what the TV is doing.
 //  - Presence ({ type: 'presence', tv, remotes }) is broadcast whenever someone joins or leaves.
 //
 // Sockets use the Hibernation API, so an idle room costs nothing between messages.
@@ -58,7 +59,9 @@ export class Room extends DurableObject<unknown> {
 
     const other: Role = role === 'tv' ? 'remote' : 'tv'
     const sticky = await this.ctx.storage.get<string>(`sticky:${other}`)
-    if (sticky) server.send(sticky)
+    // Marked so receivers can tell old state from a fresh message (a TV following Spotify
+    // ignores a replayed queue, but a new one means a phone is taking over).
+    if (sticky) server.send(JSON.stringify({ ...(JSON.parse(sticky) as object), replay: true }))
 
     this.broadcastPresence()
     await this.touch()

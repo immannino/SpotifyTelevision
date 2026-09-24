@@ -72,8 +72,8 @@ export function planSync(spotify: SpotifySnapshot, video: VideoSnapshot, driftTo
  */
 export function nextPollDelay(spotify: SpotifySnapshot, pageVisible: boolean): number {
   if (!pageVisible) return 15_000
-  if (!spotify.trackId) return 8_000
-  if (!spotify.playing) return 5_000
+  if (!spotify.trackId) return 5_000
+  if (!spotify.playing) return 4_000
   const untilEndMs = (spotify.durationSeconds - spotify.positionSeconds) * 1000 + 400
   return Math.max(1_000, Math.min(4_000, untilEndMs))
 }

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { beginLogin } from '@/lib/spotify/auth'
+import { beginLogin, completeLogin } from '@/lib/spotify/auth'
+import { TV_GRANT_KEY } from '@/lib/cast/tv-grant'
 import logoUrl from '@/assets/spotify-mtv-logo.svg'
 import { useAuthStore } from '@/stores/auth'
 
@@ -22,7 +23,14 @@ onMounted(async () => {
   if (typeof code === 'string') {
     busy.value = true
     try {
-      await auth.handleCallback(code, typeof state === 'string' ? state : null)
+      const { tokens, purpose } = await completeLogin(code, typeof state === 'string' ? state : null)
+      if (purpose.type === 'tv') {
+        // A login made for a TV: hand it over there instead of signing this browser in.
+        sessionStorage.setItem(TV_GRANT_KEY, JSON.stringify(tokens))
+        await router.replace({ name: 'tv-connect', query: { code: purpose.room } })
+        return
+      }
+      auth.signIn(tokens)
       await router.replace({ name: 'dashboard' })
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Login failed.'

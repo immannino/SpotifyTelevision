@@ -90,7 +90,15 @@ Turn on **Follow my Spotify** at the top of the sidebar, then play music in any 
 - **Sync decisions** (`src/lib/follow.ts`): pure, tested functions turn Spotify's state and the video's state into load/seek/play/pause actions. Positions are corrected for request latency; drift beyond 2.5s (4s while casting) triggers a seek.
 - **Permission**: needs the `user-read-playback-state` scope. Sessions from before this feature get an **Allow** button, which logs in again to grant it.
 - **Controls**: previous, play/pause and next in the now-playing bar (and Space/N/P, media keys) control the Spotify app itself via `POST /me/player/next` etc. This needs the `user-modify-playback-state` scope (**Enable controls** grants it) and, per Spotify, a Premium account; free accounts can still follow along.
-- **Limitation**: only the phone can ask Spotify what's playing, so while casting in follow mode the phone needs to stay awake.
+- **While casting**: the phone drives the TV, so it needs to stay awake. To avoid that, let the TV follow Spotify itself (below).
+
+### The TV following Spotify on its own
+
+On the TV's pairing screen, choose **Or follow my Spotify on this TV** and scan the QR code. The phone opens `/tv/connect`, makes a Spotify login just for the TV (a separate grant with only `user-read-playback-state`, so the phone's own session is untouched), and hands it to the TV through the pairing room. The Worker relays it without storing it. The TV then polls Spotify and syncs the video by itself (`src/lib/cast/tv-follower.ts`, same decisions as the phone), so no phone needs to stay awake.
+
+- The TV keeps its login in its own storage and resumes following after reloads. **Sign out of Spotify** on the TV clears it.
+- A phone casting a queue temporarily takes over; when the last phone leaves with nothing playing, the TV goes back to following.
+- The Worker marks replayed state (`replay: true`) so a reconnecting TV doesn't mistake an old queue for a phone taking over.
 
 ## TV mode
 
