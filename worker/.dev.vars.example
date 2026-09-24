@@ -1,1 +1,1 @@
-YOUTUBE_API_KEY=your-youtube-data-api-key
+YOUTUBE_API_KEYS=first-key,second-key,third-key

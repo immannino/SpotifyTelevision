@@ -1,15 +1,19 @@
 // Maps a Spotify track ID to YouTube music video candidates.
 //
-// The YouTube API key stays here instead of in the browser bundle, and every result is
+// The YouTube API keys stay here instead of in the browser bundle, and every result is
 // cached in KV for all users, so each song costs YouTube search quota (100 units, of a
-// default 10,000/day) at most once. Cache misses require a valid Spotify access token,
+// default 10,000/day per key) at most once. Searches rotate across the keys (keys.ts). Cache misses require a valid Spotify access token,
 // which the Worker uses to fetch the track itself, so callers can't spend quota on
 // arbitrary queries.
+import { KeyPool, parseKeys, secondsUntilQuotaReset } from './keys'
 import { buildQuery, decodeEntities, rankCandidates, type Candidate, type TrackInfo } from './search'
 
 export interface Env {
   VIDEO_CACHE: KVNamespace
-  YOUTUBE_API_KEY: string
+  /** One or more YouTube Data API keys, separated by commas or newlines. */
+  YOUTUBE_API_KEYS?: string
+  /** Single-key form, still accepted. */
+  YOUTUBE_API_KEY?: string
   /** Comma-separated list of origins allowed to call the Worker. */
   ALLOWED_ORIGINS: string
 }
@@ -59,9 +63,15 @@ export default {
     if (track === 'unauthorized') return json({ error: 'unauthorized' }, 401, cors)
     if (!track) return json({ error: 'track_not_found' }, 404, cors)
 
-    const result = await searchYouTube(track, env.YOUTUBE_API_KEY)
+    const pool = new KeyPool(parseKeys(env.YOUTUBE_API_KEYS, env.YOUTUBE_API_KEY), env.VIDEO_CACHE)
+    if (!pool.size) {
+      console.error('No YouTube API keys configured (YOUTUBE_API_KEYS)')
+      return json({ error: 'misconfigured' }, 500, cors)
+    }
+
+    const result = await searchWithPool(track, pool)
     if (result === 'quota') {
-      return json({ error: 'quota_exceeded' }, 503, { ...cors, 'Retry-After': String(secondsUntilQuotaReset()) })
+      return json({ error: 'quota_exceeded' }, 503, { ...cors, 'Retry-After': String(secondsUntilQuotaReset(Date.now())) })
     }
     if (result === 'error') return json({ error: 'upstream_error' }, 502, cors)
 
@@ -91,7 +101,30 @@ async function fetchSpotifyTrack(trackId: string, token: string): Promise<TrackI
   return artist ? { name: track.name, artist } : null
 }
 
-async function searchYouTube(track: TrackInfo, apiKey: string): Promise<Candidate[] | 'quota' | 'error'> {
+/** Tries each available key in rotation, moving on when one is out of quota or rejected. */
+async function searchWithPool(track: TrackInfo, pool: KeyPool): Promise<Candidate[] | 'quota' | 'error'> {
+  let sawError = false
+  for await (const key of pool.available()) {
+    const result = await searchYouTube(track, key)
+    if (result === 'quota') {
+      await pool.markExhausted(key)
+    } else if (result === 'bad-key') {
+      console.error(`YouTube key ${await KeyPool.describe(key)} was rejected (invalid, API disabled, or referrer-restricted)`)
+    } else if (result === 'error') {
+      sawError = true
+    } else {
+      return result
+    }
+  }
+  return sawError ? 'error' : 'quota'
+}
+
+// Reasons that mean this key will never work, as opposed to a transient failure.
+const BAD_KEY_REASONS = new Set(['keyInvalid', 'API_KEY_INVALID', 'ipRefererBlocked', 'API_KEY_HTTP_REFERRER_BLOCKED', 'API_KEY_IP_ADDRESS_BLOCKED', 'accessNotConfigured', 'SERVICE_DISABLED', 'forbidden'])
+// Daily quota only; per-second throttling (rateLimitExceeded) falls through to 'error' and tries the next key.
+const QUOTA_REASONS = new Set(['quotaExceeded', 'dailyLimitExceeded'])
+
+async function searchYouTube(track: TrackInfo, apiKey: string): Promise<Candidate[] | 'quota' | 'bad-key' | 'error'> {
   const url = new URL('https://www.googleapis.com/youtube/v3/search')
   url.search = new URLSearchParams({
     part: 'snippet',
@@ -107,24 +140,20 @@ async function searchYouTube(track: TrackInfo, apiKey: string): Promise<Candidat
 
   const res = await fetch(url)
   if (!res.ok) {
-    const body = (await res.json().catch(() => null)) as { error?: { errors?: { reason?: string }[] } } | null
-    const reason = body?.error?.errors?.[0]?.reason
-    return reason === 'quotaExceeded' || reason === 'dailyLimitExceeded' ? 'quota' : 'error'
+    // Google reports the reason in the legacy `errors` array, the newer `details`, or both.
+    const body = (await res.json().catch(() => null)) as {
+      error?: { errors?: { reason?: string }[]; details?: { reason?: string }[] }
+    } | null
+    const reasons = [...(body?.error?.errors ?? []), ...(body?.error?.details ?? [])].map((e) => e.reason ?? '')
+    if (reasons.some((r) => QUOTA_REASONS.has(r))) return 'quota'
+    if (reasons.some((r) => BAD_KEY_REASONS.has(r))) return 'bad-key'
+    return 'error'
   }
 
   const body = (await res.json()) as { items: { id: { videoId?: string }; snippet: { title: string } }[] }
   return body.items.flatMap((item) =>
     item.id.videoId ? [{ id: item.id.videoId, title: decodeEntities(item.snippet.title) }] : [],
   )
-}
-
-/** YouTube quotas reset at midnight Pacific time. */
-function secondsUntilQuotaReset(): number {
-  const now = new Date()
-  const pacific = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }))
-  const midnight = new Date(pacific)
-  midnight.setHours(24, 0, 0, 0)
-  return Math.max(60, Math.round((midnight.getTime() - pacific.getTime()) / 1000))
 }
 
 function json(body: unknown, status: number, headers: Record<string, string>): Response {

@@ -26,6 +26,7 @@ Browser (Vue 3 SPA on GitHub Pages)                 Cloudflare Worker (worker/)
 - **Auth** (`src/lib/spotify/auth.ts`, `src/stores/auth.ts`): Authorization Code with PKCE, entirely client-side. Tokens persist in localStorage and refresh automatically.
 - **Library** (`src/stores/library.ts`): streams all playlists into the sidebar page by page on login. A playlist's songs (including Liked Songs) load when it's first expanded.
 - **Playback** (`src/stores/player.ts`, `src/lib/queue.ts`): queue order, shuffle and repeat are pure functions with tests. The store drives a `VideoPlayer` interface (`src/lib/player/types.ts`) and never touches the YouTube iframe directly. That's the seam for casting: a TV target is just another `VideoPlayer`.
+- **Key rotation** (`worker/src/keys.ts`): `YOUTUBE_API_KEYS` can hold several keys. Each search picks its first key by arrival time, fails over when a key is out of quota, and records exhausted keys in KV until the midnight-Pacific reset so every isolate skips them. Keys must not be HTTP-referrer restricted (server requests have no referrer); restrict them to the YouTube Data API instead.
 - **Video lookup** (`worker/`): a YouTube search costs 100 of a key's 10,000 daily quota units. The Worker keeps the API key off the client and caches every match for everyone, so each song is searched at most once, ever. Cache misses require a valid Spotify token, so the quota can't be spent on arbitrary queries.
 
 ### Spotify API constraints (2026)
@@ -55,7 +56,7 @@ The dev server must run on `127.0.0.1:4200` because that's the redirect URI regi
 
 ```sh
 cd worker && npm install
-cp .dev.vars.example .dev.vars   # add a YouTube Data API v3 key
+cp .dev.vars.example .dev.vars   # add YouTube Data API v3 keys
 cd .. && npm run worker:dev      # http://127.0.0.1:8787, uses local KV
 ```
 
@@ -68,7 +69,7 @@ cd .. && npm run worker:dev      # http://127.0.0.1:8787, uses local KV
 ```sh
 cd worker
 npx wrangler kv namespace create VIDEO_CACHE   # paste the id into wrangler.jsonc
-npx wrangler secret put YOUTUBE_API_KEY
+npx wrangler secret put YOUTUBE_API_KEYS      # comma-separated
 npm run deploy
 ```
 

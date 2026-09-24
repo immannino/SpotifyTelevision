@@ -5,11 +5,11 @@
   "compatibility_date": "2026-09-01",
   "kv_namespaces": [
     // Create with `npx wrangler kv namespace create VIDEO_CACHE` and paste the id here.
-    { "binding": "VIDEO_CACHE", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }
+    { "binding": "VIDEO_CACHE", "id": "16bea4e67edc42a2b45dfe5ad5b13368" }
   ],
   "vars": {
     "ALLOWED_ORIGINS": "https://immannino.github.io,http://127.0.0.1:4200"
   }
-  // Secret, not committed: `npx wrangler secret put YOUTUBE_API_KEY`
-  // (for local dev, put YOUTUBE_API_KEY=... in worker/.dev.vars).
+  // Secret, not committed: `npx wrangler secret put YOUTUBE_API_KEYS` (comma-separated)
+  // (for local dev, put YOUTUBE_API_KEYS=... in worker/.dev.vars).
 }
