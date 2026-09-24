@@ -60,7 +60,7 @@ cp .dev.vars.example .dev.vars   # add YouTube Data API v3 keys
 cd .. && npm run worker:dev      # http://127.0.0.1:8787, uses local KV
 ```
 
-`.env` points the app at `http://127.0.0.1:8787` by default. Put overrides in `.env.local`.
+`.env` points the app at the deployed Worker. To use the local one, put `VITE_VIDEO_LOOKUP_URL=http://127.0.0.1:8787` in `.env.local` (gitignored).
 
 ## Deployment
 
@@ -76,7 +76,7 @@ npm run deploy
 **App**: `.github/workflows/deploy.yml` tests, builds and publishes to GitHub Pages on every push to `master`. One-time setup:
 
 1. Settings → Pages → Source: **GitHub Actions** (it previously served `docs/` from the branch).
-2. Settings → Secrets and variables → Actions → Variables: `VIDEO_LOOKUP_URL` = the deployed Worker URL.
+2. Set `VITE_VIDEO_LOOKUP_URL` in `.env` to the deployed Worker URL (it's public). The build fails if it's missing or not an absolute URL.
 
 ## Roadmap: casting to a TV
 

@@ -26,11 +26,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test -- --run
+      # The Worker URL comes from the committed .env. Don't set VITE_VIDEO_LOOKUP_URL here:
+      # an unset repo variable expands to "" and would override it.
       - run: npm run build
         env:
           VITE_BASE: /SpotifyTelevision/
-          # Set in repo Settings → Secrets and variables → Actions → Variables.
-          VITE_VIDEO_LOOKUP_URL: ${{ vars.VIDEO_LOOKUP_URL }}
       # GitHub Pages has no SPA fallback; serving index.html as the 404 page makes deep
       # links like /SpotifyTelevision/login (the OAuth redirect) boot the app.
       - run: cp dist/index.html dist/404.html
