@@ -30,7 +30,7 @@ jobs:
       # an unset repo variable expands to "" and would override it.
       - run: npm run build
         env:
-          VITE_BASE: /SpotifyTelevision/
+          VITE_BASE: /
       # GitHub Pages has no SPA fallback; serving index.html as the 404 page makes deep
       # links like /SpotifyTelevision/login (the OAuth redirect) boot the app.
       - run: cp dist/index.html dist/404.html
