@@ -32,8 +32,29 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
     </div>
 
     <div class="controls">
-      <!-- Spotify is in charge while following; offer the way out instead of queue controls. -->
-      <button v-if="follow.active" class="stop-follow" @click="follow.stop">Stop following</button>
+      <!-- While following, these control the Spotify app itself rather than our queue. -->
+      <template v-if="follow.active">
+        <template v-if="follow.canControl">
+          <button class="icon-btn" title="Previous on Spotify (P)" aria-label="Previous on Spotify" @click="follow.control('previous')">
+            <AppIcon name="previous" />
+          </button>
+          <button
+            class="play-btn"
+            :title="follow.status === 'playing' ? 'Pause Spotify (Space)' : 'Play Spotify (Space)'"
+            :aria-label="follow.status === 'playing' ? 'Pause Spotify' : 'Play Spotify'"
+            @click="follow.togglePlay"
+          >
+            <AppIcon :name="follow.status === 'playing' ? 'pause' : 'play'" :size="28" />
+          </button>
+          <button class="icon-btn" title="Next on Spotify (N)" aria-label="Next on Spotify" @click="follow.control('next')">
+            <AppIcon name="next" />
+          </button>
+        </template>
+        <button v-else-if="follow.needsControlPermission" class="link enable-controls" @click="follow.grantPermission">
+          Enable controls
+        </button>
+        <button class="stop-follow" @click="follow.stop">Stop following</button>
+      </template>
       <template v-else>
         <button
           class="icon-btn"
@@ -80,6 +101,7 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
         <AppIcon :name="player.isCasting ? 'castConnected' : 'cast'" :size="20" />
       </button>
     </div>
+    <p v-if="follow.controlError" class="control-error" role="alert">{{ follow.controlError }}</p>
     <CastDialog v-model:open="castOpen" />
   </section>
 </template>
@@ -148,7 +170,18 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
 .cast-btn {
   margin-left: 8px;
 }
+.enable-controls {
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+.control-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #ffb3b3;
+  font-size: 0.85rem;
+}
 .stop-follow {
+  margin-left: 8px;
   padding: 8px 16px;
   border-radius: 999px;
   border: 1px solid var(--border);

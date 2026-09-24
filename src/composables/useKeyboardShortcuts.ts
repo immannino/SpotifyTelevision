@@ -1,4 +1,5 @@
 import { onBeforeUnmount, onMounted } from 'vue'
+import { useFollowStore } from '@/stores/follow'
 import { usePlayerStore } from '@/stores/player'
 
 export const SHORTCUTS = [
@@ -11,6 +12,11 @@ export const SHORTCUTS = [
 
 export function useKeyboardShortcuts() {
   const player = usePlayerStore()
+  const follow = useFollowStore()
+  // While following, play/pause and skipping go to the Spotify app instead of our queue.
+  const togglePlay = () => (follow.active ? follow.togglePlay() : player.togglePlay())
+  const next = () => (follow.active ? void follow.control('next') : player.next())
+  const previous = () => (follow.active ? void follow.control('previous') : player.previous())
 
   function onKeydown(e: KeyboardEvent) {
     if (e.metaKey || e.ctrlKey || e.altKey) return
@@ -21,15 +27,15 @@ export function useKeyboardShortcuts() {
 
     const key = e.key.toLowerCase()
     const handlers: Record<string, () => void> = {
-      ' ': player.togglePlay,
-      k: player.togglePlay,
-      n: () => player.next(),
-      p: player.previous,
+      ' ': togglePlay,
+      k: togglePlay,
+      n: next,
+      p: previous,
       s: player.toggleShuffle,
       r: player.cycleRepeat,
     }
     const handler =
-      e.shiftKey && key === 'arrowright' ? () => player.next() : e.shiftKey && key === 'arrowleft' ? player.previous : handlers[key]
+      e.shiftKey && key === 'arrowright' ? next : e.shiftKey && key === 'arrowleft' ? previous : handlers[key]
     if (!handler) return
     e.preventDefault()
     handler()

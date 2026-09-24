@@ -89,6 +89,7 @@ Turn on **Follow my Spotify** at the top of the sidebar, then play music in any 
 - **Polling** (`src/stores/follow.ts`): reads `GET /me/player` every few seconds while playing, again right as the current song should end, and less often when paused, idle or in a background tab.
 - **Sync decisions** (`src/lib/follow.ts`): pure, tested functions turn Spotify's state and the video's state into load/seek/play/pause actions. Positions are corrected for request latency; drift beyond 2.5s (4s while casting) triggers a seek.
 - **Permission**: needs the `user-read-playback-state` scope. Sessions from before this feature get an **Allow** button, which logs in again to grant it.
+- **Controls**: previous, play/pause and next in the now-playing bar (and Space/N/P, media keys) control the Spotify app itself via `POST /me/player/next` etc. This needs the `user-modify-playback-state` scope (**Enable controls** grants it) and, per Spotify, a Premium account; free accounts can still follow along.
 - **Limitation**: only the phone can ask Spotify what's playing, so while casting in follow mode the phone needs to stay awake.
 
 ## TV mode

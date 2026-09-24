@@ -4,5 +4,5 @@ export const config = {
   // redirect URI registered in the Spotify developer dashboard.
   redirectUri: new URL(`${import.meta.env.BASE_URL}login`, window.location.origin).toString(),
   workerUrl: import.meta.env.VITE_WORKER_URL.replace(/\/$/, ''),
-  spotifyScopes: ['playlist-read-private', 'playlist-read-collaborative', 'user-library-read', 'user-read-playback-state'],
+  spotifyScopes: ['playlist-read-private', 'playlist-read-collaborative', 'user-library-read', 'user-read-playback-state', 'user-modify-playback-state'],
 }

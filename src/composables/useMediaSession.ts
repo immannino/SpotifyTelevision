@@ -1,4 +1,5 @@
 import { onBeforeUnmount, watch } from 'vue'
+import { useFollowStore } from '@/stores/follow'
 import { usePlayerStore } from '@/stores/player'
 
 /**
@@ -9,6 +10,7 @@ import { usePlayerStore } from '@/stores/player'
 export function useMediaSession() {
   if (!('mediaSession' in navigator)) return
   const player = usePlayerStore()
+  const follow = useFollowStore()
   const session = navigator.mediaSession
 
   watch(
@@ -31,10 +33,10 @@ export function useMediaSession() {
   )
 
   const actions: [MediaSessionAction, () => void][] = [
-    ['play', player.togglePlay],
-    ['pause', player.togglePlay],
-    ['nexttrack', () => player.next()],
-    ['previoustrack', player.previous],
+    ['play', () => (follow.active ? void follow.control('play') : player.togglePlay())],
+    ['pause', () => (follow.active ? void follow.control('pause') : player.togglePlay())],
+    ['nexttrack', () => (follow.active ? void follow.control('next') : player.next())],
+    ['previoustrack', () => (follow.active ? void follow.control('previous') : player.previous())],
   ]
   for (const [action, handler] of actions) session.setActionHandler(action, handler)
 

@@ -6,11 +6,15 @@ import { computed, ref, watch } from 'vue'
 import { nextPollDelay, planSync, toSnapshot, type SpotifySnapshot } from '@/lib/follow'
 import { toTrack } from '@/lib/models'
 import { beginLogin } from '@/lib/spotify/auth'
-import { SpotifyApiError } from '@/lib/spotify/api'
+import { SpotifyApiError, type PlayerCommand } from '@/lib/spotify/api'
 import { useAuthStore, useSpotifyApi } from './auth'
 import { usePlayerStore } from './player'
 
 const SCOPE = 'user-read-playback-state'
+/** Needed only for the playback controls (and Spotify also requires Premium for them). */
+const CONTROL_SCOPE = 'user-modify-playback-state'
+/** After a command, re-check Spotify quickly a few times so the change shows up promptly. */
+const COMMAND_POLL_DELAYS_MS = [350, 900, 1800]
 const PREF_KEY = 'stv:follow'
 /** Seek when the video is further than this from Spotify's position. */
 const DRIFT_TOLERANCE_S = 2.5
@@ -31,8 +35,15 @@ export const useFollowStore = defineStore('follow', () => {
   const error = ref<string | null>(null)
   const active = computed(() => player.mode === 'follow')
 
+  const controlError = ref<string | null>(null)
+  const premiumRequired = ref(false)
+  const needsControlPermission = computed(() => active.value && !auth.hasScope(CONTROL_SCOPE))
+  const canControl = computed(() => active.value && auth.hasScope(CONTROL_SCOPE) && !premiumRequired.value)
+
   let timer: ReturnType<typeof setTimeout> | undefined
   let polling = false
+  let quickPolls: number[] = []
+  let controlErrorTimer: ReturnType<typeof setTimeout> | undefined
 
   // Leaving follow mode happens in the player store too (picking a song in the sidebar),
   // so cleanup keys off the mode rather than off stop().
@@ -78,6 +89,46 @@ export const useFollowStore = defineStore('follow', () => {
     if (localStorage.getItem(PREF_KEY) && !active.value) start()
   }
 
+  /** Sends a command to whatever Spotify device is playing. */
+  async function control(command: PlayerCommand) {
+    if (!canControl.value) return
+    controlError.value = null
+    // Instant feedback on the video; the next poll confirms what Spotify actually did.
+    if (command === 'pause') {
+      player.pause()
+      status.value = 'paused'
+    } else if (command === 'play') {
+      player.play()
+      status.value = 'playing'
+    }
+    try {
+      await api.playerCommand(command)
+    } catch (err) {
+      if (err instanceof SpotifyApiError && err.reason === 'PREMIUM_REQUIRED') {
+        premiumRequired.value = true
+        showControlError('Controlling playback needs Spotify Premium. Following still works.')
+      } else if (err instanceof SpotifyApiError && (err.reason === 'NO_ACTIVE_DEVICE' || err.status === 404)) {
+        showControlError('No active Spotify device. Start playing in a Spotify app first.')
+      } else {
+        showControlError(err instanceof Error ? err.message : "Couldn't reach Spotify.")
+      }
+    }
+    // Resync either way: after success to pick up the change, after failure to undo the
+    // optimistic play/pause.
+    quickPolls = [...COMMAND_POLL_DELAYS_MS]
+    schedule(quickPolls.shift()!)
+  }
+
+  function togglePlay() {
+    void control(status.value === 'playing' ? 'pause' : 'play')
+  }
+
+  function showControlError(message: string) {
+    controlError.value = message
+    clearTimeout(controlErrorTimer)
+    controlErrorTimer = setTimeout(() => (controlError.value = null), 6000)
+  }
+
   function schedule(delay: number) {
     clearTimeout(timer)
     timer = setTimeout(poll, delay)
@@ -121,7 +172,9 @@ export const useFollowStore = defineStore('follow', () => {
     } finally {
       polling = false
     }
-    if (active.value) schedule(snapshot ? nextPollDelay(snapshot, document.visibilityState === 'visible') : ERROR_RETRY_MS)
+    if (!active.value) return
+    const quick = quickPolls.shift()
+    schedule(quick ?? (snapshot ? nextPollDelay(snapshot, document.visibilityState === 'visible') : ERROR_RETRY_MS))
   }
 
   // Check right away when the tab comes back, instead of waiting out the hidden-tab delay.
@@ -129,5 +182,21 @@ export const useFollowStore = defineStore('follow', () => {
     if (active.value && document.visibilityState === 'visible') schedule(0)
   })
 
-  return { status, device, error, active, start, stop, toggle, grantPermission, resume }
+  return {
+    status,
+    device,
+    error,
+    active,
+    controlError,
+    canControl,
+    needsControlPermission,
+    premiumRequired,
+    start,
+    stop,
+    toggle,
+    control,
+    togglePlay,
+    grantPermission,
+    resume,
+  }
 })
