@@ -1,2 +1,0 @@
-### ISSUES
-- Update designs
