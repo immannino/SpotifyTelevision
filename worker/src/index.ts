@@ -1,15 +1,24 @@
-// Maps a Spotify track ID to YouTube music video candidates.
+// Spotify Television's backend:
 //
-// The YouTube API keys stay here instead of in the browser bundle, and every result is
-// cached in KV for all users, so each song costs YouTube search quota (100 units, of a
-// default 10,000/day per key) at most once. Searches rotate across the keys (keys.ts). Cache misses require a valid Spotify access token,
-// which the Worker uses to fetch the track itself, so callers can't spend quota on
-// arbitrary queries.
+//   GET  /v1/video?trackId=…        Spotify track → YouTube video candidates
+//   POST /v1/rooms                  create (or reclaim) a TV pairing code
+//   GET  /v1/rooms/:code/socket     WebSocket into a room (?role=tv|remote), see room.ts
+//
+// Video lookup keeps the YouTube API keys off the client and caches every result in KV for
+// all users, so each song costs YouTube search quota (100 units, of a default 10,000/day
+// per key) at most once. Searches rotate across the keys (keys.ts). Cache misses require a
+// valid Spotify access token, which the Worker uses to fetch the track itself, so callers
+// can't spend quota on arbitrary queries.
+import { generateCode, normalizeCode } from './codes'
 import { KeyPool, parseKeys, secondsUntilQuotaReset } from './keys'
+import type { Room } from './room'
 import { buildQuery, decodeEntities, rankCandidates, type Candidate, type TrackInfo } from './search'
+
+export { Room } from './room'
 
 export interface Env {
   VIDEO_CACHE: KVNamespace
+  ROOMS: DurableObjectNamespace<Room>
   /** One or more YouTube Data API keys, separated by commas or newlines. */
   YOUTUBE_API_KEYS?: string
   /** Single-key form, still accepted. */
@@ -28,63 +37,87 @@ type CacheEntry = { candidates: Candidate[] }
 export default {
   async fetch(request, env): Promise<Response> {
     const origin = request.headers.get('Origin')
-    const allowedOrigins = env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
-    const cors: Record<string, string> =
-      origin && allowedOrigins.includes(origin)
-        ? { 'Access-Control-Allow-Origin': origin, Vary: 'Origin' }
-        : {}
+    const originAllowed = origin !== null && env.ALLOWED_ORIGINS.split(',').map((o) => o.trim()).includes(origin)
+    const cors: Record<string, string> = originAllowed ? { 'Access-Control-Allow-Origin': origin, Vary: 'Origin' } : {}
 
     if (request.method === 'OPTIONS') {
       return new Response(null, {
         status: 204,
         headers: {
           ...cors,
-          'Access-Control-Allow-Methods': 'GET',
-          'Access-Control-Allow-Headers': 'Authorization',
+          'Access-Control-Allow-Methods': 'GET, POST',
+          'Access-Control-Allow-Headers': 'Authorization, Content-Type',
           'Access-Control-Max-Age': '86400',
         },
       })
     }
 
     const url = new URL(request.url)
-    if (request.method !== 'GET' || url.pathname !== '/v1/video') return json({ error: 'not_found' }, 404, cors)
+    if (request.method === 'GET' && url.pathname === '/v1/video') return handleVideo(request, env, url, cors)
+    if (request.method === 'POST' && url.pathname === '/v1/rooms') return handleCreateRoom(request, env, cors)
 
-    const trackId = url.searchParams.get('trackId') ?? ''
-    if (!TRACK_ID.test(trackId)) return json({ error: 'invalid_track_id' }, 400, cors)
-
-    const cacheKey = `video:${CACHE_VERSION}:${trackId}`
-    const cached = await env.VIDEO_CACHE.get<CacheEntry>(cacheKey, 'json')
-    if (cached) return respond(trackId, cached.candidates, cors)
-
-    const token = request.headers.get('Authorization')?.match(/^Bearer (.+)$/)?.[1]
-    if (!token) return json({ error: 'unauthorized' }, 401, cors)
-
-    const track = await fetchSpotifyTrack(trackId, token)
-    if (track === 'unauthorized') return json({ error: 'unauthorized' }, 401, cors)
-    if (!track) return json({ error: 'track_not_found' }, 404, cors)
-
-    const pool = new KeyPool(parseKeys(env.YOUTUBE_API_KEYS, env.YOUTUBE_API_KEY), env.VIDEO_CACHE)
-    if (!pool.size) {
-      console.error('No YouTube API keys configured (YOUTUBE_API_KEYS)')
-      return json({ error: 'misconfigured' }, 500, cors)
+    const socket = url.pathname.match(/^\/v1\/rooms\/([^/]+)\/socket$/)
+    if (request.method === 'GET' && socket) {
+      // WebSockets skip CORS, so check the origin explicitly.
+      if (!originAllowed) return json({ error: 'forbidden_origin' }, 403, cors)
+      if (request.headers.get('Upgrade') !== 'websocket') return json({ error: 'expected_websocket' }, 426, cors)
+      const code = normalizeCode(decodeURIComponent(socket[1]!))
+      if (!code) return json({ error: 'invalid_code' }, 400, cors)
+      return env.ROOMS.getByName(code).fetch(request)
     }
 
-    const result = await searchWithPool(track, pool)
-    if (result === 'no-working-keys') return json({ error: 'no_working_keys' }, 500, cors)
-    if (result === 'quota') {
-      return json({ error: 'quota_exceeded' }, 503, { ...cors, 'Retry-After': String(secondsUntilQuotaReset(Date.now())) })
-    }
-    if (result === 'error') return json({ error: 'upstream_error' }, 502, cors)
-
-    const candidates = rankCandidates(result, track)
-    await env.VIDEO_CACHE.put(
-      cacheKey,
-      JSON.stringify({ candidates } satisfies CacheEntry),
-      candidates.length ? {} : { expirationTtl: NOT_FOUND_TTL_S },
-    )
-    return respond(trackId, candidates, cors)
+    return json({ error: 'not_found' }, 404, cors)
   },
 } satisfies ExportedHandler<Env>
+
+/** Creates a room for a TV, reusing its previous code when it's free (so a reload keeps it). */
+async function handleCreateRoom(request: Request, env: Env, cors: Record<string, string>): Promise<Response> {
+  const body = (await request.json().catch(() => ({}))) as { reclaim?: unknown }
+  const reclaim = typeof body.reclaim === 'string' ? normalizeCode(body.reclaim) : null
+
+  const attempts = [...(reclaim ? [reclaim] : []), ...Array.from({ length: 5 }, () => generateCode())]
+  for (const code of attempts) {
+    if (await env.ROOMS.getByName(code).claim()) return json({ code }, 201, cors)
+  }
+  return json({ error: 'no_code_available' }, 503, cors)
+}
+
+async function handleVideo(request: Request, env: Env, url: URL, cors: Record<string, string>): Promise<Response> {
+  const trackId = url.searchParams.get('trackId') ?? ''
+  if (!TRACK_ID.test(trackId)) return json({ error: 'invalid_track_id' }, 400, cors)
+
+  const cacheKey = `video:${CACHE_VERSION}:${trackId}`
+  const cached = await env.VIDEO_CACHE.get<CacheEntry>(cacheKey, 'json')
+  if (cached) return respond(trackId, cached.candidates, cors)
+
+  const token = request.headers.get('Authorization')?.match(/^Bearer (.+)$/)?.[1]
+  if (!token) return json({ error: 'unauthorized' }, 401, cors)
+
+  const track = await fetchSpotifyTrack(trackId, token)
+  if (track === 'unauthorized') return json({ error: 'unauthorized' }, 401, cors)
+  if (!track) return json({ error: 'track_not_found' }, 404, cors)
+
+  const pool = new KeyPool(parseKeys(env.YOUTUBE_API_KEYS, env.YOUTUBE_API_KEY), env.VIDEO_CACHE)
+  if (!pool.size) {
+    console.error('No YouTube API keys configured (YOUTUBE_API_KEYS)')
+    return json({ error: 'misconfigured' }, 500, cors)
+  }
+
+  const result = await searchWithPool(track, pool)
+  if (result === 'no-working-keys') return json({ error: 'no_working_keys' }, 500, cors)
+  if (result === 'quota') {
+    return json({ error: 'quota_exceeded' }, 503, { ...cors, 'Retry-After': String(secondsUntilQuotaReset(Date.now())) })
+  }
+  if (result === 'error') return json({ error: 'upstream_error' }, 502, cors)
+
+  const candidates = rankCandidates(result, track)
+  await env.VIDEO_CACHE.put(
+    cacheKey,
+    JSON.stringify({ candidates } satisfies CacheEntry),
+    candidates.length ? {} : { expirationTtl: NOT_FOUND_TTL_S },
+  )
+  return respond(trackId, candidates, cors)
+}
 
 function respond(trackId: string, candidates: Candidate[], cors: Record<string, string>): Response {
   if (!candidates.length) return json({ error: 'no_video' }, 404, cors)

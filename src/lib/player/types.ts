@@ -1,6 +1,5 @@
-// The seam that makes casting possible: the player store drives *a* VideoPlayer and never
-// touches the YouTube iframe directly. Today that's LocalYouTubePlayer; a TV/Cast target
-// would be another implementation that relays these same commands and events.
+// A video surface: the YouTube iframe on this page. The phone's player store drives one
+// directly, and on a TV the cast receiver (lib/cast/receiver.ts) drives one.
 
 export type PlaybackState = 'unstarted' | 'buffering' | 'playing' | 'paused' | 'ended'
 
@@ -15,7 +14,7 @@ export interface VideoPlayerEvents {
 }
 
 export interface VideoPlayer {
-  load(videoId: string): void
+  load(videoId: string, startSeconds?: number): void
   play(): void
   pause(): void
   seekTo(seconds: number): void

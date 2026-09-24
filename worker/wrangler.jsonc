@@ -7,8 +7,12 @@
     // Create with `npx wrangler kv namespace create VIDEO_CACHE` and paste the id here.
     { "binding": "VIDEO_CACHE", "id": "16bea4e67edc42a2b45dfe5ad5b13368" }
   ],
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "Room" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
   "vars": {
-    "ALLOWED_ORIGINS": "https://immannino.github.io,http://127.0.0.1:4200"
+    "ALLOWED_ORIGINS": "https://tv.ope.cool,https://immannino.github.io,http://127.0.0.1:4200"
   }
   // Secret, not committed: `npx wrangler secret put YOUTUBE_API_KEYS` (comma-separated)
   // (for local dev, put YOUTUBE_API_KEYS=... in worker/.dev.vars).

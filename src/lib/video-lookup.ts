@@ -35,7 +35,7 @@ async function fetchCandidates(trackId: string, accessToken: string): Promise<Vi
 
   let res: Response
   try {
-    res = await fetch(`${config.videoLookupUrl}/v1/video?trackId=${encodeURIComponent(trackId)}`, {
+    res = await fetch(`${config.workerUrl}/v1/video?trackId=${encodeURIComponent(trackId)}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
   } catch {

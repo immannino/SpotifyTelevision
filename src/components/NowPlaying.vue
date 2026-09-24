@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import AppIcon from './AppIcon.vue'
+import CastDialog from './CastDialog.vue'
 
 const player = usePlayerStore()
-const track = computed(() => player.currentTrack)
+// After a reload while casting, the local queue is gone but the TV still knows its song.
+const track = computed(() => player.currentTrack ?? player.tvItem?.track ?? null)
+const canPlayPause = computed(() => (player.isCasting ? player.castState === 'connected' : !!player.currentVideo))
+const castOpen = ref(false)
 const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one: 'Repeat one' })[player.repeat])
 </script>
 
@@ -17,7 +21,10 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
       </div>
       <div class="text">
         <p class="title">{{ track?.name ?? 'Nothing playing' }}</p>
-        <p class="artist">{{ track ? track.artists.join(', ') : 'Choose a song to begin' }}</p>
+        <p class="artist">
+          <span v-if="player.castState === 'connected'" class="on-tv">On TV · </span>
+          {{ track ? track.artists.join(', ') : 'Choose a song to begin' }}
+        </p>
       </div>
     </div>
 
@@ -32,19 +39,19 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
       >
         <AppIcon name="shuffle" :size="20" />
       </button>
-      <button class="icon-btn" title="Previous (P)" aria-label="Previous" :disabled="!track" @click="player.previous">
+      <button class="icon-btn" title="Previous (P)" aria-label="Previous" :disabled="!player.currentTrack" @click="player.previous">
         <AppIcon name="previous" />
       </button>
       <button
         class="play-btn"
         :title="player.isPlaying ? 'Pause (Space)' : 'Play (Space)'"
         :aria-label="player.isPlaying ? 'Pause' : 'Play'"
-        :disabled="!player.currentVideo"
+        :disabled="!canPlayPause"
         @click="player.togglePlay"
       >
         <AppIcon :name="player.isPlaying ? 'pause' : 'play'" :size="28" />
       </button>
-      <button class="icon-btn" title="Next (N)" aria-label="Next" :disabled="!track" @click="player.next()">
+      <button class="icon-btn" title="Next (N)" aria-label="Next" :disabled="!player.currentTrack" @click="player.next()">
         <AppIcon name="next" />
       </button>
       <button
@@ -56,7 +63,17 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
       >
         <AppIcon :name="player.repeat === 'one' ? 'repeatOne' : 'repeat'" :size="20" />
       </button>
+      <button
+        class="icon-btn cast-btn"
+        :class="{ on: player.isCasting }"
+        :title="player.isCasting ? 'Casting to TV' : 'Watch on a TV'"
+        :aria-label="player.isCasting ? 'Casting to TV' : 'Watch on a TV'"
+        @click="castOpen = true"
+      >
+        <AppIcon :name="player.isCasting ? 'castConnected' : 'cast'" :size="20" />
+      </button>
     </div>
+    <CastDialog v-model:open="castOpen" />
   </section>
 </template>
 
@@ -120,6 +137,13 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
 }
 .icon-btn.on {
   color: var(--accent);
+}
+.cast-btn {
+  margin-left: 8px;
+}
+.on-tv {
+  color: var(--accent);
+  font-weight: 600;
 }
 .play-btn {
   width: 52px;

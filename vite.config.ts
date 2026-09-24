@@ -5,8 +5,8 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig(({ command, mode }) => {
   // Without this the app silently requests /v1/video from its own origin and 404s.
   const env = loadEnv(mode, process.cwd(), 'VITE_')
-  if (command === 'build' && !/^https?:\/\//.test(env.VITE_VIDEO_LOOKUP_URL ?? '')) {
-    throw new Error(`VITE_VIDEO_LOOKUP_URL must be an absolute URL, got "${env.VITE_VIDEO_LOOKUP_URL ?? ''}"`)
+  if (command === 'build' && !/^https?:\/\//.test(env.VITE_WORKER_URL ?? '')) {
+    throw new Error(`VITE_WORKER_URL must be an absolute URL, got "${env.VITE_WORKER_URL ?? ''}"`)
   }
 
   return {

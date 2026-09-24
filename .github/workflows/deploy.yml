@@ -26,13 +26,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test -- --run
-      # The Worker URL comes from the committed .env. Don't set VITE_VIDEO_LOOKUP_URL here:
+      # The Worker URL comes from the committed .env. Don't set VITE_WORKER_URL here:
       # an unset repo variable expands to "" and would override it.
       - run: npm run build
         env:
           VITE_BASE: /
       # GitHub Pages has no SPA fallback; serving index.html as the 404 page makes deep
-      # links like /SpotifyTelevision/login (the OAuth redirect) boot the app.
+      # links like /login (the OAuth redirect) boot the app.
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v5
         if: github.event_name != 'pull_request'

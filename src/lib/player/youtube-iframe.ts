@@ -54,7 +54,7 @@ export async function createLocalYouTubePlayer(el: HTMLElement, events: VideoPla
   })
 
   return {
-    load: (videoId) => player.loadVideoById(videoId),
+    load: (videoId, startSeconds) => player.loadVideoById(videoId, startSeconds ?? 0),
     play: () => player.playVideo(),
     pause: () => player.pauseVideo(),
     seekTo: (seconds) => player.seekTo(seconds, true),

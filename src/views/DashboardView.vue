@@ -4,6 +4,8 @@ import LibrarySidebar from '@/components/LibrarySidebar.vue'
 import NowPlaying from '@/components/NowPlaying.vue'
 import VideoStage from '@/components/VideoStage.vue'
 import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts'
+import { normalizeCode } from '@/lib/cast/socket'
+import { PENDING_CAST_KEY } from '@/router'
 import { useMediaSession } from '@/composables/useMediaSession'
 import { useLibraryStore } from '@/stores/library'
 import { usePlayerStore } from '@/stores/player'
@@ -13,7 +15,15 @@ const player = usePlayerStore()
 
 useKeyboardShortcuts()
 useMediaSession()
-onMounted(library.loadLibrary)
+onMounted(() => {
+  void library.loadLibrary()
+
+  // Scanned the TV's QR code: pair right away. Otherwise rejoin a TV from before a reload.
+  const pending = normalizeCode(sessionStorage.getItem(PENDING_CAST_KEY) ?? '')
+  sessionStorage.removeItem(PENDING_CAST_KEY)
+  if (pending) player.connectTv(pending)
+  else player.resumeCasting()
+})
 
 const backdrop = computed(() => (player.currentTrack?.artworkUrl ? `url("${player.currentTrack.artworkUrl}")` : 'none'))
 </script>

@@ -2,7 +2,9 @@
 
 # Spotify Television
 
-Watch your Spotify playlists as a stream of music videos. Log in with Spotify, pick a playlist, and each song plays its YouTube video, advancing through the playlist like a TV channel.
+Watch your Spotify playlists as a stream of music videos. Log in with Spotify, pick a playlist, and each song plays its YouTube video, advancing through the playlist like a TV channel. Cast it to any TV with a web browser, using your phone as the remote.
+
+Live at **https://tv.ope.cool** (TV mode: **https://tv.ope.cool/tv**).
 
 Press coverage: [Hypebot, 2018](http://www.hypebot.com/hypebot/2018/03/spotify-television-turns-playlists-into-youtube-stream.html)
 
@@ -17,15 +19,16 @@ Browser (Vue 3 SPA on GitHub Pages)                 Cloudflare Worker (worker/)
 │      │                                │          │     (caller's access token)   │
 │      ├─ video-lookup ─────────────────┼─────────►│  3. YouTube search, rank,     │
 │      │   (IndexedDB cache)            │          │     cache in KV forever       │
-│      ▼                                │          └───────────────────────────────┘
-│ VideoPlayer interface                 │
-│   └─ LocalYouTubePlayer (IFrame API)  │
-└───────────────────────────────────────┘
+│      ├─ local: YouTube IFrame         │          │                               │
+│      └─ casting: room socket ─────────┼─────────►│ Room Durable Object (per code)│
+└───────────────────────────────────────┘          │  relays phone ⇄ TV messages   │
+                                                   └──────────────┬────────────────┘
+TV browser (/tv): TvReceiver + YouTube IFrame ◄───────────────────┘
 ```
 
 - **Auth** (`src/lib/spotify/auth.ts`, `src/stores/auth.ts`): Authorization Code with PKCE, entirely client-side. Tokens persist in localStorage and refresh automatically.
 - **Library** (`src/stores/library.ts`): streams all playlists into the sidebar page by page on login. A playlist's songs (including Liked Songs) load when it's first expanded.
-- **Playback** (`src/stores/player.ts`, `src/lib/queue.ts`): queue order, shuffle and repeat are pure functions with tests. The store drives a `VideoPlayer` interface (`src/lib/player/types.ts`) and never touches the YouTube iframe directly. That's the seam for casting: a TV target is just another `VideoPlayer`.
+- **Playback** (`src/stores/player.ts`, `src/lib/queue.ts`): queue order, shuffle and repeat are pure functions with tests. The store plays through the local YouTube iframe, or sends the queue to a TV while casting.
 - **Key rotation** (`worker/src/keys.ts`): `YOUTUBE_API_KEYS` can hold several keys. Each search picks its first key by arrival time, fails over when a key is out of quota, and records exhausted keys in KV until the midnight-Pacific reset so every isolate skips them. Keys must not be HTTP-referrer restricted (server requests have no referrer); restrict them to the YouTube Data API instead.
 - **Video lookup** (`worker/`): a YouTube search costs 100 of a key's 10,000 daily quota units. The Worker keeps the API key off the client and caches every match for everyone, so each song is searched at most once, ever. Cache misses require a valid Spotify token, so the quota can't be spent on arbitrary queries.
 
@@ -51,6 +54,7 @@ The dev server must run on `127.0.0.1:4200` because that's the redirect URI regi
 
 - `http://127.0.0.1:4200/login`
 - `https://immannino.github.io/SpotifyTelevision/login`
+- `https://tv.ope.cool/login`
 
 ### Running the Worker locally
 
@@ -60,7 +64,7 @@ cp .dev.vars.example .dev.vars   # add YouTube Data API v3 keys
 cd .. && npm run worker:dev      # http://127.0.0.1:8787, uses local KV
 ```
 
-`.env` points the app at the deployed Worker. To use the local one, put `VITE_VIDEO_LOOKUP_URL=http://127.0.0.1:8787` in `.env.local` (gitignored).
+`.env` points the app at the deployed Worker. To use the local one, put `VITE_WORKER_URL=http://127.0.0.1:8787` in `.env.local` (gitignored).
 
 ## Deployment
 
@@ -73,14 +77,21 @@ npx wrangler secret put YOUTUBE_API_KEYS      # comma-separated
 npm run deploy
 ```
 
-**App**: `.github/workflows/deploy.yml` tests, builds and publishes to GitHub Pages on every push to `master`. One-time setup:
+**App**: `.github/workflows/deploy.yml` tests, builds and publishes to GitHub Pages on every push to `main`. One-time setup:
 
 1. Settings → Pages → Source: **GitHub Actions** (it previously served `docs/` from the branch).
-2. Set `VITE_VIDEO_LOOKUP_URL` in `.env` to the deployed Worker URL (it's public). The build fails if it's missing or not an absolute URL.
+2. Set `VITE_WORKER_URL` in `.env` to the deployed Worker URL (it's public). The build fails if it's missing or not an absolute URL.
 
-## Roadmap: casting to a TV
+## TV mode
 
-Playback state is plain, serializable data, and the store only talks to the `VideoPlayer` interface, so a remote player can replace the local one. Two routes:
+1. On the TV's browser (smart TV, Fire TV, console, or a laptop on HDMI), open `/tv` and press **Start TV mode**. That press is the user gesture browsers require before videos can play with sound. The TV then shows a 6-character code and a QR code.
+2. On your phone, scan the QR code, or tap the cast button next to the player controls and enter the code.
 
-1. **`/tv` receiver page + pairing**: open the app on any smart-TV, console or Fire TV browser, which shows a short code; the phone becomes a remote. Commands go through a small relay, such as a Durable Object added to the existing Worker. Works on the most devices.
-2. **Google Cast Web Receiver**: a custom receiver page that hosts the YouTube IFrame on a Chromecast. Feels more native, but it's Cast-only and needs a registered Cast app.
+The TV never needs a Spotify login. The phone keeps the queue (shuffle, repeat, Spotify access) and sends the TV the current song plus the next 3 with their videos already resolved. The TV plays through those on its own, so it keeps going while the phone is locked. When the phone wakes it catches up to whatever the TV is on and tops up the queue. Several phones can join one TV.
+
+- **Relay** (`worker/src/room.ts`): one Durable Object per code, using the WebSocket Hibernation API, so idle rooms cost nothing. It replays each side's latest state to anyone reconnecting and wipes rooms after 12 hours idle. A TV that reloads reclaims its code.
+- **Protocol** (`src/lib/cast/protocol.ts`): `queue` and `command` messages go phone → TV; `status` goes TV → phone.
+- **Receiver** (`src/lib/cast/receiver.ts`): tries the next video candidate when one won't embed, and stops after 3 consecutive failures rather than racing through the playlist.
+- **Phone side** (`src/stores/player.ts`): hands off the current position when casting starts, and hands back when you choose "Play on this device instead".
+
+Remaining limitation: if the phone reloads the page while casting, it rejoins the TV and shows what's playing, but the queue beyond the TV's buffered songs is lost until you pick a song again.
