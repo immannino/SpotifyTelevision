@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
       </template>
       <template v-else>
         <p class="headline">Pick a song to start the show</p>
-        <p class="sub">Open a playlist on the right, then choose any track.</p>
+        <p class="sub">Open a playlist, then choose any track.</p>
       </template>
     </div>
   </section>
@@ -170,8 +170,14 @@ onBeforeUnmount(() => {
 
 @media (max-width: 900px) {
   .stage {
+    order: 1;
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
     border-radius: 0;
     width: 100%;
+    /* Leave room to scroll the library, even in landscape; YouTube letterboxes inside. */
+    max-height: 45dvh;
   }
 }
 </style>

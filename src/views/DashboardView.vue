@@ -69,14 +69,22 @@ const backdrop = computed(() => (player.currentTrack?.artworkUrl ? `url("${playe
   min-height: 0;
 }
 
+/* Phones: the whole page scrolls (no nested scroll box), with the video pinned to the top
+   and the player controls pinned to the bottom. The components set their own order and
+   stickiness; this flattens the stage column so they're all children of one flex column. */
 @media (max-width: 900px) {
   .dashboard {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .backdrop {
+    position: fixed;
   }
   .stage-column {
-    padding: 0 0 12px;
-    gap: 12px;
+    display: contents;
   }
 }
 </style>

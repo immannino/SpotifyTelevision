@@ -214,15 +214,31 @@ const repeatLabel = computed(() => ({ off: 'Repeat off', all: 'Repeat all', one:
   opacity: 0.4;
 }
 
+/* Phones: a mini player pinned to the bottom of the screen. It comes last in the page, so
+   sticky-bottom keeps it on screen the whole way down. */
 @media (max-width: 900px) {
   .now-playing {
+    order: 3;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
     grid-template-columns: 1fr;
-    gap: 10px;
-    margin-inline: 12px;
-    width: auto;
+    gap: 6px;
+    padding: 10px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: 0;
+    background: rgb(18 22 27 / 0.94);
+  }
+  .art {
+    width: 44px;
+    height: 44px;
   }
   .controls {
     justify-content: center;
+  }
+  .play-btn {
+    width: 46px;
+    height: 46px;
   }
 }
 </style>

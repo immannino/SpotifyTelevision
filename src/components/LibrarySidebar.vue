@@ -169,8 +169,16 @@ const avatar = computed(() => library.user?.images.at(-1)?.url ?? null)
 
 @media (max-width: 900px) {
   .sidebar {
+    order: 2;
+    flex: 1;
     border-left: 0;
-    border-top: 1px solid var(--border);
+  }
+  /* The page scrolls instead of the list. */
+  .list {
+    flex: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    padding-bottom: 16px;
   }
 }
 </style>
